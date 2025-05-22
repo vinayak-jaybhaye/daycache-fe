@@ -1,3 +1,6 @@
+import type React from "react";
+import DiaryView from "./DiaryView";
+
 import { useEffect, useState } from "react";
 import Entry from "./Entry";
 import AddEntry from "./AddEntry";
@@ -13,8 +16,9 @@ const Day: React.FC<DayProps> = ({ date, userId }) => {
   const [entries, setEntries] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [summarizing, setSummarizing] = useState<boolean>(false);
+  const [showDiaryView, setShowDiaryView] = useState<boolean>(false);
 
-  const onDelete = (id: string) => {
+  const onDelete = (id: number) => {
     setEntries((prev: [any]) => prev.filter((entry: any) => entry.id !== id));
   };
 
@@ -80,30 +84,30 @@ const Day: React.FC<DayProps> = ({ date, userId }) => {
     return (
       <div className="mb-6 mx-auto">
         {/* Header Skeleton */}
-        <div className="animate-pulse border-b border-amber-200 pb-4">
-          <div className="h-8 w-52 bg-amber-100 mb-2 rounded"></div>
-          <div className="h-6 w-36 bg-amber-100 rounded"></div>
+        <div className="animate-pulse border-b border-border pb-4">
+          <div className="h-8 w-52 bg-muted mb-2 rounded"></div>
+          <div className="h-6 w-36 bg-muted rounded"></div>
         </div>
 
         {/* Body Skeleton */}
-        <div className="p-6 bg-amber-50 mt-6 rounded-xl shadow-md">
-          <div className="h-10 w-32 bg-amber-100 mb-4 rounded-full"></div>
+        <div className="p-6 bg-card mt-6 rounded-xl shadow-md">
+          <div className="h-10 w-32 bg-muted mb-4 rounded-full"></div>
 
           {[1, 2, 3].map((i) => (
             <div
               key={i}
-              className="mb-4 p-4 bg-white rounded-lg shadow-sm animate-pulse"
+              className="mb-4 p-4 bg-background rounded-lg shadow-sm animate-pulse"
             >
-              <div className="h-5 w-3/4 bg-amber-100 mb-2 rounded"></div>
-              <div className="h-4 w-11/12 bg-amber-50 mb-1 rounded"></div>
-              <div className="h-3 w-1/3 bg-amber-50 rounded"></div>
+              <div className="h-5 w-3/4 bg-muted mb-2 rounded"></div>
+              <div className="h-4 w-11/12 bg-muted mb-1 rounded"></div>
+              <div className="h-3 w-1/3 bg-muted rounded"></div>
             </div>
           ))}
 
-          <div className="mt-6 p-4 bg-white rounded-lg shadow-sm">
-            <div className="h-6 w-32 bg-amber-100 mb-4 rounded"></div>
-            <div className="h-14 w-full bg-amber-50 mb-3 rounded"></div>
-            <div className="h-9 w-40 bg-amber-100 rounded-md"></div>
+          <div className="mt-6 p-4 bg-background rounded-lg shadow-sm">
+            <div className="h-6 w-32 bg-muted mb-4 rounded"></div>
+            <div className="h-14 w-full bg-muted mb-3 rounded"></div>
+            <div className="h-9 w-40 bg-muted rounded-md"></div>
           </div>
         </div>
       </div>
@@ -120,53 +124,63 @@ const Day: React.FC<DayProps> = ({ date, userId }) => {
   return (
     <div className="overflow-auto scrollbar-hide mx-auto transition-all duration-300 ease-in-out">
       {/* Header */}
-      <div className="mb-6 border-b border-amber-200 px-4 py-2 flex items-center justify-between">
+      <div className="mb-6 border-b border-border px-4 py-2 flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-serif text-amber-900 mb-2 flex items-center gap-2">
-            <CalendarDays className="h-6 w-6 text-amber-700" />
+          <h1 className="text-3xl font-serif text-foreground mb-2 flex items-center gap-2">
+            <CalendarDays className="h-6 w-6 text-primary" />
             {formattedDate}
           </h1>
-          <span className="text-amber-700 font-medium">
+          <span className="text-muted-foreground font-medium">
             {entries.length} {entries.length === 1 ? "Entry" : "Entries"}
           </span>
         </div>
+        <button
+          onClick={() => setShowDiaryView((prev) => !prev)}
+          className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-accent text-accent-foreground hover:bg-accent/80 transition-colors duration-200 shadow-sm border border-border"
+        >
+          <span>{showDiaryView ? "Back to Highlights" : "Diary View"}</span>
+        </button>
       </div>
 
-      <div className="bg-gradient-to-br from-amber-50 to-amber-100/70 rounded-xl shadow-md overflow-auto flex flex-col gap-6 transition-all duration-300">
+      <div
+        className={`bg-card/50 rounded-xl shadow-md overflow-auto flex flex-col gap-6 transition-all duration-300 ${
+          showDiaryView && "hidden"
+        }`}
+      >
         <AddEntry
           date={date}
-          onEntryAdded={(newEntry) => setEntries((prev) => [...prev, newEntry])}
+          onEntryAdded={(newEntry) => setEntries((prev:any) => [...prev, newEntry])}
         />
 
-        <div className="bg-white rounded-lg shadow-sm p-5 border border-amber-100">
-          <h2 className="text-xl font-serif font-semibold mb-4 text-amber-900 border-b border-amber-100 pb-2">
+        <div className="bg-card rounded-lg shadow-sm p-5 border border-border">
+          <h2 className="text-xl font-serif font-semibold mb-4 text-foreground border-b border-border pb-2">
             Today's Highlights
           </h2>
 
           <div className="space-y-4">
             {entries.length > 0 ? (
-              entries.map((entry) => (
+              entries.map((entry: any) => (
                 <Entry key={entry.id} entry={entry} onDelete={onDelete} />
               ))
             ) : (
-              <div className="text-center py-8 text-amber-700 italic bg-amber-50/50 rounded-lg border border-dashed border-amber-200">
+              <div className="text-center py-8 text-muted-foreground italic bg-muted/30 rounded-lg border border-dashed border-border">
                 No highlights found for this day
               </div>
             )}
           </div>
 
           {day && (
-            <div className="mt-8 border-t border-dashed border-amber-200 pt-4">
-              <h3 className="text-lg font-serif font-medium mb-3 text-amber-800">
+            <div className="mt-8 border-t border-border pt-4">
+              <h3 className="text-lg font-serif font-medium mb-3 text-foreground">
                 Day Summary
               </h3>
-              <div className="bg-amber-50/70 p-4 rounded-lg border border-amber-100 mb-4">
+              <div className="bg-accent/20 p-4 rounded-lg border border-border mb-4">
                 {day.latest_summary ? (
-                  <p className="text-amber-900 leading-relaxed">
+                  <p className="text-foreground leading-relaxed">
                     {day.latest_summary}
                   </p>
                 ) : (
-                  <p className="text-amber-700 italic">
+                  <p className="text-muted-foreground italic">
                     No summary available yet. Generate one to reflect on your
                     day.
                   </p>
@@ -175,7 +189,7 @@ const Day: React.FC<DayProps> = ({ date, userId }) => {
               <button
                 onClick={generateSummary}
                 disabled={summarizing}
-                className="px-4 py-2 bg-amber-600 text-white rounded-md shadow-sm hover:bg-amber-700 transition-colors duration-200 flex items-center gap-2 disabled:opacity-70"
+                className="px-4 py-2 bg-primary text-primary-foreground rounded-md shadow-sm hover:bg-primary/90 transition-colors duration-200 flex items-center gap-2 disabled:opacity-70"
               >
                 {summarizing ? (
                   <>
@@ -194,6 +208,14 @@ const Day: React.FC<DayProps> = ({ date, userId }) => {
             </div>
           )}
         </div>
+      </div>
+      {/* diary view */}
+      <div
+        className={`bg-card/50 rounded-xl shadow-md overflow-auto flex flex-col gap-6 transition-all duration-300 ${
+          !showDiaryView && "hidden"
+        }`}
+      >
+        <DiaryView entries={entries} />
       </div>
     </div>
   );

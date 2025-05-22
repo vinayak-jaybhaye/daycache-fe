@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import ActivityCalendar from "./ActivityCalendar";
+import { ChevronDown } from "lucide-react";
 
-const CalendarView: React.FC = ({ gridCols = 3 }) => {
+const CalendarView = ({ gridCols = 3 }) => {
   const currentMonth = new Date().toISOString().slice(0, 7);
   const [months, setMonths] = useState<string[]>([currentMonth]);
 
@@ -40,9 +41,9 @@ const CalendarView: React.FC = ({ gridCols = 3 }) => {
       <div className="flex justify-center mt-8">
         <button
           onClick={generateLastSixMonths}
-          className="px-6 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition-colors"
+          className="px-6 py-2 cursor-pointer bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition-colors"
         >
-          Load More
+          <ChevronDown className="h-4 w-4" />
         </button>
       </div>
     </div>

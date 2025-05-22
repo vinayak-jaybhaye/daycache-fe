@@ -6,4 +6,3 @@ import ActivityCalendar from "./ActivityCalendar";
 import CalendarView from "./CalendarView";
 
 export { Day, Entry, AddEntry, Layout, ActivityCalendar, CalendarView };
-

@@ -5,6 +5,16 @@ import { setUser, clearUser } from "../store/userSlice";
 import type { RootState } from "../store/store";
 import { LogOut, Edit, Calendar, Clock, ArrowLeft } from "lucide-react";
 
+// Define the User type if not already imported
+type User = {
+  id: string;
+  username: string;
+  email: string;
+  profile_image?: string;
+  created_at: string;
+  // Add other fields as needed
+};
+
 const Settings: React.FC = () => {
   const [activeTab, setActiveTab] = useState<
     "account" | "entries" | "appearance"
@@ -166,13 +176,15 @@ const Settings: React.FC = () => {
                     <div>
                       <p className="text-amber-700 text-sm">Member Since</p>
                       <p className="text-xl font-bold text-amber-900">
-                        {new Date(userData?.created_at).toLocaleDateString(
-                          "en-US",
-                          {
-                            year: "numeric",
-                            month: "long",
-                          }
-                        )}
+                        {userData?.created_at
+                          ? new Date(userData.created_at).toLocaleDateString(
+                              "en-US",
+                              {
+                                year: "numeric",
+                                month: "long",
+                              }
+                            )
+                          : "N/A"}
                       </p>
                     </div>
                   </div>

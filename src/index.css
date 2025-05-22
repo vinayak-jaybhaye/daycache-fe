@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 /* index.css or App.css */
@@ -15,3 +16,21 @@
 }
 
 
+/* diary view */
+
+.font-cursive {
+    font-family: 'Caveat', cursive;
+    font-size: 1.35rem;
+    line-height: 1.6;
+}
+
+/* Custom shadow for paper texture */
+.shadow-paper {
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15),
+        inset 0 0 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom filter for vintage effect */
+.filter.sepia {
+    filter: sepia(0.4) contrast(1.1) brightness(1.1);
+}

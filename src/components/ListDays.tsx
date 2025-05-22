@@ -1,23 +1,11 @@
 import type React from "react";
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import {
   ArrowBigRightDashIcon,
   ArrowBigLeftDashIcon,
   Loader2,
+  ChevronDown,
 } from "lucide-react";
 import { useState, useEffect } from "react";
-
-interface RootState {
-  user: {
-    user: UserData | null;
-  };
-}
-
-interface UserData {
-  id: string;
-  [key: string]: any;
-}
 
 interface DayData {
   id: string;
@@ -27,7 +15,13 @@ interface DayData {
   created_at: string;
 }
 
-const ListDays: React.FC = ({ setSelectedDay, selectedDay, userData }) => {
+interface ListDaysProps {
+  setSelectedDay: (date: string) => void;
+  selectedDay: string;
+  userData: { id: string };
+}
+
+const ListDays: React.FC<ListDaysProps> = ({ setSelectedDay, selectedDay, userData }) => {
   const [sidebarHidden, setSidebarHidden] = useState(window.innerWidth < 768);
   const [days, setDays] = useState<DayData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -134,10 +128,9 @@ const ListDays: React.FC = ({ setSelectedDay, selectedDay, userData }) => {
               {isLoading ? (
                 <>
                   <Loader2 className="h-4 w-4 animate-spin" />
-                  Loading...
                 </>
               ) : (
-                "Load More"
+                <ChevronDown className="h-4 w-4" />
               )}
             </button>
           ) : (

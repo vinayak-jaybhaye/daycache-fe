@@ -1,5 +1,3 @@
-"use client";
-
 import type React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -37,7 +35,6 @@ const Home: React.FC = () => {
   const [showList, setShowList] = useState(true);
 
   const [userData, setUserData] = useState<UserData | null>(user);
-  const [sidebarHidden, setSidebarHidden] = useState(window.innerWidth < 768);
   const [selectedDay, setSelectedDay] = useState<string>(
     new Date().toISOString().split("T")[0]
   );
@@ -71,13 +68,6 @@ const Home: React.FC = () => {
       fetchUser();
     }
   }, [user, dispatch, navigate]);
-
-  // Handle screen resize
-  useEffect(() => {
-    const handleResize = () => setSidebarHidden(window.innerWidth < 768);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   const fetchDays = async () => {
     if (!userData?.id || isLoading || !hasMore) return;
@@ -132,7 +122,13 @@ const Home: React.FC = () => {
           />
         </div>
         <div className={`${!showList && "hidden"}`}>
-          <ListDays setSelectedDay={setSelectedDay} selectedDay={selectedDay} userData = {userData} />
+          {userData && (
+            <ListDays
+              setSelectedDay={setSelectedDay}
+              selectedDay={selectedDay}
+              userData={{ id: userData.id }}
+            />
+          )}
         </div>
         <div
           className={`${

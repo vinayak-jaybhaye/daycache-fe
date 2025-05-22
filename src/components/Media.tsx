@@ -34,7 +34,7 @@ const Media: React.FC<MediaProps> = ({ media }) => {
     } catch (error) {
       console.error("Error deleting media:", error);
     }
-  }
+  };
 
   return (
     <div className="mt-4">
@@ -95,7 +95,10 @@ const Media: React.FC<MediaProps> = ({ media }) => {
       )}
       {/* delete button */}
       <div>
-        <button className="mt-2 bg-red-600 text-white font-medium px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition duration-300" onClick={handleDelete}>
+        <button
+          className="mt-2 bg-red-600 text-white font-medium px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition duration-300"
+          onClick={handleDelete}
+        >
           Delete
         </button>
       </div>

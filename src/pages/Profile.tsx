@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser, clearUser } from "../store/userSlice";
+import { setUser } from "../store/userSlice";
 import type { RootState } from "../store/store";
 import { ActivityCalendar } from "../components";
 import { Calendar, BookOpen, Clock } from "lucide-react";
 
 interface User {
+  id: string;
   email: string;
-  username?: string;
+  username: string;
   profile_image?: string;
   created_at: string;
 }
@@ -47,7 +48,6 @@ function Profile() {
       fetchUser();
     }
   }, [user, dispatch, navigate]);
-
 
   if (!userData)
     return (
