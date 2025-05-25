@@ -7,12 +7,10 @@ import {
 
 import { Home, Login, Signup, Profile, Settings } from "./pages";
 import { Layout, CalendarView } from "./components";
-import { ThemeProvider } from "./components/theme-provider";
-
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      {/* ✅ Wrap protected and public routes in Layout */}
+      {/* Wrap protected and public routes in Layout */}
       <Route element={<Layout />}>
         {/* Protected routes */}
         <Route path="/" element={<Home />} />
@@ -33,9 +31,7 @@ const router = createBrowserRouter(
 
 function App() {
   return (
-    <ThemeProvider defaultTheme="dark">
-      <RouterProvider router={router} />
-    </ThemeProvider>
+    <RouterProvider router={router} />
   );
 }
 

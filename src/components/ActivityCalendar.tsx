@@ -91,7 +91,7 @@ const ActivityCalendar: React.FC<ActivityCalendarProps> = ({ date }) => {
         `}
         title={isActive ? "Active Day" : ""}
         onClick={() => {
-          if (dateStr < currentDate) setVisitDate(dateStr);
+          if (dateStr <= currentDate) setVisitDate(dateStr);
         }}
       >
         {day}
@@ -100,22 +100,24 @@ const ActivityCalendar: React.FC<ActivityCalendarProps> = ({ date }) => {
   }
 
   return (
-    <div className="bg-white p-4 rounded-xl shadow-md border border-amber-200">
-      <h3 className="text-lg font-serif flex justify-between font-semibold mb-4 text-amber-900">
-        <span className="text-amber-600">Activity Calendar</span>
+    <div className="p-4 rounded-xl shadow-md border bg-background text-text">
+      <h3 className="text-lg font-serif flex justify-between font-semibold mb-4 text-text">
+        <span className="text-text">Activity Calendar</span>
         <span>{date.slice(0, 7)}</span>
       </h3>
       <div className="grid grid-cols-7 gap-1 mb-2">
         {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
           <div
             key={day}
-            className="text-center text-xs font-medium text-amber-700"
+            className="text-center text-xs font-medium text-text"
           >
             {day}
           </div>
         ))}
       </div>
       <div className="grid grid-cols-7 gap-1">{calendarDays}</div>
+
+      {/* day window */}
       {visitDate && (
         <DraggableDialog
           title="Visit Your Day"

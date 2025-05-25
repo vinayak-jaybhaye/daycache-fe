@@ -1,5 +1,3 @@
-"use client";
-
 import type React from "react";
 import {
   Calendar,
@@ -48,11 +46,9 @@ const RightSidebar: React.FC = () => {
   ];
 
   return (
-    <div className="w-full h-full bg-card p-4 flex flex-col">
+    <div className="w-full h-full bg-card p-4 flex flex-col bg-background text-text">
       <div className="flex items-center justify-between p-2 border-b border-border">
-        <h2 className="text-xl font-serif font-semibold text-foreground">
-          DayCache
-        </h2>
+        <h2 className="text-xl  font-semibold">DayCache</h2>
         <div
           className="cursor-pointer rounded-full hover:bg-accent transition-all"
           onClick={() => navigate("/settings")}
@@ -68,7 +64,7 @@ const RightSidebar: React.FC = () => {
               key={index}
               className={`flex items-center gap-2 p-3 rounded-lg cursor-pointer transition-all ${
                 item.path === location.pathname
-                  ? "bg-accent text-accent-foreground font-medium"
+                  ? "bg-white text-black font-medium"
                   : "hover:bg-accent/50 text-foreground"
               }`}
               onClick={() => navigate(item.path)}
@@ -81,8 +77,8 @@ const RightSidebar: React.FC = () => {
       </nav>
 
       <div className="mt-auto pt-4 border-t border-border">
-        <div className="bg-accent/50 rounded-lg p-4">
-          <h3 className="font-medium text-foreground mb-2">Pro Tip</h3>
+        <div className="rounded-lg p-4">
+          <h3 className="font-medium mb-2">Pro Tip</h3>
           <p className="text-sm text-muted-foreground">
             Use the "Ask Cache" feature to get insights about your journal
             entries and patterns.

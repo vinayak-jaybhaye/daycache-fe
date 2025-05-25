@@ -96,7 +96,7 @@ const Day: React.FC<DayProps> = ({ date, userId }) => {
           {[1, 2, 3].map((i) => (
             <div
               key={i}
-              className="mb-4 p-4 bg-background rounded-lg shadow-sm animate-pulse"
+              className="mb-4 p-4 bg-background text-text rounded-lg shadow-sm animate-pulse"
             >
               <div className="h-5 w-3/4 bg-muted mb-2 rounded"></div>
               <div className="h-4 w-11/12 bg-muted mb-1 rounded"></div>
@@ -122,21 +122,21 @@ const Day: React.FC<DayProps> = ({ date, userId }) => {
   });
 
   return (
-    <div className="overflow-auto scrollbar-hide mx-auto transition-all duration-300 ease-in-out">
+    <div className="bg-background text-text overflow-auto scrollbar-hide mx-auto transition-all duration-300 ease-in-out">
       {/* Header */}
       <div className="mb-6 border-b border-border px-4 py-2 flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-serif text-foreground mb-2 flex items-center gap-2">
+          <h1 className="text-3xl mb-2 flex items-center gap-2">
             <CalendarDays className="h-6 w-6 text-primary" />
             {formattedDate}
           </h1>
-          <span className="text-muted-foreground font-medium">
+          <span className="font-medium">
             {entries.length} {entries.length === 1 ? "Entry" : "Entries"}
           </span>
         </div>
         <button
           onClick={() => setShowDiaryView((prev) => !prev)}
-          className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-accent text-accent-foreground hover:bg-accent/80 transition-colors duration-200 shadow-sm border border-border"
+          className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-background text-text transition-colors duration-200 shadow-sm border"
         >
           <span>{showDiaryView ? "Back to Highlights" : "Diary View"}</span>
         </button>
@@ -149,11 +149,13 @@ const Day: React.FC<DayProps> = ({ date, userId }) => {
       >
         <AddEntry
           date={date}
-          onEntryAdded={(newEntry) => setEntries((prev:any) => [...prev, newEntry])}
+          onEntryAdded={(newEntry) =>
+            setEntries((prev: any) => [...prev, newEntry])
+          }
         />
 
-        <div className="bg-card rounded-lg shadow-sm p-5 border border-border">
-          <h2 className="text-xl font-serif font-semibold mb-4 text-foreground border-b border-border pb-2">
+        <div className="bg-card rounded-lg shadow-sm p-5 border">
+          <h2 className="text-xl font-semibold mb-4  border-b pb-2">
             Today's Highlights
           </h2>
 
@@ -170,17 +172,15 @@ const Day: React.FC<DayProps> = ({ date, userId }) => {
           </div>
 
           {day && (
-            <div className="mt-8 border-t border-border pt-4">
-              <h3 className="text-lg font-serif font-medium mb-3 text-foreground">
-                Day Summary
-              </h3>
-              <div className="bg-accent/20 p-4 rounded-lg border border-border mb-4">
+            <div className="mt-8 border-t pt-4 bg-background text-text">
+              <h3 className="text-lg font-medium mb-3">Day Summary</h3>
+              <div className="bg-accent/20 p-4 rounded-lg border mb-4">
                 {day.latest_summary ? (
                   <p className="text-foreground leading-relaxed">
                     {day.latest_summary}
                   </p>
                 ) : (
-                  <p className="text-muted-foreground italic">
+                  <p className="text-text italic">
                     No summary available yet. Generate one to reflect on your
                     day.
                   </p>
@@ -189,7 +189,7 @@ const Day: React.FC<DayProps> = ({ date, userId }) => {
               <button
                 onClick={generateSummary}
                 disabled={summarizing}
-                className="px-4 py-2 bg-primary text-primary-foreground rounded-md shadow-sm hover:bg-primary/90 transition-colors duration-200 flex items-center gap-2 disabled:opacity-70"
+                className="bg-background text-text px-4 py-2 rounded-md shadow-sm hover:bg-primary/90 transition-colors duration-200 flex items-center gap-2 disabled:opacity-70"
               >
                 {summarizing ? (
                   <>
@@ -211,7 +211,7 @@ const Day: React.FC<DayProps> = ({ date, userId }) => {
       </div>
       {/* diary view */}
       <div
-        className={`bg-card/50 rounded-xl shadow-md overflow-auto flex flex-col gap-6 transition-all duration-300 ${
+        className={`bg-background text-text rounded-xl shadow-md overflow-auto flex flex-col gap-6 transition-all duration-300 ${
           !showDiaryView && "hidden"
         }`}
       >

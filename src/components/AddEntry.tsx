@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useEffect, useRef, useCallback } from "react";
 import type { ChangeEvent, KeyboardEvent } from "react";
 import { useSelector } from "react-redux";
@@ -139,10 +137,8 @@ function AddEntry({ onEntryAdded, date }: AddEntryProps) {
   };
 
   return (
-    <div className="relative px-5 py-6 bg-white rounded-lg border border-amber-200 shadow-sm">
-      <h3 className="text-lg font-serif font-semibold mb-3 text-amber-900">
-        Add New Entry
-      </h3>
+    <div className="bg-background text-text relative px-5 py-6 rounded-lg border shadow-sm">
+      <h3 className="text-lg font-serif font-semibold mb-3">Add New Entry</h3>
       <div className="flex gap-3 items-start">
         <div className="flex-1 relative">
           <textarea
@@ -178,7 +174,7 @@ function AddEntry({ onEntryAdded, date }: AddEntryProps) {
             >
               <span className="text-transparent">
                 {entryText}
-                <span className="text-amber-400 opacity-75">{suggestion}</span>
+                <span className="text-text opacity-75">{suggestion}</span>
               </span>
             </div>
           )}

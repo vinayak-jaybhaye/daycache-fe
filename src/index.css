@@ -3,34 +3,71 @@
 
 /* index.css or App.css */
 .scrollbar-hide {
-    scrollbar-width: none;
-    /* Firefox */
-    -ms-overflow-style: none;
-    /* IE 10+ */
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE 10+ */
 
-    /* WebKit (Chrome, Safari) */
+  /* WebKit (Chrome, Safari) */
 }
 
 .scrollbar-hide::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 
 /* diary view */
 
 .font-cursive {
-    font-family: 'Caveat', cursive;
-    font-size: 1.35rem;
-    line-height: 1.6;
+  font-family: 'Caveat', cursive;
+  font-size: 1.35rem;
+  line-height: 1.6;
 }
 
 /* Custom shadow for paper texture */
 .shadow-paper {
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15),
-        inset 0 0 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15),
+    inset 0 0 30px rgba(0, 0, 0, 0.1);
 }
 
 /* Custom filter for vintage effect */
 .filter.sepia {
-    filter: sepia(0.4) contrast(1.1) brightness(1.1);
+  filter: sepia(0.4) contrast(1.1) brightness(1.1);
+}
+
+@theme {
+  --color-background: var(--surface);
+  --color-text: var(--on-surface);
+  --color-primary: var(--primary);
+  --color-on-primary: var(--on-primary);
+  --color-border: var(--border);
+}
+
+/* Tailwind CSS Configuration */
+/* Tailwind CSS Variables */
+
+:root {
+  --surface: #f9f9f9;
+  --on-surface: #333333;
+  --primary: #2563eb;
+  --on-primary: #ffffff;
+  --border: #e5e7eb;
+}
+
+
+.theme-dark {
+  --surface: #121212;
+  --on-surface: #ffffff;
+  --primary: #3b82f6;
+  --on-primary: #111111;
+  --border: #374151;
+}
+
+
+.theme-light {
+  --surface: #ffffff;
+  --on-surface: #000000;
+  --primary: #1d4ed8;
+  --on-primary: #ffffff;
+  --border: #d1d5db;
 }

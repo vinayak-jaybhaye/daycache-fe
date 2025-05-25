@@ -108,10 +108,10 @@ const Home: React.FC = () => {
   }, [userData]);
 
   return (
-    <div className="flex justify-center gap-4 h-[89vh] rounded-2xl overflow-auto scrollbar-hide bg-gradient-to-br from-amber-50 to-amber-100/50">
+    <div className="flex justify-center gap-4 h-[89vh] rounded-2xl overflow-auto scrollbar-hide bg-background text-text">
       {/* Sidebar */}
       <div>
-        <div className="p-3 border-b border-amber-200 bg-amber-50 rounded-t-2xl flex items-center justify-around">
+        <div className="p-3 border rounded-t-2xl flex items-center justify-around">
           <ListIcon
             className="h-5 w-5 cursor-pointer hover:bg-amber-200 rounded-sm"
             onClick={() => setShowList(true)}
@@ -142,10 +142,6 @@ const Home: React.FC = () => {
       {/* Main content */}
       <div
         className="flex-1 h-full overflow-auto scrollbar-hide p-4 rounded-sm shadow-inner"
-        style={{
-          backgroundColor: "#FFF8E7",
-          fontFamily: "'Times New Roman', serif",
-        }}
       >
         {userData && <Day date={selectedDay} userId={userData.id} />}
       </div>

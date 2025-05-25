@@ -41,7 +41,7 @@ const CalendarView = ({ gridCols = 3 }) => {
       <div className="flex justify-center mt-8">
         <button
           onClick={generateLastSixMonths}
-          className="px-6 py-2 cursor-pointer bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition-colors"
+          className="px-6 py-2 cursor-pointer bg-background text-text rounded-lg hover:bg-amber-900 transition-colors"
         >
           <ChevronDown className="h-4 w-4" />
         </button>

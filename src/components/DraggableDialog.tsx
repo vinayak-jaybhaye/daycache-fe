@@ -51,7 +51,7 @@ const DraggableDialog: React.FC<DraggableDialogProps> = ({
   return (
     <div
       ref={dragRef}
-      className="fixed w-[90%] max-w-md bg-white p-4 rounded-xl shadow-2xl z-50 border border-amber-200 animate-fadeIn"
+      className="fixed w-[90%] max-w-md bg-background p-4 rounded-xl shadow-2xl z-50 border border-border animate-fadeIn"
       style={{
         left: `calc(50% + ${position.x}px)`,
         top: `calc(40vh + ${position.y}px)`,
@@ -59,7 +59,7 @@ const DraggableDialog: React.FC<DraggableDialogProps> = ({
       }}
     >
       <div
-        className="flex justify-between items-center mb-4 cursor-move bg-amber-50 p-2 rounded-lg"
+        className="flex justify-between items-center mb-4 cursor-move bg-background p-2 rounded-lg"
         onMouseDown={onMouseDown}
       >
         <div className="flex items-center gap-2">
