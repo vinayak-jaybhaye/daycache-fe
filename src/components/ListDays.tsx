@@ -1,7 +1,7 @@
 import type React from "react";
 import {
-  ArrowBigRightDashIcon,
-  ArrowBigLeftDashIcon,
+  // ArrowBigRightDashIcon,
+  // ArrowBigLeftDashIcon,
   Loader2,
   ChevronDown,
 } from "lucide-react";
@@ -26,7 +26,8 @@ const ListDays: React.FC<ListDaysProps> = ({
   selectedDay,
   userData,
 }) => {
-  const [sidebarHidden, setSidebarHidden] = useState(window.innerWidth < 768);
+  // const [sidebarHidden, setSidebarHidden] = useState(window.innerWidth < 768);
+  const sidebarHidden = window.innerWidth < 768;
   const [days, setDays] = useState<DayData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
