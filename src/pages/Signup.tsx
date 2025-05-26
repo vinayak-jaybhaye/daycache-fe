@@ -107,49 +107,55 @@ const SignUp = () => {
   };
 
   return (
-    <main className="flex items-center justify-center min-h-screen bg-gradient-to-br from-amber-50 to-amber-100">
+    <main className="flex items-center justify-center min-h-screen theme-bg">
+      {/* Notification Toast */}
       {showNotification && messageType && (
         <div
-          className={`fixed top-4 right-4 p-4 rounded-lg text-white shadow-lg animate-fadeIn ${
+          className={`fixed top-4 right-4 p-4 rounded-lg shadow-lg animate-fadeIn z-50 theme-border border ${
             messageType === "success"
-              ? "bg-green-500"
+              ? "bg-green-500 text-white border-green-600"
               : messageType === "error"
-              ? "bg-red-500"
-              : "bg-amber-500"
+              ? "bg-red-500 text-white border-red-600"
+              : "theme-button-primary"
           }`}
         >
           {message}
         </div>
       )}
 
-      <div className="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-md border border-amber-200/50 transform transition-all hover:shadow-3xl">
+      {/* Main Signup Card */}
+      <div className="theme-card p-8 rounded-3xl theme-shadow-hover w-full max-w-md theme-border border transform transition-all hover:theme-shadow">
+        {/* Logo and Header */}
         <div className="flex flex-col items-center mb-8">
-          <div className="bg-gradient-to-r from-amber-500 to-amber-700 p-4 rounded-2xl mb-4 shadow-lg">
-            <h1 className="text-3xl font-bold text-white flex items-center gap-2">
+          <div className="theme-button-primary p-4 rounded-2xl mb-4 theme-shadow">
+            <h1 className="text-3xl font-bold flex items-center gap-2 font-serif">
               DayCache
             </h1>
           </div>
-          <h2 className="text-2xl font-serif font-semibold text-amber-900 mt-2">
+          <h2 className="text-2xl font-serif font-semibold theme-text mt-2">
             Create an Account
           </h2>
-          <p className="text-amber-700 mt-2 text-sm">
+          <p className="theme-text-muted mt-2 text-sm text-center">
             Start your journey of self-reflection today! ✨
           </p>
         </div>
 
+        {/* Signup Form */}
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Name Input */}
           <div className="relative">
             <input
               name="name"
               placeholder="John Doe"
               required
-              className="w-full pl-12 pr-4 py-3 rounded-xl border border-amber-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-200/50 bg-amber-50/50"
+              className="w-full pl-12 pr-4 py-3 rounded-xl theme-input theme-border border outline-none transition-all"
             />
-            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-amber-600">
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 theme-text-secondary">
               <User className="h-5 w-5" />
             </span>
           </div>
 
+          {/* Email Input */}
           <div className="relative">
             <input
               name="email"
@@ -158,26 +164,28 @@ const SignUp = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full pl-12 pr-4 py-3 rounded-xl border border-amber-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-200/50 bg-amber-50/50"
+              className="w-full pl-12 pr-4 py-3 rounded-xl theme-input theme-border border outline-none transition-all"
             />
-            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-amber-600">
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 theme-text-secondary">
               <Mail className="h-5 w-5" />
             </span>
           </div>
 
+          {/* Password Input */}
           <div className="relative">
             <input
               name="password"
               type="password"
               placeholder="••••••••"
               required
-              className="w-full pl-12 pr-4 py-3 rounded-xl border border-amber-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-200/50 bg-amber-50/50"
+              className="w-full pl-12 pr-4 py-3 rounded-xl theme-input theme-border border outline-none transition-all"
             />
-            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-amber-600">
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 theme-text-secondary">
               <Lock className="h-5 w-5" />
             </span>
           </div>
 
+          {/* OTP Input (shown after OTP is sent) */}
           {otpSent && (
             <div className="relative">
               <input
@@ -186,22 +194,23 @@ const SignUp = () => {
                 placeholder="Enter 6-digit OTP"
                 maxLength={6}
                 required
-                className="w-full pl-12 pr-4 py-3 rounded-xl border border-amber-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-200/50 bg-amber-50/50"
+                className="w-full pl-12 pr-4 py-3 rounded-xl theme-input theme-border border outline-none transition-all"
               />
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-amber-600">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 theme-text-secondary">
                 <MessageSquare className="h-5 w-5" />
               </span>
             </div>
           )}
 
+          {/* Send OTP Button */}
           <button
             type="button"
             onClick={handleSendOtp}
             disabled={loading || !isEmailValid}
-            className={`w-full py-4 rounded-xl font-semibold text-white transition-all flex items-center justify-center gap-2 ${
+            className={`w-full py-4 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 theme-shadow ${
               loading || !isEmailValid
-                ? "bg-amber-300 cursor-not-allowed"
-                : "bg-gradient-to-r from-amber-500 to-amber-700 hover:from-amber-600 hover:to-amber-800"
+                ? "opacity-50 cursor-not-allowed theme-button-secondary"
+                : "theme-button-primary hover:opacity-90"
             }`}
           >
             {loading ? (
@@ -222,13 +231,14 @@ const SignUp = () => {
             )}
           </button>
 
+          {/* Sign Up Button */}
           <button
             type="submit"
             disabled={!isOtpValid || loading}
-            className={`w-full py-4 rounded-xl font-semibold text-white transition-all flex items-center justify-center gap-2 ${
+            className={`w-full py-4 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 theme-shadow ${
               !isOtpValid || loading
-                ? "bg-amber-300 cursor-not-allowed"
-                : "bg-gradient-to-r from-amber-600 to-amber-800 hover:from-amber-700 hover:to-amber-900"
+                ? "opacity-50 cursor-not-allowed theme-button-secondary"
+                : "theme-button-primary hover:opacity-90"
             }`}
           >
             {loading ? (
@@ -245,15 +255,18 @@ const SignUp = () => {
           </button>
         </form>
 
-        <p className="mt-8 text-center text-amber-700 text-sm">
-          Already have an account?{" "}
-          <a
-            href="/login"
-            className="text-amber-600 font-medium hover:text-amber-800 transition-colors"
-          >
-            Log in here
-          </a>
-        </p>
+        {/* Login Link */}
+        <div className="mt-8 text-center">
+          <p className="theme-text-muted text-sm">
+            Already have an account?{" "}
+            <button
+              onClick={() => navigate("/login")}
+              className="theme-text-secondary font-medium hover:opacity-80 transition-colors cursor-pointer"
+            >
+              Log in here
+            </button>
+          </p>
+        </div>
       </div>
     </main>
   );

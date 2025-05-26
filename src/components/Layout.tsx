@@ -18,9 +18,7 @@ const Layout: React.FC = () => {
 
       {/* Right sidebar */}
       {showRightSidebar && (
-        <div className="w-96 h-full theme-sidebar theme-border border-l theme-shadow-hover">
-          <RightSidebar />
-        </div>
+        <RightSidebar setShowRightSidebar={setShowRightSidebar} />
       )}
     </div>
   );

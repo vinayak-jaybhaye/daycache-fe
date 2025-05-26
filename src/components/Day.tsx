@@ -4,7 +4,7 @@ import DiaryView from "./DiaryView";
 import { useEffect, useState } from "react";
 import Entry from "./Entry";
 import AddEntry from "./AddEntry";
-import { CalendarDays, Loader2, RefreshCw } from "lucide-react";
+import { CalendarDays, Loader2, NotebookIcon, RefreshCw } from "lucide-react";
 
 interface DayProps {
   date: string;
@@ -126,7 +126,7 @@ const Day: React.FC<DayProps> = ({ date, userId }) => {
       {/* Header */}
       <div className="mb-6 theme-border border-b px-4 py-2 flex items-center justify-between">
         <div>
-          <h1 className="text-3xl mb-2 flex items-center gap-2 theme-text font-serif">
+          <h1 className="md:text-3xl mb-2 flex items-center gap-2 theme-text font-serif">
             <CalendarDays className="h-6 w-6 theme-text-secondary" />
             {formattedDate}
           </h1>
@@ -138,7 +138,11 @@ const Day: React.FC<DayProps> = ({ date, userId }) => {
           onClick={() => setShowDiaryView((prev) => !prev)}
           className="flex items-center gap-2 px-4 py-2 rounded-lg theme-button-secondary hover:opacity-90 transition-all duration-200 theme-shadow font-medium"
         >
-          <span>{showDiaryView ? "Back to Highlights" : "Diary View"}</span>
+          {showDiaryView ? (
+            <NotebookIcon className="h-5 w-5 theme-text-secondary" />
+          ) : (
+            <NotebookIcon className="h-5 w-5 theme-text-secondary" />
+          )}
         </button>
       </div>
 
@@ -154,8 +158,8 @@ const Day: React.FC<DayProps> = ({ date, userId }) => {
           }
         />
 
-        <div className="theme-card rounded-lg theme-shadow p-5 theme-border border">
-          <h2 className="text-xl font-semibold mb-4 theme-text theme-border border-b pb-2 font-serif">
+        <div className="theme-card rounded-lg theme-shadow p-2 theme-border border">
+          <h2 className="text-xl font-semibold mb-4 theme-text theme-border border-b p-2 font-serif">
             Today's Highlights
           </h2>
 

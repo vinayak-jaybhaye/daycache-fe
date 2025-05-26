@@ -65,7 +65,7 @@ function Profile() {
 
   return (
     <div className="min-h-screen theme-bg py-8">
-      <div className="max-w-6xl mx-auto px-4">
+      <div className="max-w-6xl mx-auto">
         {/* Profile Header */}
         <div className="theme-card rounded-2xl theme-shadow overflow-hidden theme-border border mb-8">
           <div className="pt-10 px-8 pb-8">
@@ -77,10 +77,10 @@ function Profile() {
                     <img
                       src={userData?.profile_image || "/placeholder.svg"}
                       alt="User Avatar"
-                      className="w-24 h-24 rounded-full object-cover"
+                      className="size-22 rounded-full object-cover"
                     />
                   ) : (
-                    <div className="w-24 h-24 theme-button-secondary rounded-full flex items-center justify-center">
+                    <div className="size-22 theme-button-secondary rounded-full flex items-center justify-center">
                       <span className="text-3xl theme-text font-bold">
                         {userData.username?.charAt(0).toUpperCase()}
                       </span>
@@ -95,7 +95,7 @@ function Profile() {
                   <p className="theme-text-secondary mt-2 text-lg">
                     {userData.email}
                   </p>
-                  <div className="flex items-center gap-4 mt-3">
+                  <div className="md:flex items-center gap-4 mt-3">
                     <div className="flex items-center gap-2">
                       <Calendar className="h-4 w-4 theme-text-muted" />
                       <span className="text-sm theme-text-muted">

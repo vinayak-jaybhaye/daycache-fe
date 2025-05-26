@@ -75,9 +75,9 @@ const Navbar: React.FC<NavbarProps> = ({ setShowRightSidebar }) => {
 
   return (
     <div className="sticky top-0 z-50 theme-navbar theme-text theme-border border-b theme-shadow">
-      <div className="flex items-center justify-between px-4 py-3">
+      <div className="flex items-center justify-between px-4 py-2">
         <h1
-          className="text-2xl font-extrabold cursor-pointer theme-text hover:opacity-80 transition duration-300 flex items-center gap-2 font-serif"
+          className="md:text-2xl font-extrabold cursor-pointer theme-text hover:opacity-80 transition duration-300 flex items-center gap-2 font-serif"
           onClick={() => {
             if (userData) navigate("/");
           }}
@@ -86,22 +86,22 @@ const Navbar: React.FC<NavbarProps> = ({ setShowRightSidebar }) => {
         </h1>
 
         <div className="flex items-center space-x-4">
-          <div>
-            <PlusCircle
-              className="h-6 w-6 theme-text cursor-pointer hover:opacity-80 transition duration-300"
-              onClick={() => navigate("/")}
-            />
-          </div>
           <ThemeToggle />
 
           {userData ? (
             <div className="flex items-center space-x-4">
+              <div>
+                <PlusCircle
+                  className="h-6 w-6 theme-text cursor-pointer hover:opacity-80 transition duration-300"
+                  onClick={() => navigate("/")}
+                />
+              </div>
               <button
                 onClick={toggleDialog}
-                className="theme-button-primary px-4 py-2 rounded-lg hover:opacity-90 transition flex items-center gap-2 theme-shadow font-medium"
+                className="theme-button-primary px-4 py-2 rounded-lg hover:opacity-90 transition flex items-center gap-2 theme-shadow text-sm font-medium p-2 md:px-4 md:py-2"
               >
                 <MessageSquare className="h-4 w-4" />
-                Ask Cache
+                {<p className="hidden md:block">Cache Chat</p>}
               </button>
 
               <button
@@ -115,14 +115,14 @@ const Navbar: React.FC<NavbarProps> = ({ setShowRightSidebar }) => {
             <div className="flex space-x-4">
               <button
                 onClick={handleLogin}
-                className="theme-button-primary px-4 py-2 rounded-lg hover:opacity-90 transition flex items-center gap-2 theme-shadow font-medium"
+                className="theme-button-primary rounded-lg hover:opacity-90 transition flex items-center gap-2 theme-shadow text-sm font-medium p-2 md:px-4 md:py-2"
               >
                 <LogIn className="h-4 w-4" />
                 Login
               </button>
               <button
                 onClick={handleSignup}
-                className="theme-button-secondary px-4 py-2 rounded-lg hover:opacity-90 transition flex items-center gap-2 theme-shadow font-medium"
+                className="theme-button-secondary rounded-lg hover:opacity-90 transition flex items-center gap-2 theme-shadow text-sm font-medium p-2 md:px-4 md:py-2"
               >
                 <UserPlus className="h-4 w-4" />
                 Sign Up

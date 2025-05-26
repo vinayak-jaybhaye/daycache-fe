@@ -6,10 +6,15 @@ import {
   NotebookPen,
   HelpCircle,
   Activity,
+  XIcon,
 } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 
-const RightSidebar: React.FC = () => {
+interface RightSidebarProps {
+  setShowRightSidebar: (show: boolean) => void;
+}
+
+const RightSidebar: React.FC<RightSidebarProps> = ({ setShowRightSidebar }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const menuItems = [
@@ -46,17 +51,17 @@ const RightSidebar: React.FC = () => {
   ];
 
   return (
-    <div className="w-full h-full theme-sidebar p-4 flex flex-col">
+    <div className="h-full w-72 theme-sidebar p-4 flex flex-col absolute top-0 right-0 z-50 theme-shadow-hover">
       <div className="flex items-center justify-between p-2 theme-border border-b">
+        <button
+          onClick={() => setShowRightSidebar(false)}
+          className="p-2 rounded-full cursor-pointer transition-all"
+        >
+          <XIcon className="theme-text" />
+        </button>
         <h2 className="text-xl font-semibold theme-text font-serif">
           DayCache
         </h2>
-        <div
-          className="cursor-pointer rounded-full p-2 hover:theme-sidebar-hover transition-all"
-          onClick={() => navigate("/settings")}
-        >
-          <Settings className="h-5 w-5 theme-text-muted" />
-        </div>
       </div>
 
       <nav className="flex-1">

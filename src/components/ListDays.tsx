@@ -19,15 +19,17 @@ interface ListDaysProps {
   setSelectedDay: (date: string) => void;
   selectedDay: string;
   userData: { id: string };
+  setCurrentView?: (view: "sidebar" | "content") => void;
 }
 
 const ListDays: React.FC<ListDaysProps> = ({
   setSelectedDay,
   selectedDay,
   userData,
+  setCurrentView = () => {},
 }) => {
   // const [sidebarHidden, setSidebarHidden] = useState(window.innerWidth < 768);
-  const sidebarHidden = window.innerWidth < 768;
+  const sidebarHidden = false;
   const [days, setDays] = useState<DayData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
@@ -73,16 +75,17 @@ const ListDays: React.FC<ListDaysProps> = ({
   return (
     <div className="flex justify-center gap-4 h-full rounded-2xl overflow-auto theme-bg">
       <div
-        className={`${
-          sidebarHidden ? "w-fit" : "w-[20rem]"
-        } rounded-2xl theme-shadow flex flex-col transition-all duration-300 theme-border border theme-sidebar`}
+        className={`rounded-2xl theme-shadow flex flex-col transition-all duration-300 theme-border border theme-sidebar`}
       >
         {/* List of days */}
         <ul className="flex-1 p-2 overflow-y-auto scrollbar-hide">
           {days.map((item) => (
             <li
               key={item.date}
-              onClick={() => setSelectedDay(item.date)}
+              onClick={() => {
+                setSelectedDay(item.date);
+                setCurrentView("content");
+              }}
               className={`p-3 rounded-lg my-1 cursor-pointer theme-border border transition-all font-medium ${
                 item.date === selectedDay
                   ? "theme-button-primary theme-shadow"

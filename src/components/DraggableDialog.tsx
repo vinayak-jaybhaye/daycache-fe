@@ -75,7 +75,7 @@ const DraggableDialog: React.FC<DraggableDialogProps> = ({
           <X className="h-5 w-5" />
         </button>
       </div>
-      <div className="max-h-[60vh] max-w-[50vw] overflow-auto scrollbar-hide">
+      <div className="max-h-[60vh] overflow-auto scrollbar-hide">
         <Component {...props} />
       </div>
     </div>

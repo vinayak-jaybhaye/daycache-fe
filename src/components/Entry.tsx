@@ -1,7 +1,7 @@
 import type React from "react";
 import { useState } from "react";
 import Media from "./Media";
-import { Trash2, Edit, Save } from "lucide-react";
+import { Trash2, Edit, Check } from "lucide-react";
 
 interface MediaItem {
   id: number;
@@ -140,7 +140,7 @@ const Entry: React.FC<EntryProps> = ({ entry, onDelete }) => {
         />
       ) : (
         <p
-          className="theme-text mb-3 font-serif text-lg leading-relaxed"
+          className="theme-text mb-3 font-serif text-sm md:text-md leading-relaxed"
           style={{ whiteSpace: "pre-wrap" }}
         >
           {content || "Write something..."}
@@ -173,8 +173,8 @@ const Entry: React.FC<EntryProps> = ({ entry, onDelete }) => {
               className="px-3 py-1.5 theme-button-primary rounded-lg hover:opacity-90 disabled:opacity-50 transition-colors flex items-center gap-1 font-medium"
               title="Save"
             >
-              <Save size={16} />
-              Save
+              {" "}
+              <Check size={16} />
             </button>
           ) : (
             <button
@@ -183,7 +183,6 @@ const Entry: React.FC<EntryProps> = ({ entry, onDelete }) => {
               title="Edit"
             >
               <Edit size={16} />
-              Edit
             </button>
           )}
 
@@ -193,7 +192,6 @@ const Entry: React.FC<EntryProps> = ({ entry, onDelete }) => {
             title="Delete"
           >
             <Trash2 size={16} />
-            Delete
           </button>
         </div>
       </div>

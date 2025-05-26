@@ -26,7 +26,7 @@ type UserType = {
 
 const Settings: React.FC = () => {
   const [activeTab, setActiveTab] = useState<
-    "account" | "entries" | "appearance"
+    "account" | "entries" | "appearance" | ""
   >("account");
 
   const user = useSelector((state: RootState) => state.user.user);
@@ -97,7 +97,11 @@ const Settings: React.FC = () => {
   return (
     <div className="flex min-h-screen theme-bg">
       {/* Sidebar */}
-      <div className="w-64 theme-sidebar theme-border border-r theme-shadow">
+      <div
+        className={`w-full md:w-64 theme-sidebar theme-border md:border-r theme-shadow ${
+          activeTab == "" ? "block" : "hidden"
+        } md:block`}
+      >
         <div className="p-6">
           <div className="flex items-center mb-8 gap-3">
             <button
@@ -148,10 +152,21 @@ const Settings: React.FC = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 theme-bg">
-        <div className="p-8">
+      <div className={`${activeTab == "" && "hidden"} flex-1 theme-bg`}>
+        <div className="p-4">
           {activeTab === "account" && (
             <div className="space-y-6">
+              <div className="flex items-center mb-8 gap-3">
+                <button
+                  onClick={() => setActiveTab("")}
+                  className="p-2 rounded-lg theme-card hover:theme-sidebar-hover transition-colors theme-border border"
+                >
+                  <ArrowLeft className="h-5 w-5 theme-text" />
+                </button>
+                <h2 className="text-xl font-serif font-semibold theme-text">
+                  Settings
+                </h2>
+              </div>
               <div>
                 <h1 className="text-3xl font-serif font-bold theme-text mb-2">
                   Account Settings
@@ -163,7 +178,7 @@ const Settings: React.FC = () => {
 
               <div className="theme-card rounded-2xl theme-shadow overflow-hidden theme-border border">
                 <div className="p-8">
-                  <div className="flex justify-between items-start mb-8">
+                  <div className="flex flex-col md:flex-row gap-4 justify-between items-start mb-8">
                     <div className="flex items-center gap-6">
                       <div className="theme-border border-4 theme-shadow rounded-full">
                         {userData?.profile_image ? (
@@ -238,6 +253,17 @@ const Settings: React.FC = () => {
 
           {activeTab === "entries" && (
             <div className="space-y-6">
+              <div className="flex items-center mb-8 gap-3">
+                <button
+                  onClick={() => setActiveTab("")}
+                  className="p-2 rounded-lg theme-card hover:theme-sidebar-hover transition-colors theme-border border"
+                >
+                  <ArrowLeft className="h-5 w-5 theme-text" />
+                </button>
+                <h2 className="text-xl font-serif font-semibold theme-text">
+                  Settings
+                </h2>
+              </div>
               <div>
                 <h1 className="text-3xl font-serif font-bold theme-text mb-2">
                   Entry Settings
@@ -292,6 +318,17 @@ const Settings: React.FC = () => {
 
           {activeTab === "appearance" && (
             <div className="space-y-6">
+              <div className="flex items-center mb-8 gap-3">
+                <button
+                  onClick={() => setActiveTab("")}
+                  className="p-2 rounded-lg theme-card hover:theme-sidebar-hover transition-colors theme-border border"
+                >
+                  <ArrowLeft className="h-5 w-5 theme-text" />
+                </button>
+                <h2 className="text-xl font-serif font-semibold theme-text">
+                  Settings
+                </h2>
+              </div>
               <div>
                 <h1 className="text-3xl font-serif font-bold theme-text mb-2">
                   Appearance Settings
@@ -351,12 +388,6 @@ const Settings: React.FC = () => {
               </div>
             </div>
           )}
-
-          <div className="mt-8">
-            <button className="theme-button-primary px-6 py-3 rounded-lg theme-shadow hover:opacity-90 transition-all font-medium">
-              Save Changes
-            </button>
-          </div>
         </div>
       </div>
     </div>
