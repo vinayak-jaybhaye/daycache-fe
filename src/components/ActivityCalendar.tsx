@@ -18,7 +18,6 @@ interface RootState {
   };
 }
 const ActivityCalendar: React.FC<ActivityCalendarProps> = ({ date }) => {
-  // console.log("ActivityCalendar date:", date);
   const user = useSelector((state: RootState) => state.user.user);
   const [activeDays, setActiveDays] = useState<Record<string, boolean>>({});
   const [visitDate, setVisitDate] = useState<string | null>(null);
@@ -81,13 +80,13 @@ const ActivityCalendar: React.FC<ActivityCalendarProps> = ({ date }) => {
     calendarDays.push(
       <div
         key={dateStr}
-        className={`w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full text-sm font-medium transition-all
+        className={`w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full text-sm font-medium transition-all cursor-pointer
           ${
             isActive
-              ? "bg-amber-500 text-white shadow-md hover:bg-amber-600"
-              : "hover:bg-amber-100"
+              ? "theme-calendar-active theme-shadow hover:theme-shadow-hover"
+              : "hover:theme-calendar-hover theme-text"
           } 
-          ${isToday ? "ring-2 ring-amber-400 ring-offset-2" : ""}
+          ${isToday ? "ring-2 ring-offset-2" : ""}
         `}
         title={isActive ? "Active Day" : ""}
         onClick={() => {
@@ -100,16 +99,16 @@ const ActivityCalendar: React.FC<ActivityCalendarProps> = ({ date }) => {
   }
 
   return (
-    <div className="p-4 rounded-xl shadow-md border bg-background text-text">
-      <h3 className="text-lg font-serif flex justify-between font-semibold mb-4 text-text">
-        <span className="text-text">Activity Calendar</span>
+    <div className="p-4 rounded-xl theme-shadow theme-border border theme-card">
+      <h3 className="text-lg font-serif flex justify-between font-semibold mb-4 theme-text">
+        <span>Activity Calendar</span>
         <span>{date.slice(0, 7)}</span>
       </h3>
       <div className="grid grid-cols-7 gap-1 mb-2">
         {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
           <div
             key={day}
-            className="text-center text-xs font-medium text-text"
+            className="text-center text-xs font-medium theme-text-muted"
           >
             {day}
           </div>

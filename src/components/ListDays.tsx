@@ -29,7 +29,7 @@ const ListDays: React.FC<ListDaysProps> = ({
   const [sidebarHidden, setSidebarHidden] = useState(window.innerWidth < 768);
   const [days, setDays] = useState<DayData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true); // controls pagination
+  const [hasMore, setHasMore] = useState(true);
 
   const fetchDays = async () => {
     if (!userData?.id || isLoading || !hasMore) return;
@@ -40,7 +40,7 @@ const ListDays: React.FC<ListDaysProps> = ({
       }/days?limit=10`;
       const lastDate = days[days.length - 1]?.date;
       if (lastDate) {
-        url += `&last_date=${encodeURIComponent(lastDate)}`;
+        url += `&last_date=${lastDate}`;
       }
 
       const response = await fetch(url, {
@@ -51,6 +51,7 @@ const ListDays: React.FC<ListDaysProps> = ({
 
       const data: DayData[] = await response.json();
       setDays((prev) => [...prev, ...data]);
+      console.log("Fetched days:", data);
 
       if (data.length < 10) {
         setHasMore(false);
@@ -62,7 +63,6 @@ const ListDays: React.FC<ListDaysProps> = ({
     }
   };
 
-  // Initial fetch
   useEffect(() => {
     if (userData) {
       fetchDays();
@@ -70,13 +70,11 @@ const ListDays: React.FC<ListDaysProps> = ({
   }, [userData]);
 
   return (
-    <div className="flex justify-center gap-4 h-[89vh] rounded-2xl overflow-auto bg-background text-text">
-      {/* Sidebar */}
-
+    <div className="flex justify-center gap-4 h-full rounded-2xl overflow-auto theme-bg">
       <div
         className={`${
           sidebarHidden ? "w-fit" : "w-[20rem]"
-        } rounded-2xl shadow-md flex flex-col transition-all duration-300 border bg-background text-text`}
+        } rounded-2xl theme-shadow flex flex-col transition-all duration-300 theme-border border theme-sidebar`}
       >
         {/* List of days */}
         <ul className="flex-1 p-2 overflow-y-auto scrollbar-hide">
@@ -84,18 +82,18 @@ const ListDays: React.FC<ListDaysProps> = ({
             <li
               key={item.date}
               onClick={() => setSelectedDay(item.date)}
-              className={`p-3 rounded-lg my-1 cursor-pointer border transition-all ${
+              className={`p-3 rounded-lg my-1 cursor-pointer theme-border border transition-all font-medium ${
                 item.date === selectedDay
-                  ? "bg-background text-text border-border font-semibold shadow-sm"
-                  : "bg-background text-text hover:bg-background border-border hover:border-border"
+                  ? "theme-button-primary theme-shadow"
+                  : "theme-card hover:theme-sidebar-hover theme-text"
               }`}
               title={item.date}
             >
               <div>
                 <span
-                  className={`${
-                    sidebarHidden ? "text-sm" : "text-md"
-                  } text-text`}
+                  className={`${sidebarHidden ? "text-sm" : "text-md"} ${
+                    item.date === selectedDay ? "text-white" : "theme-text"
+                  }`}
                 >
                   {new Date(item.date).toLocaleDateString("en-US", {
                     month: "short",
@@ -105,7 +103,13 @@ const ListDays: React.FC<ListDaysProps> = ({
                 </span>
                 {!sidebarHidden && item.latest_summary && (
                   <div className="mt-1">
-                    <span className="text-xs text-text line-clamp-2">
+                    <span
+                      className={`text-xs line-clamp-2 ${
+                        item.date === selectedDay
+                          ? "text-white opacity-90"
+                          : "theme-text-muted"
+                      }`}
+                    >
                       {item.latest_summary}
                     </span>
                   </div>
@@ -115,46 +119,53 @@ const ListDays: React.FC<ListDaysProps> = ({
           ))}
 
           {days.length === 0 && !isLoading && (
-            <li className="p-4 text-center text-text italic">
+            <li className="p-4 text-center theme-text-muted italic">
               No entries found. Start writing today!
             </li>
           )}
         </ul>
 
         {/* Load more button */}
-        <div className="p-2 border-t border-border text-center bg-background rounded-b-2xl">
+        <div className="p-2 theme-border border-t text-center theme-card rounded-b-2xl ">
           {hasMore ? (
             <button
               onClick={fetchDays}
-              className="text-sm text-text hover:text-text font-medium flex items-center justify-center w-full gap-2 py-1"
+              className="text-sm theme-text hover:theme-text-secondary font-medium flex items-center justify-center w-full gap-2 py-2 rounded-lg hover:theme-sidebar-hover transition-colors"
               disabled={isLoading}
             >
               {isLoading ? (
                 <>
                   <Loader2 className="h-4 w-4 animate-spin" />
+                  Loading...
                 </>
               ) : (
-                <ChevronDown className="h-4 w-4" />
+                <>
+                  <ChevronDown className="h-4 w-4" />
+                  Load More
+                </>
               )}
             </button>
           ) : (
-            <span className="text-xs text-text">No more days</span>
+            <span className="text-xs theme-text-muted py-2 block">
+              No more days
+            </span>
           )}
         </div>
 
         {/* Sidebar toggle */}
-        <div className="p-2 text-right border-t border-border">
+        {/* <div className="p-2 text-right theme-border border-t theme-card">
           <button
             onClick={() => setSidebarHidden(!sidebarHidden)}
-            className="text-xs text-text hover:text-amber-800 transition-colors"
+            className="text-xs theme-text-muted hover:theme-text-secondary transition-colors p-2 rounded-lg hover:theme-sidebar-hover"
+            title={sidebarHidden ? "Expand sidebar" : "Collapse sidebar"}
           >
             {sidebarHidden ? (
-              <ArrowBigRightDashIcon />
+              <ArrowBigRightDashIcon className="h-5 w-5" />
             ) : (
-              <ArrowBigLeftDashIcon />
+              <ArrowBigLeftDashIcon className="h-5 w-5" />
             )}
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

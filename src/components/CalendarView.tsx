@@ -27,7 +27,7 @@ const CalendarView = ({ gridCols = 3 }) => {
   }, []);
 
   return (
-    <div>
+    <div className="theme-bg h-full overflow-auto scrollbar-hide mx-auto transition-all duration-300 ease-in-out">
       <div
         className={`grid grid-cols-1 gap-2 ${
           gridCols == 3 && "md:grid-cols-2 lg:grid-cols-3"
@@ -38,12 +38,12 @@ const CalendarView = ({ gridCols = 3 }) => {
         ))}
       </div>
 
-      <div className="flex justify-center mt-8">
+      <div className="flex justify-center mt-4">
         <button
           onClick={generateLastSixMonths}
-          className="px-6 py-2 cursor-pointer bg-background text-text rounded-lg hover:bg-amber-900 transition-colors"
+          className="flex items-center justify-center w-full theme-button-primary theme-shadow hover:theme-button-hover transition-all"
         >
-          <ChevronDown className="h-4 w-4" />
+          <ChevronDown className="h-8 w-8" />
         </button>
       </div>
     </div>

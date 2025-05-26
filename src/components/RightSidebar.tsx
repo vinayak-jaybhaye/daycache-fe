@@ -46,14 +46,16 @@ const RightSidebar: React.FC = () => {
   ];
 
   return (
-    <div className="w-full h-full bg-card p-4 flex flex-col bg-background text-text">
-      <div className="flex items-center justify-between p-2 border-b border-border">
-        <h2 className="text-xl  font-semibold">DayCache</h2>
+    <div className="w-full h-full theme-sidebar p-4 flex flex-col">
+      <div className="flex items-center justify-between p-2 theme-border border-b">
+        <h2 className="text-xl font-semibold theme-text font-serif">
+          DayCache
+        </h2>
         <div
-          className="cursor-pointer rounded-full hover:bg-accent transition-all"
+          className="cursor-pointer rounded-full p-2 hover:theme-sidebar-hover transition-all"
           onClick={() => navigate("/settings")}
         >
-          <Settings className="h-5 w-5 text-muted-foreground" />
+          <Settings className="h-5 w-5 theme-text-muted" />
         </div>
       </div>
 
@@ -62,24 +64,38 @@ const RightSidebar: React.FC = () => {
           {menuItems.map((item, index) => (
             <li
               key={index}
-              className={`flex items-center gap-2 p-3 rounded-lg cursor-pointer transition-all ${
+              className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all font-medium ${
                 item.path === location.pathname
-                  ? "bg-white text-black font-medium"
-                  : "hover:bg-accent/50 text-foreground"
+                  ? "theme-button-primary theme-shadow"
+                  : "hover:theme-sidebar-hover theme-text"
               }`}
               onClick={() => navigate(item.path)}
             >
-              <span className="text-primary">{item.icon}</span>
-              <span>{item.label}</span>
+              <span
+                className={
+                  item.path === location.pathname
+                    ? "text-white"
+                    : "theme-text-secondary"
+                }
+              >
+                {item.icon}
+              </span>
+              <span
+                className={
+                  item.path === location.pathname ? "text-white" : "theme-text"
+                }
+              >
+                {item.label}
+              </span>
             </li>
           ))}
         </ul>
       </nav>
 
-      <div className="mt-auto pt-4 border-t border-border">
-        <div className="rounded-lg p-4">
-          <h3 className="font-medium mb-2">Pro Tip</h3>
-          <p className="text-sm text-muted-foreground">
+      <div className="mt-auto pt-4 theme-border border-t">
+        <div className="theme-card rounded-lg p-4 theme-shadow">
+          <h3 className="font-medium theme-text mb-2">Pro Tip</h3>
+          <p className="text-sm theme-text-muted">
             Use the "Ask Cache" feature to get insights about your journal
             entries and patterns.
           </p>

@@ -51,7 +51,7 @@ const DraggableDialog: React.FC<DraggableDialogProps> = ({
   return (
     <div
       ref={dragRef}
-      className="fixed w-[90%] max-w-md bg-background p-4 rounded-xl shadow-2xl z-50 border border-border animate-fadeIn"
+      className="fixed w-[90%] max-w-md theme-card p-4 rounded-xl theme-shadow-hover z-50 theme-border border animate-fadeIn"
       style={{
         left: `calc(50% + ${position.x}px)`,
         top: `calc(40vh + ${position.y}px)`,
@@ -59,18 +59,18 @@ const DraggableDialog: React.FC<DraggableDialogProps> = ({
       }}
     >
       <div
-        className="flex justify-between items-center mb-4 cursor-move bg-background p-2 rounded-lg"
+        className="flex justify-between items-center mb-4 cursor-move theme-card p-2 rounded-lg"
         onMouseDown={onMouseDown}
       >
         <div className="flex items-center gap-2">
-          <GripVertical className="h-5 w-5 text-amber-600" />
-          <h2 className="text-xl font-serif font-semibold text-amber-900">
+          <GripVertical className="h-5 w-5 theme-text-secondary" />
+          <h2 className="text-xl font-serif font-semibold theme-text">
             {title}
           </h2>
         </div>
         <button
           onClick={toggleDialog}
-          className="text-amber-700 hover:text-red-600 transition-colors p-1 rounded-full hover:bg-red-100"
+          className="theme-text-muted hover:text-red-600 transition-colors p-1 rounded-full hover:bg-red-100"
         >
           <X className="h-5 w-5" />
         </button>

@@ -1,5 +1,3 @@
-"use client";
-
 import type React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +6,13 @@ import type { RootState } from "../store/store";
 import { setUser } from "../store/userSlice";
 import DraggableDialog from "./DraggableDialog";
 import DayCacheChat from "./DayCacheChat";
-import { MessageSquare, LogIn, UserPlus, MenuIcon } from "lucide-react";
+import {
+  MessageSquare,
+  LogIn,
+  UserPlus,
+  MenuIcon,
+  PlusCircle,
+} from "lucide-react";
 import { ThemeToggle } from "./theme-toggle";
 
 interface NavbarProps {
@@ -64,16 +68,16 @@ const Navbar: React.FC<NavbarProps> = ({ setShowRightSidebar }) => {
 
   if (loading)
     return (
-      <div className="h-16 bg-background text-text animate-pulse flex items-center justify-center">
-        <div className="w-32 h-8 bg-background text-text rounded"></div>
+      <div className="h-16 theme-navbar theme-text animate-pulse flex items-center justify-center theme-shadow">
+        <div className="w-32 h-8 theme-card rounded"></div>
       </div>
     );
 
   return (
-    <div className="sticky top-0 z-50 bg-background text-text border border-border shadow-md">
+    <div className="sticky top-0 z-50 theme-navbar theme-text theme-border border-b theme-shadow">
       <div className="flex items-center justify-between px-4 py-3">
         <h1
-          className="text-2xl font-extrabold cursor-pointer bg-background text-text transition duration-300 flex items-center gap-2"
+          className="text-2xl font-extrabold cursor-pointer theme-text hover:opacity-80 transition duration-300 flex items-center gap-2 font-serif"
           onClick={() => {
             if (userData) navigate("/");
           }}
@@ -82,37 +86,43 @@ const Navbar: React.FC<NavbarProps> = ({ setShowRightSidebar }) => {
         </h1>
 
         <div className="flex items-center space-x-4">
+          <div>
+            <PlusCircle
+              className="h-6 w-6 theme-text cursor-pointer hover:opacity-80 transition duration-300"
+              onClick={() => navigate("/")}
+            />
+          </div>
           <ThemeToggle />
 
           {userData ? (
             <div className="flex items-center space-x-4">
               <button
                 onClick={toggleDialog}
-                className=" px-3 py-2 rounded-lg bg-background text-text transition flex items-center gap-1 shadow-sm"
+                className="theme-button-primary px-4 py-2 rounded-lg hover:opacity-90 transition flex items-center gap-2 theme-shadow font-medium"
               >
                 <MessageSquare className="h-4 w-4" />
                 Ask Cache
               </button>
 
               <button
-                className="flex items-center justify-center h-8 w-8 cursor-pointer bg-background text-text rounded-md transition-colors"
+                className="flex items-center justify-center h-10 w-10 cursor-pointer theme-card theme-border border rounded-md hover:theme-sidebar-hover transition-colors theme-shadow"
                 onClick={() => setShowRightSidebar((prev) => !prev)}
               >
-                <MenuIcon  />
+                <MenuIcon className="h-5 w-5 theme-text" />
               </button>
             </div>
           ) : (
             <div className="flex space-x-4">
               <button
                 onClick={handleLogin}
-                className=" px-4 py-2 rounded-lg bg-background text-text transition flex items-center gap-2 shadow-sm"
+                className="theme-button-primary px-4 py-2 rounded-lg hover:opacity-90 transition flex items-center gap-2 theme-shadow font-medium"
               >
                 <LogIn className="h-4 w-4" />
                 Login
               </button>
               <button
                 onClick={handleSignup}
-                className="bg-background text-text px-4 py-2 rounded-lg transition flex items-center gap-2 shadow-sm"
+                className="theme-button-secondary px-4 py-2 rounded-lg hover:opacity-90 transition flex items-center gap-2 theme-shadow font-medium"
               >
                 <UserPlus className="h-4 w-4" />
                 Sign Up

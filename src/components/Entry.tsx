@@ -98,27 +98,27 @@ const Entry: React.FC<EntryProps> = ({ entry, onDelete }) => {
   };
 
   return (
-    <div className="bg-card shadow-md rounded-xl p-6 mb-4 transition-all hover:shadow-lg border border-border hover:border-primary/20">
+    <div className="theme-entry theme-shadow rounded-xl p-6 mb-4 transition-all hover:theme-shadow-hover theme-border border">
       {/* Custom Confirm Dialog */}
       {visibleDialog && (
         <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-card rounded-lg p-6 shadow-xl max-w-sm w-full border border-border animate-fadeIn">
-            <h3 className="text-lg font-semibold mb-4 text-center text-foreground">
+          <div className="theme-card rounded-lg p-6 theme-shadow-hover max-w-sm w-full theme-border border animate-fadeIn">
+            <h3 className="text-lg font-semibold mb-4 text-center theme-text">
               Please confirm
             </h3>
-            <p className="text-sm text-muted-foreground text-center mb-6">
+            <p className="text-sm theme-text-muted text-center mb-6">
               Are you sure you want to delete this entry?
             </p>
             <div className="flex justify-center gap-4">
               <button
                 onClick={toggleDialog}
-                className="px-4 py-2 bg-secondary text-secondary-foreground rounded-lg hover:bg-secondary/80 transition-colors"
+                className="px-4 py-2 theme-button-secondary rounded-lg hover:opacity-90 transition-colors font-medium"
               >
                 Cancel
               </button>
               <button
                 onClick={handleDelete}
-                className="px-4 py-2 bg-destructive text-destructive-foreground rounded-lg hover:bg-destructive/90 transition-colors flex items-center gap-2"
+                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors flex items-center gap-2 font-medium"
               >
                 <Trash2 size={16} />
                 Delete
@@ -134,13 +134,13 @@ const Entry: React.FC<EntryProps> = ({ entry, onDelete }) => {
           value={editedContent}
           onChange={(e) => setEditedContent(e.target.value)}
           rows={3}
-          className="w-full bg-background text-foreground border border-input focus:ring-2 focus:ring-ring rounded-md p-3 outline-none resize-none transition-all duration-200 font-serif text-lg shadow-inner"
+          className="w-full theme-input theme-border border rounded-md p-3 outline-none resize-none transition-all duration-200 font-serif text-lg"
           placeholder="Write something..."
           style={{ lineHeight: "1.6" }}
         />
       ) : (
         <p
-          className="text-foreground mb-3 font-serif text-lg leading-relaxed"
+          className="theme-text mb-3 font-serif text-lg leading-relaxed"
           style={{ whiteSpace: "pre-wrap" }}
         >
           {content || "Write something..."}
@@ -152,8 +152,8 @@ const Entry: React.FC<EntryProps> = ({ entry, onDelete }) => {
         entry.media!.map((item: any) => <Media key={item.id} media={item} />)}
 
       {/* Actions */}
-      <div className="flex items-center justify-between mt-3 pt-2 border-t border-border">
-        <p className="text-xs text-muted-foreground font-medium">
+      <div className="flex items-center justify-between mt-3 pt-2 theme-border border-t">
+        <p className="text-xs theme-text-muted font-medium">
           {new Date(entry.created_at).toLocaleString("en-US", {
             weekday: "short",
             year: "numeric",
@@ -170,7 +170,7 @@ const Entry: React.FC<EntryProps> = ({ entry, onDelete }) => {
             <button
               disabled={saving}
               onClick={handleSave}
-              className="px-3 py-1.5 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 disabled:opacity-50 transition-colors flex items-center gap-1"
+              className="px-3 py-1.5 theme-button-primary rounded-lg hover:opacity-90 disabled:opacity-50 transition-colors flex items-center gap-1 font-medium"
               title="Save"
             >
               <Save size={16} />
@@ -179,7 +179,7 @@ const Entry: React.FC<EntryProps> = ({ entry, onDelete }) => {
           ) : (
             <button
               onClick={handleEdit}
-              className="px-3 py-1.5 bg-secondary text-secondary-foreground rounded-lg hover:bg-secondary/80 transition-colors flex items-center gap-1"
+              className="px-3 py-1.5 theme-button-secondary rounded-lg hover:opacity-90 transition-colors flex items-center gap-1 font-medium"
               title="Edit"
             >
               <Edit size={16} />
@@ -189,7 +189,7 @@ const Entry: React.FC<EntryProps> = ({ entry, onDelete }) => {
 
           <button
             onClick={toggleDialog}
-            className="px-3 py-1.5 bg-destructive/20 text-destructive-foreground rounded-lg hover:bg-destructive/30 transition-colors flex items-center gap-1"
+            className="px-3 py-1.5 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors flex items-center gap-1 font-medium"
             title="Delete"
           >
             <Trash2 size={16} />

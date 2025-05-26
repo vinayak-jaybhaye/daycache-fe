@@ -1,73 +1,203 @@
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
 
-/* index.css or App.css */
+/* Scrollbar utilities */
 .scrollbar-hide {
   scrollbar-width: none;
-  /* Firefox */
   -ms-overflow-style: none;
-  /* IE 10+ */
-
-  /* WebKit (Chrome, Safari) */
 }
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
 
-
-/* diary view */
-
+/* Diary view styles */
 .font-cursive {
-  font-family: 'Caveat', cursive;
+  font-family: "Caveat", cursive;
   font-size: 1.35rem;
   line-height: 1.6;
 }
 
-/* Custom shadow for paper texture */
 .shadow-paper {
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15),
-    inset 0 0 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15), inset 0 0 30px rgba(0, 0, 0, 0.1);
 }
 
-/* Custom filter for vintage effect */
 .filter.sepia {
   filter: sepia(0.4) contrast(1.1) brightness(1.1);
 }
 
-@theme {
-  --color-background: var(--surface);
-  --color-text: var(--on-surface);
-  --color-primary: var(--primary);
-  --color-on-primary: var(--on-primary);
-  --color-border: var(--border);
-}
-
-/* Tailwind CSS Configuration */
-/* Tailwind CSS Variables */
-
+/* CSS Custom Properties for Theming */
 :root {
-  --surface: #f9f9f9;
-  --on-surface: #333333;
-  --primary: #2563eb;
-  --on-primary: #ffffff;
-  --border: #e5e7eb;
+  /* Light Theme Colors */
+  --background: #fefbf3;
+  --foreground: #78350f;
+  --card: #ffffff;
+  --card-foreground: #78350f;
+  --popover: #ffffff;
+  --popover-foreground: #78350f;
+  --primary: #d97706;
+  --primary-foreground: #ffffff;
+  --secondary: #fef3c7;
+  --secondary-foreground: #92400e;
+  --muted: #fef3c7;
+  --muted-foreground: #a16207;
+  --accent: #fed7aa;
+  --accent-foreground: #9a3412;
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  --border: #f59e0b;
+  --input: #fbbf24;
+  --ring: #d97706;
+  --radius: 0.5rem;
+
+  /* Additional theme colors */
+  --sidebar-bg: #fff8e7;
+  --sidebar-hover: #fef3c7;
+  --navbar-bg: #ffffff;
+  --entry-bg: #fefbf3;
+  --entry-border: #f59e0b;
+  --shadow-color: rgba(217, 119, 6, 0.1);
+  --shadow-hover: rgba(217, 119, 6, 0.2);
+  --text-primary: #78350f;
+  --text-secondary: #92400e;
+  --text-muted: #a16207;
+  --button-hover: #b45309;
+  --input-focus: #f59e0b;
+  --calendar-active: #d97706;
+  --calendar-hover: #fed7aa;
 }
 
+.dark {
+  /* Dark Theme Colors */
+  --background: #1c1917;
+  --foreground: #fbbf24;
+  --card: #292524;
+  --card-foreground: #fbbf24;
+  --popover: #292524;
+  --popover-foreground: #fbbf24;
+  --primary: #f59e0b;
+  --primary-foreground: #1c1917;
+  --secondary: #44403c;
+  --secondary-foreground: #fbbf24;
+  --muted: #44403c;
+  --muted-foreground: #a8a29e;
+  --accent: #57534e;
+  --accent-foreground: #fbbf24;
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  --border: #57534e;
+  --input: #44403c;
+  --ring: #f59e0b;
 
-.theme-dark {
-  --surface: #121212;
-  --on-surface: #ffffff;
-  --primary: #3b82f6;
-  --on-primary: #111111;
-  --border: #374151;
+  /* Additional dark theme colors */
+  --sidebar-bg: #1c1917;
+  --sidebar-hover: #44403c;
+  --navbar-bg: #292524;
+  --entry-bg: #292524;
+  --entry-border: #57534e;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --shadow-hover: rgba(0, 0, 0, 0.4);
+  --text-primary: #fbbf24;
+  --text-secondary: #d6d3d1;
+  --text-muted: #a8a29e;
+  --button-hover: #d97706;
+  --input-focus: #f59e0b;
+  --calendar-active: #f59e0b;
+  --calendar-hover: #57534e;
 }
 
+/* Apply theme colors to elements */
+* {
+  border-color: hsl(var(--border));
+}
 
-.theme-light {
-  --surface: #ffffff;
-  --on-surface: #000000;
-  --primary: #1d4ed8;
-  --on-primary: #ffffff;
-  --border: #d1d5db;
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-feature-settings: "rlig" 1, "calt" 1;
+}
+
+/* Custom utility classes */
+.theme-bg {
+  background-color: var(--background);
+}
+
+.theme-card {
+  background-color: var(--card);
+  color: var(--card-foreground);
+}
+
+.theme-text {
+  color: var(--text-primary);
+}
+
+.theme-text-secondary {
+  color: var(--text-secondary);
+}
+
+.theme-text-muted {
+  color: var(--text-muted);
+}
+
+.theme-border {
+  border-color: var(--border);
+}
+
+.theme-shadow {
+  box-shadow: 0 4px 6px -1px var(--shadow-color), 0 2px 4px -1px var(--shadow-color);
+}
+
+.theme-shadow-hover {
+  box-shadow: 0 10px 15px -3px var(--shadow-hover), 0 4px 6px -2px var(--shadow-hover);
+}
+
+.theme-input {
+  background-color: var(--input);
+  border-color: var(--border);
+  color: var(--foreground);
+}
+
+.theme-input:focus {
+  border-color: var(--input-focus);
+  box-shadow: 0 0 0 2px var(--input-focus);
+}
+
+.theme-button-primary {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.theme-button-primary:hover {
+  background-color: var(--button-hover);
+}
+
+.theme-button-secondary {
+  background-color: var(--secondary);
+  color: var(--secondary-foreground);
+}
+
+.theme-sidebar {
+  background-color: var(--sidebar-bg);
+}
+
+.theme-sidebar-hover {
+  background-color: var(--sidebar-hover);
+}
+
+.theme-navbar {
+  background-color: var(--navbar-bg);
+}
+
+.theme-entry {
+  background-color: var(--entry-bg);
+  border-color: var(--entry-border);
+}
+
+.theme-calendar-active {
+  background-color: var(--calendar-active);
+  color: var(--primary-foreground);
+}
+
+.theme-calendar-hover {
+  background-color: var(--calendar-hover);
 }

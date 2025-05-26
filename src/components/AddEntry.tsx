@@ -137,8 +137,10 @@ function AddEntry({ onEntryAdded, date }: AddEntryProps) {
   };
 
   return (
-    <div className="bg-background text-text relative px-5 py-6 rounded-lg border shadow-sm">
-      <h3 className="text-lg font-serif font-semibold mb-3">Add New Entry</h3>
+    <div className="relative px-5 py-6 theme-card rounded-lg theme-border border theme-shadow">
+      <h3 className="text-lg font-serif font-semibold mb-3 theme-text">
+        Add New Entry
+      </h3>
       <div className="flex gap-3 items-start">
         <div className="flex-1 relative">
           <textarea
@@ -149,7 +151,7 @@ function AddEntry({ onEntryAdded, date }: AddEntryProps) {
             placeholder="How was your day?"
             ref={inputRef}
             rows={1}
-            className="text-base py-3 px-4 rounded-lg border border-amber-200 hover:border-amber-400 focus:border-amber-500 focus:ring-2 focus:ring-amber-200 resize-none w-full overflow-y-auto leading-snug bg-amber-50/50"
+            className="text-base py-3 px-4 rounded-lg theme-input theme-border border hover:opacity-90 focus:opacity-100 resize-none w-full overflow-y-auto leading-snug font-serif"
             style={{
               minHeight: "48px",
               maxHeight: "200px",
@@ -174,7 +176,9 @@ function AddEntry({ onEntryAdded, date }: AddEntryProps) {
             >
               <span className="text-transparent">
                 {entryText}
-                <span className="text-text opacity-75">{suggestion}</span>
+                <span className="theme-text-muted opacity-75">
+                  {suggestion}
+                </span>
               </span>
             </div>
           )}
@@ -183,10 +187,10 @@ function AddEntry({ onEntryAdded, date }: AddEntryProps) {
         <button
           onClick={handleAddEntry}
           disabled={loading || !entryText.trim()}
-          className={`min-w-[44px] h-[44px] px-3 rounded-lg transition-all text-white font-medium flex items-center justify-center ${
+          className={`min-w-[44px] h-[44px] px-3 rounded-lg transition-all font-medium flex items-center justify-center theme-shadow ${
             loading || !entryText.trim()
-              ? "bg-amber-300 cursor-not-allowed"
-              : "bg-amber-600 hover:bg-amber-700"
+              ? "opacity-50 cursor-not-allowed theme-button-secondary"
+              : "theme-button-primary hover:opacity-90"
           }`}
         >
           {loading ? (
