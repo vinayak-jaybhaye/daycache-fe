@@ -1,15 +1,4 @@
-type Media = {
-  id: string | number;
-  type: "image" | "video" | "audio";
-  url: string;
-};
-
-type Entry = {
-  id: string | number;
-  created_at: string;
-  content: string;
-  media?: Media[];
-};
+import type { Entry } from '../types'
 
 type DiaryViewProps = {
   entries: Entry[];

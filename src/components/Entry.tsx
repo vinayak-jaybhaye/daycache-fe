@@ -3,19 +3,7 @@ import { useState } from "react";
 import Media from "./Media";
 import { Trash2, Edit, Check } from "lucide-react";
 
-interface MediaItem {
-  id: number;
-  url: string;
-  type: string;
-}
-
-interface EntryData {
-  id: number;
-  day_id: number;
-  content: string;
-  created_at: string;
-  media?: MediaItem[];
-}
+import type { Entry as EntryData } from '../types'
 
 interface EntryProps {
   entry: EntryData;
@@ -77,8 +65,7 @@ const Entry: React.FC<EntryProps> = ({ entry, onDelete }) => {
   const handleDelete = async () => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/days/${entry.day_id}/entries/${
-          entry.id
+        `${import.meta.env.VITE_API_URL}/days/${entry.day_id}/entries/${entry.id
         }/delete`,
         {
           method: "DELETE",

@@ -16,13 +16,7 @@ import {
 } from "lucide-react";
 import { ThemeToggle } from "../components/theme-toggle";
 
-type UserType = {
-  id: string;
-  username: string;
-  email: string;
-  profile_image?: string;
-  created_at: string;
-};
+import type { User as UserType } from '../types'
 
 const Settings: React.FC = () => {
   const [activeTab, setActiveTab] = useState<
@@ -98,9 +92,8 @@ const Settings: React.FC = () => {
     <div className="flex min-h-screen theme-bg">
       {/* Sidebar */}
       <div
-        className={`w-full md:w-64 theme-sidebar theme-border md:border-r theme-shadow ${
-          activeTab == "" ? "block" : "hidden"
-        } md:block`}
+        className={`w-full md:w-64 theme-sidebar theme-border md:border-r theme-shadow ${activeTab == "" ? "block" : "hidden"
+          } md:block`}
       >
         <div className="p-6">
           <div className="flex items-center mb-8 gap-3">
@@ -121,11 +114,10 @@ const Settings: React.FC = () => {
                 <li key={tab.id}>
                   <button
                     onClick={() => setActiveTab(tab.id as any)}
-                    className={`w-full flex items-center gap-3 p-3 rounded-lg transition-all font-medium ${
-                      activeTab === tab.id
+                    className={`w-full flex items-center gap-3 p-3 rounded-lg transition-all font-medium ${activeTab === tab.id
                         ? "theme-button-primary theme-shadow"
                         : "theme-text hover:theme-sidebar-hover"
-                    }`}
+                      }`}
                   >
                     <span
                       className={
@@ -228,12 +220,12 @@ const Settings: React.FC = () => {
                         <p className="text-lg font-bold theme-text">
                           {userData?.created_at
                             ? new Date(userData.created_at).toLocaleDateString(
-                                "en-US",
-                                {
-                                  year: "numeric",
-                                  month: "long",
-                                }
-                              )
+                              "en-US",
+                              {
+                                year: "numeric",
+                                month: "long",
+                              }
+                            )
                             : "N/A"}
                         </p>
                       </div>

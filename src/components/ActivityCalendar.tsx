@@ -4,12 +4,10 @@ import { useEffect, useState } from "react";
 import DraggableDialog from "./DraggableDialog";
 import { useSelector } from "react-redux";
 
+import type { User as UserData } from "../types";
+
 interface ActivityCalendarProps {
   date: string;
-}
-interface UserData {
-  id: string;
-  [key: string]: any;
 }
 
 interface RootState {
@@ -81,10 +79,9 @@ const ActivityCalendar: React.FC<ActivityCalendarProps> = ({ date }) => {
       <div
         key={dateStr}
         className={`w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full text-sm font-medium transition-all cursor-pointer
-          ${
-            isActive
-              ? "theme-calendar-active theme-shadow hover:theme-shadow-hover"
-              : "hover:theme-calendar-hover theme-text"
+          ${isActive
+            ? "theme-calendar-active theme-shadow hover:theme-shadow-hover"
+            : "hover:theme-calendar-hover theme-text"
           } 
           ${isToday ? "ring-2 ring-offset-2" : ""}
         `}

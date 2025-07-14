@@ -1,16 +1,8 @@
 import type React from "react";
-
-type MediaType = "image" | "video" | "audio" | "file";
-
-type MediaData = {
-  type: MediaType;
-  url: string;
-  description?: string;
-  id: number;
-};
+import type { Media as MediaType } from "../types";
 
 type MediaProps = {
-  media?: MediaData | null;
+  media?: MediaType | null;
 };
 
 const Media: React.FC<MediaProps> = ({ media }) => {

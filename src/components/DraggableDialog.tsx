@@ -1,14 +1,7 @@
 import { GripVertical, X } from "lucide-react";
 import type React from "react";
-import { useState, useRef, type MouseEventHandler } from "react";
-
-interface DraggableDialogProps<T = any> {
-  visible: boolean;
-  toggleDialog: MouseEventHandler;
-  props: T;
-  Component: React.FC<T>;
-  title: string;
-}
+import { useState, useRef } from "react";
+import type { DraggableDialogProps } from "../types";
 
 const DraggableDialog: React.FC<DraggableDialogProps> = ({
   visible,

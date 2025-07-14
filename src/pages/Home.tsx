@@ -19,13 +19,7 @@ interface UserData {
   [key: string]: any;
 }
 
-interface DayData {
-  id: string;
-  user_id: string;
-  date: string;
-  latest_summary: string;
-  created_at: string;
-}
+import type { Day as DayType } from '../types'
 
 const Home: React.FC = () => {
   const user = useSelector((state: RootState) => state.user.user);
@@ -38,7 +32,7 @@ const Home: React.FC = () => {
     new Date().toISOString().split("T")[0]
   );
 
-  const [days, setDays] = useState<DayData[]>([]);
+  const [days, setDays] = useState<DayType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
 
@@ -95,9 +89,8 @@ const Home: React.FC = () => {
     if (!userData?.id || isLoading || !hasMore) return;
     setIsLoading(true);
     try {
-      let url = `${import.meta.env.VITE_API_URL}/users/${
-        userData.id
-      }/days?limit=5`;
+      let url = `${import.meta.env.VITE_API_URL}/users/${userData.id
+        }/days?limit=5`;
       const lastDate = days[days.length - 1]?.date;
       if (lastDate) {
         url += `&last_date=${encodeURIComponent(lastDate)}`;
@@ -109,7 +102,7 @@ const Home: React.FC = () => {
       });
       if (!response.ok) throw new Error("Failed to fetch days");
 
-      const data: DayData[] = await response.json();
+      const data: DayType[] = await response.json();
       setDays((prev) => [...prev, ...data]);
 
       if (data.length < 5) {
@@ -190,11 +183,10 @@ const Home: React.FC = () => {
             <div className="flex items-center justify-around gap-1 theme-entry rounded-lg p-1 theme-border border">
               <button
                 onClick={() => setShowList(true)}
-                className={`w-full p-2 rounded-md transition-all flex items-center gap-2 text-sm font-medium ${
-                  showList
-                    ? "theme-button-primary theme-shadow"
-                    : "theme-text hover:theme-sidebar-hover"
-                }`}
+                className={`w-full p-2 rounded-md transition-all flex items-center gap-2 text-sm font-medium ${showList
+                  ? "theme-button-primary theme-shadow"
+                  : "theme-text hover:theme-sidebar-hover"
+                  }`}
                 title="List View"
               >
                 <ListIcon className="h-4 w-4" />
@@ -204,11 +196,10 @@ const Home: React.FC = () => {
               </button>
               <button
                 onClick={() => setShowList(false)}
-                className={`w-full p-2 rounded-md transition-all flex items-center gap-2 text-sm font-medium ${
-                  !showList
-                    ? "theme-button-primary theme-shadow"
-                    : "theme-text hover:theme-sidebar-hover"
-                }`}
+                className={`w-full p-2 rounded-md transition-all flex items-center gap-2 text-sm font-medium ${!showList
+                  ? "theme-button-primary theme-shadow"
+                  : "theme-text hover:theme-sidebar-hover"
+                  }`}
                 title="Calendar View"
               >
                 <Calendar className="h-4 w-4" />
@@ -245,9 +236,8 @@ const Home: React.FC = () => {
 
             {/* Calendar View */}
             <div
-              className={`h-full overflow-y-auto scrollbar-hide ${
-                showList && "hidden"
-              }`}
+              className={`h-full overflow-y-auto scrollbar-hide ${showList && "hidden"
+                }`}
             >
               <CalendarView gridCols={1} />
             </div>
@@ -286,20 +276,18 @@ const Home: React.FC = () => {
       >
         {/* Left Sidebar */}
         <div
-          className={`${
-            currentView === "content" && "hidden"
-          } w-full theme-sidebar theme-border border rounded-2xl theme-shadow overflow-hidden`}
+          className={`${currentView === "content" && "hidden"
+            } w-full theme-sidebar theme-border border rounded-2xl theme-shadow overflow-hidden`}
         >
           {/* Sidebar Header */}
           <div className="theme-card theme-border border-b p-4">
             <div className="flex items-center justify-around gap-1 theme-entry rounded-lg p-1 theme-border border">
               <button
                 onClick={() => setShowList(true)}
-                className={`w-full p-2 rounded-md transition-all flex items-center gap-2 text-sm font-medium ${
-                  showList
-                    ? "theme-button-primary theme-shadow"
-                    : "theme-text hover:theme-sidebar-hover"
-                }`}
+                className={`w-full p-2 rounded-md transition-all flex items-center gap-2 text-sm font-medium ${showList
+                  ? "theme-button-primary theme-shadow"
+                  : "theme-text hover:theme-sidebar-hover"
+                  }`}
                 title="List View"
               >
                 <ListIcon className="h-4 w-4" />
@@ -309,11 +297,10 @@ const Home: React.FC = () => {
               </button>
               <button
                 onClick={() => setShowList(false)}
-                className={`w-full p-2 rounded-md transition-all flex items-center gap-2 text-sm font-medium ${
-                  !showList
-                    ? "theme-button-primary theme-shadow"
-                    : "theme-text hover:theme-sidebar-hover"
-                }`}
+                className={`w-full p-2 rounded-md transition-all flex items-center gap-2 text-sm font-medium ${!showList
+                  ? "theme-button-primary theme-shadow"
+                  : "theme-text hover:theme-sidebar-hover"
+                  }`}
                 title="Calendar View"
               >
                 <Calendar className="h-4 w-4" />
@@ -351,9 +338,8 @@ const Home: React.FC = () => {
 
             {/* Calendar View */}
             <div
-              className={`h-full overflow-y-auto scrollbar-hide ${
-                showList && "hidden"
-              }`}
+              className={`h-full overflow-y-auto scrollbar-hide ${showList && "hidden"
+                }`}
             >
               <CalendarView gridCols={1} />
             </div>
@@ -362,9 +348,8 @@ const Home: React.FC = () => {
 
         {/* Main Content Area */}
         <div
-          className={`${
-            currentView === "sidebar" && "hidden"
-          } flex-1 theme-card rounded-2xl theme-shadow overflow-hidden theme-border border`}
+          className={`${currentView === "sidebar" && "hidden"
+            } flex-1 theme-card rounded-2xl theme-shadow overflow-hidden theme-border border`}
         >
           <div className="h-full overflow-auto scrollbar-hide">
             {userData ? (

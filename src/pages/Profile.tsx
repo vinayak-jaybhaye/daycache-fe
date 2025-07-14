@@ -13,14 +13,7 @@ import {
   Target,
 } from "lucide-react";
 
-interface User {
-  id: string;
-  email: string;
-  username: string;
-  profile_image?: string;
-  created_at: string;
-}
-
+import type { User } from '../types'
 function Profile() {
   const user = useSelector((state: RootState) => state.user.user);
   const dispatch = useDispatch();

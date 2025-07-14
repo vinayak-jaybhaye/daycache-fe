@@ -4,11 +4,7 @@ import { useSelector } from "react-redux";
 import type { RootState } from "../store/store";
 import { PlusCircle, Loader2 } from "lucide-react";
 
-type Entry = {
-  id: string;
-  content: string;
-  created_at: string;
-};
+import type { Entry } from '../types'
 
 type AddEntryProps = {
   onEntryAdded: (entry: Entry) => void;
@@ -110,8 +106,7 @@ function AddEntry({ onEntryAdded, date }: AddEntryProps) {
       setLoading(true);
 
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/users/${
-          user?.id
+        `${import.meta.env.VITE_API_URL}/users/${user?.id
         }/days/${date}/entries/create`,
         {
           method: "POST",
@@ -187,11 +182,10 @@ function AddEntry({ onEntryAdded, date }: AddEntryProps) {
         <button
           onClick={handleAddEntry}
           disabled={loading || !entryText.trim()}
-          className={`min-w-[44px] h-[44px] px-3 rounded-lg transition-all font-medium flex items-center justify-center theme-shadow ${
-            loading || !entryText.trim()
-              ? "opacity-50 cursor-not-allowed theme-button-secondary"
-              : "theme-button-primary hover:opacity-90"
-          }`}
+          className={`min-w-[44px] h-[44px] px-3 rounded-lg transition-all font-medium flex items-center justify-center theme-shadow ${loading || !entryText.trim()
+            ? "opacity-50 cursor-not-allowed theme-button-secondary"
+            : "theme-button-primary hover:opacity-90"
+            }`}
         >
           {loading ? (
             <Loader2 className="h-5 w-5 animate-spin" />
