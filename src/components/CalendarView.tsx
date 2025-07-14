@@ -17,7 +17,7 @@ const CalendarView = ({ gridCols = 3 }) => {
       const formatted = date.toISOString().slice(0, 7);
       monthArray.push(formatted);
     }
-    console.log(monthArray);
+    // console.log(monthArray);
     setMonths((prev) => [...new Set([...prev, ...monthArray])]);
   };
 

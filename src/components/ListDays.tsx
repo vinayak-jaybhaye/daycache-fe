@@ -54,8 +54,8 @@ const ListDays: React.FC<ListDaysProps> = ({
 
       const data: DayData[] = await response.json();
       setDays((prev) => [...prev, ...data]);
-      console.log("Fetched days:", data);
-
+      // console.log(days[0])
+      
       if (data.length < 10) {
         setHasMore(false);
       }

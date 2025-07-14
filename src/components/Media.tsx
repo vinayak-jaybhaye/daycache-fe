@@ -15,7 +15,7 @@ type MediaProps = {
 
 const Media: React.FC<MediaProps> = ({ media }) => {
   if (!media) return null;
-  console.log("Media data:", media);
+  // console.log("Media data:", media);
 
   const handleDelete = async () => {
     try {
@@ -30,7 +30,6 @@ const Media: React.FC<MediaProps> = ({ media }) => {
         }
       );
       if (!response.ok) throw new Error("Failed to delete media");
-      console.log("Media deleted successfully");
     } catch (error) {
       console.error("Error deleting media:", error);
     }
