@@ -1,17 +1,17 @@
-import type React from "react";
 import DiaryView from "./DiaryView";
 
 import { useEffect, useState } from "react";
 import Entry from "./Entry";
 import AddEntry from "./AddEntry";
-import { CalendarDays, Loader2, NotebookIcon, RefreshCw } from "lucide-react";
+import { CalendarDays, Loader2, NotebookIcon, RefreshCw, CircleChevronLeft } from "lucide-react";
 
 interface DayProps {
   date: string;
   userId: string;
+  setCurrentView: (() => void) | null;
 }
 
-const Day: React.FC<DayProps> = ({ date, userId }) => {
+const Day = ({ date, userId, setCurrentView = null }: DayProps) => {
   const [day, setDay] = useState<any | null>(null);
   const [entries, setEntries] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -56,8 +56,7 @@ const Day: React.FC<DayProps> = ({ date, userId }) => {
     try {
       setSummarizing(true);
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/users/${userId}/days/${
-          day.id
+        `${import.meta.env.VITE_API_URL}/users/${userId}/days/${day.id
         }/summarize`,
         {
           method: "POST",
@@ -82,7 +81,7 @@ const Day: React.FC<DayProps> = ({ date, userId }) => {
 
   if (loading) {
     return (
-      <div className="mb-6 mx-auto">
+      <div className="mb-6 mx-auto w-[100vw]">
         {/* Header Skeleton */}
         <div className="animate-pulse theme-border border-b pb-4">
           <div className="h-8 w-52 theme-card mb-2 rounded"></div>
@@ -124,15 +123,22 @@ const Day: React.FC<DayProps> = ({ date, userId }) => {
   return (
     <div className="theme-bg overflow-auto scrollbar-hide mx-auto transition-all duration-300 ease-in-out">
       {/* Header */}
-      <div className="mb-6 theme-border border-b px-4 py-2 flex items-center justify-between">
-        <div>
-          <h1 className="md:text-3xl mb-2 flex items-center gap-2 theme-text font-serif">
-            <CalendarDays className="h-6 w-6 theme-text-secondary" />
-            {formattedDate}
-          </h1>
-          <span className="font-medium theme-text-muted">
-            {entries.length} {entries.length === 1 ? "Entry" : "Entries"}
-          </span>
+      <div className="mb-6 theme-border border-b px-2 py-2 flex items-center justify-between">
+        <div className="flex gap-4">
+          {setCurrentView != null && (
+            <button onClick={setCurrentView}>
+              <CircleChevronLeft size={26} />
+            </button>
+          )}
+          <div>
+            <h1 className="md:text-3xl mb-2 flex items-center gap-2 theme-text font-serif">
+              <CalendarDays className="h-6 w-6 theme-text-secondary" />
+              {formattedDate}
+            </h1>
+            <span className="font-medium theme-text-muted">
+              {entries.length} {entries.length === 1 ? "Entry" : "Entries"}
+            </span>
+          </div>
         </div>
         <button
           onClick={() => setShowDiaryView((prev) => !prev)}
@@ -147,9 +153,8 @@ const Day: React.FC<DayProps> = ({ date, userId }) => {
       </div>
 
       <div
-        className={`theme-card rounded-xl theme-shadow overflow-auto flex flex-col gap-6 transition-all duration-300 ${
-          showDiaryView && "hidden"
-        }`}
+        className={`theme-card rounded-xl theme-shadow overflow-auto flex flex-col gap-6 transition-all duration-300 ${showDiaryView && "hidden"
+          }`}
       >
         <AddEntry
           date={date}
@@ -217,9 +222,8 @@ const Day: React.FC<DayProps> = ({ date, userId }) => {
       </div>
       {/* diary view */}
       <div
-        className={`theme-card rounded-xl theme-shadow overflow-auto flex flex-col gap-6 transition-all duration-300 ${
-          !showDiaryView && "hidden"
-        }`}
+        className={`theme-card rounded-xl theme-shadow overflow-auto flex flex-col gap-6 transition-all duration-300 ${!showDiaryView && "hidden"
+          }`}
       >
         <DiaryView entries={entries} />
       </div>

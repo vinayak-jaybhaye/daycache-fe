@@ -1,5 +1,5 @@
 import type React from "react";
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../store/userSlice";
@@ -41,11 +41,6 @@ const Home: React.FC = () => {
   const [currentView, setCurrentView] = useState<"sidebar" | "content">(
     "sidebar"
   );
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const start = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
-  const current = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
-  const isDragging = useRef<boolean>(false);
 
   // Check if mobile screen
   useEffect(() => {
@@ -122,57 +117,6 @@ const Home: React.FC = () => {
     }
   }, [userData]);
 
-  // Handle mobile sidebar sliding
-  // Touch handlers for mobile sliding
-  const handleTouchStart = useCallback(
-    (e: React.TouchEvent) => {
-      if (!isMobile || isTransitioning) return;
-      start.current.x = e.touches[0].clientX;
-      start.current.y = e.touches[0].clientY;
-      current.current.x = start.current.x;
-      current.current.y = start.current.y;
-      isDragging.current = true;
-    },
-    [isMobile, isTransitioning]
-  );
-
-  const handleTouchMove = useCallback(
-    (e: React.TouchEvent) => {
-      if (!isDragging.current || !isMobile) return;
-      current.current.x = e.touches[0].clientX;
-      current.current.y = e.touches[0].clientY;
-      // console.log("Touch move at:", current.current);
-    },
-    [isMobile]
-  );
-
-  const handleTouchEnd = useCallback(() => {
-    if (!isDragging.current || !isMobile) return;
-
-    const deltaX = current.current.x - start.current.y;
-    const deltaY = current.current.y - start.current.y;
-    const thresholdX = 100;
-    const thresholdY = 50;
-    // console.log("Touch end with deltaX:", deltaX);
-
-    if (Math.abs(deltaX) > thresholdX && Math.abs(deltaY) < thresholdY) {
-      if (deltaX > 0 && currentView === "content") {
-        // Swipe right - go to sidebar
-        setCurrentView("sidebar");
-      } else if (deltaX < 0 && currentView === "sidebar") {
-        // Swipe left - go to content
-        setCurrentView("content");
-      }
-    }
-
-    isDragging.current = false;
-    start.current.x = 0;
-    current.current.x = 0;
-    start.current.y = 0;
-    current.current.y = 0;
-    setIsTransitioning(false);
-  }, [isMobile, currentView]);
-
   if (!isMobile)
     return (
       <div className="flex gap-6 h-[89vh] theme-bg">
@@ -236,8 +180,7 @@ const Home: React.FC = () => {
 
             {/* Calendar View */}
             <div
-              className={`h-full overflow-y-auto scrollbar-hide ${showList && "hidden"
-                }`}
+              className={`h-full overflow-y-auto scrollbar-hide ${showList && "hidden"}`}
             >
               <CalendarView gridCols={1} />
             </div>
@@ -249,7 +192,7 @@ const Home: React.FC = () => {
           <div className="h-full overflow-auto scrollbar-hide">
             {userData ? (
               <div>
-                <Day date={selectedDay} userId={userData.id} />
+                <Day date={selectedDay} userId={userData.id} setCurrentView={null} />
               </div>
             ) : (
               <div className="flex items-center justify-center h-full">
@@ -264,20 +207,13 @@ const Home: React.FC = () => {
       </div>
     );
 
-  // Mobile view with sliding sidebar
+  // Mobile view
   return (
     <div className="flex gap-6 theme-bg ">
-      <div
-        ref={containerRef}
-        className="relative h-full w-full overflow-hidden"
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-      >
+      <div>
         {/* Left Sidebar */}
         <div
-          className={`${currentView === "content" && "hidden"
-            } w-full theme-sidebar theme-border border rounded-2xl theme-shadow overflow-hidden`}
+          className={`${currentView === "content" && "hidden"} theme-sidebar theme-border border theme-shadow overflow-hidden w-[100vw]`}
         >
           {/* Sidebar Header */}
           <div className="theme-card theme-border border-b p-4">
@@ -338,8 +274,7 @@ const Home: React.FC = () => {
 
             {/* Calendar View */}
             <div
-              className={`h-full overflow-y-auto scrollbar-hide ${showList && "hidden"
-                }`}
+              className={`h-full overflow-y-auto scrollbar-hide ${showList && "hidden"}`}
             >
               <CalendarView gridCols={1} />
             </div>
@@ -349,13 +284,11 @@ const Home: React.FC = () => {
         {/* Main Content Area */}
         <div
           className={`${currentView === "sidebar" && "hidden"
-            } flex-1 theme-card rounded-2xl theme-shadow overflow-hidden theme-border border`}
+            } flex-1 theme-card theme-shadow overflow-hidden theme-border border`}
         >
           <div className="h-full overflow-auto scrollbar-hide">
             {userData ? (
-              <div>
-                <Day date={selectedDay} userId={userData.id} />
-              </div>
+              <Day date={selectedDay} userId={userData.id} setCurrentView={() => setCurrentView('sidebar')} />
             ) : (
               <div className="flex items-center justify-center h-full">
                 <div className="text-center">

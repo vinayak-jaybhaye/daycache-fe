@@ -58,8 +58,8 @@ const Login = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen theme-bg">
-      <div className="theme-card p-8 rounded-3xl theme-shadow-hover w-full max-w-md theme-border border">
+    <div className="flex justify-center items-center h-[90vh] theme-bg">
+      <div className="theme-card p-8 theme-shadow-hover w-full max-w-md theme-border border">
         {/* Logo and Header */}
         <div className="flex flex-col items-center mb-8">
           <div className="theme-button-primary p-4 rounded-2xl mb-4 theme-shadow">
@@ -78,11 +78,10 @@ const Login = () => {
         {/* Message */}
         {message && (
           <div
-            className={`mb-6 text-sm text-center p-3 rounded-lg font-medium ${
-              messageType === "error"
-                ? "bg-red-100 text-red-700 border border-red-200"
-                : "theme-button-primary"
-            }`}
+            className={`mb-6 text-sm text-center p-3 rounded-lg font-medium ${messageType === "error"
+              ? "bg-red-100 text-red-700 border border-red-200"
+              : "theme-button-primary"
+              }`}
           >
             {message}
           </div>

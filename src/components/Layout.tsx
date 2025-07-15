@@ -11,7 +11,7 @@ const Layout: React.FC = () => {
       {/* Main content area */}
       <div className="h-full w-full theme-bg overflow-y-auto scrollbar-hide theme-shadow">
         <Navbar setShowRightSidebar={setShowRightSidebar} />
-        <div className="p-4 w-full theme-bg min-h-[calc(100vh-4rem)]">
+        <div className="p-1 w-full theme-bg min-h-[calc(100vh-4rem)]">
           <Outlet />
         </div>
       </div>

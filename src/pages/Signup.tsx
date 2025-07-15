@@ -107,24 +107,23 @@ const SignUp = () => {
   };
 
   return (
-    <main className="flex items-center justify-center min-h-screen theme-bg">
+    <main className="flex items-center justify-center h-[90vh] theme-bg">
       {/* Notification Toast */}
       {showNotification && messageType && (
         <div
-          className={`fixed top-4 right-4 p-4 rounded-lg shadow-lg animate-fadeIn z-50 theme-border border ${
-            messageType === "success"
-              ? "bg-green-500 text-white border-green-600"
-              : messageType === "error"
+          className={`fixed top-4 right-4 p-4 rounded-lg shadow-lg animate-fadeIn z-50 theme-border border ${messageType === "success"
+            ? "bg-green-500 text-white border-green-600"
+            : messageType === "error"
               ? "bg-red-500 text-white border-red-600"
               : "theme-button-primary"
-          }`}
+            }`}
         >
           {message}
         </div>
       )}
 
       {/* Main Signup Card */}
-      <div className="theme-card p-8 rounded-3xl theme-shadow-hover w-full max-w-md theme-border border transform transition-all hover:theme-shadow">
+      <div className="theme-card p-8 theme-shadow-hover w-full max-w-md theme-border border transform transition-all hover:theme-shadow">
         {/* Logo and Header */}
         <div className="flex flex-col items-center mb-8">
           <div className="theme-button-primary p-4 rounded-2xl mb-4 theme-shadow">
@@ -207,11 +206,10 @@ const SignUp = () => {
             type="button"
             onClick={handleSendOtp}
             disabled={loading || !isEmailValid}
-            className={`w-full py-4 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 theme-shadow ${
-              loading || !isEmailValid
-                ? "opacity-50 cursor-not-allowed theme-button-secondary"
-                : "theme-button-primary hover:opacity-90"
-            }`}
+            className={`w-full py-4 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 theme-shadow ${loading || !isEmailValid
+              ? "opacity-50 cursor-not-allowed theme-button-secondary"
+              : "theme-button-primary hover:opacity-90"
+              }`}
           >
             {loading ? (
               <>
@@ -232,14 +230,13 @@ const SignUp = () => {
           </button>
 
           {/* Sign Up Button */}
-          <button
+          {otpSent && <button
             type="submit"
             disabled={!isOtpValid || loading}
-            className={`w-full py-4 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 theme-shadow ${
-              !isOtpValid || loading
-                ? "opacity-50 cursor-not-allowed theme-button-secondary"
-                : "theme-button-primary hover:opacity-90"
-            }`}
+            className={`w-full py-4 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 theme-shadow ${!isOtpValid || loading
+              ? "opacity-50 cursor-not-allowed theme-button-secondary"
+              : "theme-button-primary hover:opacity-90"
+              }`}
           >
             {loading ? (
               <>
@@ -252,7 +249,7 @@ const SignUp = () => {
                 Sign Up Now
               </>
             )}
-          </button>
+          </button>}
         </form>
 
         {/* Login Link */}

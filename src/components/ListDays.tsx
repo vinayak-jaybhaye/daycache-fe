@@ -58,9 +58,9 @@ const ListDays: React.FC<ListDaysProps> = ({
 
 
   return (
-    <div className="flex justify-center gap-4 h-full rounded-2xl overflow-auto theme-bg">
+    <div className="flex justify-center gap-4 h-full overflow-auto theme-bg">
       <div
-        className={`rounded-2xl theme-shadow flex flex-col transition-all duration-300 theme-border border theme-sidebar w-full`}
+        className={`theme-shadow flex flex-col transition-all duration-300 theme-border border theme-sidebar w-full`}
       >
         {/* List of days */}
         <ul className="flex-1 p-2 overflow-y-auto scrollbar-hide">
