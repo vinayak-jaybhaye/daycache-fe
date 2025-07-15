@@ -1,7 +1,9 @@
 import type React from "react";
 import { useState } from "react";
 import Media from "./Media";
-import { Trash2, Edit, Check } from "lucide-react";
+import { Trash2, Edit, Check, X, Paperclip } from "lucide-react";
+import UploadMediaWindow from "./UploadMediaWindow";
+import DeleteDialog from "./DeleteDialog";
 
 import type { Entry as EntryData } from '../types'
 
@@ -15,13 +17,20 @@ const Entry: React.FC<EntryProps> = ({ entry, onDelete }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(content);
   const [visibleDialog, setVisibleDialog] = useState(false);
+  const [visibleUploadWindow, setVisibleUploadWinodow] = useState(false)
   const [saving, setSaving] = useState(false);
 
   if (!entry) return null;
 
   const toggleDialog = () => {
+    setIsEditing(false)
+    setEditedContent("")
     setVisibleDialog(!visibleDialog);
   };
+
+  const toggleUploadWindow = () => {
+    setVisibleUploadWinodow(!visibleUploadWindow);
+  }
 
   const handleEdit = () => {
     setEditedContent(content);
@@ -63,6 +72,8 @@ const Entry: React.FC<EntryProps> = ({ entry, onDelete }) => {
   };
 
   const handleDelete = async () => {
+    setIsEditing(false)
+    setEditedContent("")
     try {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/days/${entry.day_id}/entries/${entry.id
@@ -88,32 +99,12 @@ const Entry: React.FC<EntryProps> = ({ entry, onDelete }) => {
     <div className="theme-entry theme-shadow rounded-xl p-6 mb-4 transition-all hover:theme-shadow-hover theme-border border">
       {/* Custom Confirm Dialog */}
       {visibleDialog && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="theme-card rounded-lg p-6 theme-shadow-hover max-w-sm w-full theme-border border animate-fadeIn">
-            <h3 className="text-lg font-semibold mb-4 text-center theme-text">
-              Please confirm
-            </h3>
-            <p className="text-sm theme-text-muted text-center mb-6">
-              Are you sure you want to delete this entry?
-            </p>
-            <div className="flex justify-center gap-4">
-              <button
-                onClick={toggleDialog}
-                className="px-4 py-2 theme-button-secondary rounded-lg hover:opacity-90 transition-colors font-medium"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleDelete}
-                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors flex items-center gap-2 font-medium"
-              >
-                <Trash2 size={16} />
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
+        <DeleteDialog handleDelete={handleDelete} itemType="Entry" toggleDialog={toggleDialog} />
       )}
+
+      {
+        visibleUploadWindow && (<UploadMediaWindow entry={entry} setVisibleUploadWindow={setVisibleUploadWinodow} />)
+      }
 
       {/* Entry Content */}
       {isEditing ? (
@@ -154,28 +145,49 @@ const Entry: React.FC<EntryProps> = ({ entry, onDelete }) => {
 
         <div className="flex gap-2">
           {isEditing ? (
-            <button
-              disabled={saving}
-              onClick={handleSave}
-              className="px-3 py-1.5 theme-button-primary rounded-lg hover:opacity-90 disabled:opacity-50 transition-colors flex items-center gap-1 font-medium"
-              title="Save"
-            >
-              {" "}
-              <Check size={16} />
-            </button>
+            <div className="flex gap-2">
+              <button
+                disabled={saving}
+                onClick={() => {
+                  setIsEditing(false);
+                  setEditedContent("")
+                }}
+                className="px-3 py-1.5 bg-red-800 rounded-lg hover:opacity-90 disabled:opacity-50 transition-colors flex items-center gap-1 font-medium cursor-pointer"
+                title="Cancel"
+              >
+                <X size={16} />
+              </button>
+              <button
+                disabled={saving}
+                onClick={handleSave}
+                className="px-3 py-1.5 bg-green-800 rounded-lg hover:opacity-90 disabled:opacity-50 transition-colors flex items-center gap-1 font-medium cursor-pointer"
+                title="Save"
+              >
+                {" "}
+                <Check size={16} />
+              </button></div>
           ) : (
-            <button
-              onClick={handleEdit}
-              className="px-3 py-1.5 theme-button-secondary rounded-lg hover:opacity-90 transition-colors flex items-center gap-1 font-medium"
-              title="Edit"
-            >
-              <Edit size={16} />
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={toggleUploadWindow}
+                className="px-3 py-1.5 theme-button-secondary rounded-lg hover:opacity-90 transition-colors flex items-center gap-1 font-medium cursor-pointer"
+                title="Attach Media"
+              >
+                <Paperclip size={16} />
+              </button>
+              <button
+                onClick={handleEdit}
+                className="px-3 py-1.5 theme-button-secondary rounded-lg hover:opacity-90 transition-colors flex items-center gap-1 font-medium cursor-pointer"
+                title="Edit"
+              >
+                <Edit size={16} />
+              </button>
+            </div>
           )}
 
           <button
             onClick={toggleDialog}
-            className="px-3 py-1.5 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors flex items-center gap-1 font-medium"
+            className="px-3 py-1.5 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors flex items-center gap-1 font-medium cursor-pointer"
             title="Delete"
           >
             <Trash2 size={16} />
