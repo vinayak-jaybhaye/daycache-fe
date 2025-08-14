@@ -7,6 +7,7 @@ import {
 
 import { Home, Login, Signup, Profile, Settings } from "./pages";
 import { Layout, CalendarView } from "./components";
+import DayCacheChat from "./components/DayCacheChat";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -14,12 +15,11 @@ const router = createBrowserRouter(
       <Route element={<Layout />}>
         {/* Protected routes */}
         <Route path="/" element={<Home />} />
+        <Route path="/day/:queryDate" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/calendar-view" element={<CalendarView />} />
-        {/* <Route path="/journal-archive" element={<JournalArchive />} /> */}
-        {/* <Route path="/insights" element={<Insights />} /> */}
-        {/* <Route path="/help-support" element={<HelpSupport />} /> */}
+        <Route path="/cache-chat" element={<DayCacheChat/>} />
 
         {/* Public routes */}
         <Route path="/login" element={<Login />} />

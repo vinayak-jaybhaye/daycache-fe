@@ -47,14 +47,26 @@ const Media: React.FC<MediaProps> = ({ media }) => {
       <div className="w-full">
 
         {media.type === "image" && (
-          <div className="overflow-hidden rounded-lg shadow-md border border-amber-200 group">
+          <div
+            className="overflow-hidden rounded-lg border group"
+            style={{
+              boxShadow: 'var(--shadow-md)',
+              borderColor: 'var(--color-border-secondary)'
+            }}
+          >
             <img
               src={media.url || "/placeholder.svg"}
               alt={media.description || "media"}
               className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105"
             />
             {media.description && (
-              <div className="p-2 bg-amber-50 text-amber-800 text-sm font-medium">
+              <div
+                className="p-2 text-sm font-medium"
+                style={{
+                  backgroundColor: 'var(--color-surface-secondary)',
+                  color: 'var(--color-text-primary)'
+                }}
+              >
                 {media.description}
               </div>
             )}
@@ -76,13 +88,23 @@ const Media: React.FC<MediaProps> = ({ media }) => {
       )} */}
 
         {media.type === "video" && (
-          <div className="mt-2 p-3 border border-amber-200 rounded-lg shadow-md bg-amber-50">
+          <div
+            className="mt-2 p-3 border rounded-lg"
+            style={{
+              borderColor: 'var(--color-border-secondary)',
+              boxShadow: 'var(--shadow-md)',
+              backgroundColor: 'var(--color-surface-secondary)'
+            }}
+          >
             <audio controls className="w-full">
               <source src={media.url} type="audio/mpeg" />
               Your browser does not support the audio element.
             </audio>
             {media.description && (
-              <div className="mt-2 text-amber-800 text-sm font-medium">
+              <div
+                className="mt-2 text-sm font-medium"
+                style={{ color: 'var(--color-text-primary)' }}
+              >
                 {media.description}
               </div>
             )}
@@ -95,7 +117,18 @@ const Media: React.FC<MediaProps> = ({ media }) => {
               href={media.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block bg-amber-600 text-white font-medium px-4 py-2 rounded-lg shadow-md hover:bg-amber-700 transition duration-300"
+              className="inline-block font-medium px-4 py-2 rounded-lg transition duration-300"
+              style={{
+                backgroundColor: 'var(--color-primary)',
+                color: 'var(--color-text-inverse)',
+                boxShadow: 'var(--shadow-md)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = 'var(--color-primary-700)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'var(--color-primary)';
+              }}
             >
               {media.description || "Download File"}
             </a>
@@ -105,7 +138,19 @@ const Media: React.FC<MediaProps> = ({ media }) => {
       {/* delete button */}
       <div>
         <button
-          className="mt-2 text-red-500 font-medium px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition duration-300"
+          className="mt-2 font-medium px-4 py-2 rounded-lg transition duration-300"
+          style={{
+            color: 'var(--color-error)',
+            boxShadow: 'var(--shadow-md)'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = 'var(--color-error)';
+            e.currentTarget.style.color = 'var(--color-text-inverse)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = 'transparent';
+            e.currentTarget.style.color = 'var(--color-error)';
+          }}
           onClick={toggleDeleteDialog}
         >
           <X size={20} />

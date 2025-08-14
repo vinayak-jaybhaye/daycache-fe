@@ -51,21 +51,43 @@ function Profile() {
 
   if (!userData)
     return (
-      <div className="flex justify-center items-center min-h-screen theme-bg">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-current theme-text"></div>
+      <div
+        className="flex justify-center items-center min-h-screen"
+        style={{ backgroundColor: 'var(--color-bg-primary)' }}
+      >
+        <div
+          className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2"
+          style={{ borderColor: 'var(--color-primary)' }}
+        ></div>
       </div>
     );
 
   return (
-    <div className="min-h-screen theme-bg py-8">
+    <div
+      className="min-h-screen py-8"
+      style={{ backgroundColor: 'var(--color-bg-primary)' }}
+    >
       <div className="max-w-6xl mx-auto">
         {/* Profile Header */}
-        <div className="theme-card rounded-2xl theme-shadow overflow-hidden theme-border border mb-8">
+        <div
+          className="rounded-2xl overflow-hidden border mb-8"
+          style={{
+            backgroundColor: 'var(--color-surface-primary)',
+            borderColor: 'var(--color-border-primary)',
+            boxShadow: 'var(--shadow-base)'
+          }}
+        >
           <div className="pt-10 px-8 pb-8">
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
               <div className="flex items-center gap-6">
                 {/* User Avatar */}
-                <div className="theme-border border-4 theme-shadow rounded-full">
+                <div
+                  className="border-4 rounded-full"
+                  style={{
+                    borderColor: 'var(--color-border-primary)',
+                    boxShadow: 'var(--shadow-base)'
+                  }}
+                >
                   {userData?.profile_image ? (
                     <img
                       src={userData?.profile_image || "/placeholder.svg"}
@@ -73,8 +95,14 @@ function Profile() {
                       className="size-22 rounded-full object-cover"
                     />
                   ) : (
-                    <div className="size-22 theme-button-secondary rounded-full flex items-center justify-center">
-                      <span className="text-3xl theme-text font-bold">
+                    <div
+                      className="size-22 rounded-full flex items-center justify-center"
+                      style={{ backgroundColor: 'var(--color-surface-secondary)' }}
+                    >
+                      <span
+                        className="text-3xl font-bold"
+                        style={{ color: 'var(--color-text-primary)' }}
+                      >
                         {userData.username?.charAt(0).toUpperCase()}
                       </span>
                     </div>
@@ -82,16 +110,28 @@ function Profile() {
                 </div>
 
                 <div>
-                  <h1 className="text-4xl font-serif font-bold theme-text">
+                  <h1
+                    className="text-4xl font-serif font-bold"
+                    style={{ color: 'var(--color-text-primary)' }}
+                  >
                     {userData.username || userData.email.split("@")[0]}
                   </h1>
-                  <p className="theme-text-secondary mt-2 text-lg">
+                  <p
+                    className="mt-2 text-lg"
+                    style={{ color: 'var(--color-text-secondary)' }}
+                  >
                     {userData.email}
                   </p>
                   <div className="md:flex items-center gap-4 mt-3">
                     <div className="flex items-center gap-2">
-                      <Calendar className="h-4 w-4 theme-text-muted" />
-                      <span className="text-sm theme-text-muted">
+                      <Calendar
+                        className="h-4 w-4"
+                        style={{ color: 'var(--color-text-tertiary)' }}
+                      />
+                      <span
+                        className="text-sm"
+                        style={{ color: 'var(--color-text-tertiary)' }}
+                      >
                         Joined{" "}
                         {new Date(userData.created_at).toLocaleDateString(
                           "en-US",
@@ -103,8 +143,14 @@ function Profile() {
                       </span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Clock className="h-4 w-4 theme-text-muted" />
-                      <span className="text-sm theme-text-muted">
+                      <Clock
+                        className="h-4 w-4"
+                        style={{ color: 'var(--color-text-tertiary)' }}
+                      />
+                      <span
+                        className="text-sm"
+                        style={{ color: 'var(--color-text-tertiary)' }}
+                      >
                         Active today
                       </span>
                     </div>
@@ -113,18 +159,56 @@ function Profile() {
               </div>
 
               <div className="flex gap-4">
-                <div className="theme-entry p-4 rounded-xl theme-border border flex items-center gap-3 min-w-[140px]">
-                  <TrendingUp className="h-6 w-6 theme-text-secondary" />
+                <div
+                  className="p-4 rounded-xl border flex items-center gap-3 min-w-[140px]"
+                  style={{
+                    backgroundColor: 'var(--color-surface-secondary)',
+                    borderColor: 'var(--color-border-primary)'
+                  }}
+                >
+                  <TrendingUp
+                    className="h-6 w-6"
+                    style={{ color: 'var(--color-text-secondary)' }}
+                  />
                   <div>
-                    <p className="theme-text-muted text-sm">Current Streak</p>
-                    <p className="text-2xl font-bold theme-text">7 days</p>
+                    <p
+                      className="text-sm"
+                      style={{ color: 'var(--color-text-tertiary)' }}
+                    >
+                      Current Streak
+                    </p>
+                    <p
+                      className="text-2xl font-bold"
+                      style={{ color: 'var(--color-text-primary)' }}
+                    >
+                      7 days
+                    </p>
                   </div>
                 </div>
-                <div className="theme-entry p-4 rounded-xl theme-border border flex items-center gap-3 min-w-[140px]">
-                  <BookOpen className="h-6 w-6 theme-text-secondary" />
+                <div
+                  className="p-4 rounded-xl border flex items-center gap-3 min-w-[140px]"
+                  style={{
+                    backgroundColor: 'var(--color-surface-secondary)',
+                    borderColor: 'var(--color-border-primary)'
+                  }}
+                >
+                  <BookOpen
+                    className="h-6 w-6"
+                    style={{ color: 'var(--color-text-secondary)' }}
+                  />
                   <div>
-                    <p className="theme-text-muted text-sm">Total Entries</p>
-                    <p className="text-2xl font-bold theme-text">42</p>
+                    <p
+                      className="text-sm"
+                      style={{ color: 'var(--color-text-tertiary)' }}
+                    >
+                      Total Entries
+                    </p>
+                    <p
+                      className="text-2xl font-bold"
+                      style={{ color: 'var(--color-text-primary)' }}
+                    >
+                      42
+                    </p>
                   </div>
                 </div>
               </div>
@@ -136,51 +220,142 @@ function Profile() {
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Journal Stats */}
           <div className="lg:col-span-1">
-            <div className="theme-card p-6 rounded-2xl theme-shadow theme-border border">
-              <h3 className="text-xl font-serif font-semibold theme-text mb-6 flex items-center gap-2">
-                <BookOpen className="h-5 w-5 theme-text-secondary" />
+            <div
+              className="p-6 rounded-2xl border"
+              style={{
+                backgroundColor: 'var(--color-surface-primary)',
+                borderColor: 'var(--color-border-primary)',
+                boxShadow: 'var(--shadow-base)'
+              }}
+            >
+              <h3
+                className="text-xl font-serif font-semibold mb-6 flex items-center gap-2"
+                style={{ color: 'var(--color-text-primary)' }}
+              >
+                <BookOpen
+                  className="h-5 w-5"
+                  style={{ color: 'var(--color-text-secondary)' }}
+                />
                 Journal Statistics
               </h3>
               <div className="space-y-4">
-                <div className="flex items-center justify-between p-4 theme-entry rounded-lg theme-border border">
+                <div
+                  className="flex items-center justify-between p-4 rounded-lg border"
+                  style={{
+                    backgroundColor: 'var(--color-surface-secondary)',
+                    borderColor: 'var(--color-border-primary)'
+                  }}
+                >
                   <div className="flex items-center gap-3">
-                    <Award className="h-5 w-5 theme-text-secondary" />
-                    <span className="theme-text font-medium">
+                    <Award
+                      className="h-5 w-5"
+                      style={{ color: 'var(--color-text-secondary)' }}
+                    />
+                    <span
+                      className="font-medium"
+                      style={{ color: 'var(--color-text-primary)' }}
+                    >
                       Total Entries
                     </span>
                   </div>
-                  <span className="theme-text font-bold theme-card px-3 py-1 rounded-md theme-shadow text-lg">
+                  <span
+                    className="font-bold px-3 py-1 rounded-md text-lg"
+                    style={{
+                      backgroundColor: 'var(--color-surface-primary)',
+                      color: 'var(--color-text-primary)',
+                      boxShadow: 'var(--shadow-base)'
+                    }}
+                  >
                     42
                   </span>
                 </div>
-                <div className="flex items-center justify-between p-4 theme-entry rounded-lg theme-border border">
+                <div
+                  className="flex items-center justify-between p-4 rounded-lg border"
+                  style={{
+                    backgroundColor: 'var(--color-surface-secondary)',
+                    borderColor: 'var(--color-border-primary)'
+                  }}
+                >
                   <div className="flex items-center gap-3">
-                    <TrendingUp className="h-5 w-5 theme-text-secondary" />
-                    <span className="theme-text font-medium">
+                    <TrendingUp
+                      className="h-5 w-5"
+                      style={{ color: 'var(--color-text-secondary)' }}
+                    />
+                    <span
+                      className="font-medium"
+                      style={{ color: 'var(--color-text-primary)' }}
+                    >
                       Current Streak
                     </span>
                   </div>
-                  <span className="theme-text font-bold theme-card px-3 py-1 rounded-md theme-shadow text-lg">
+                  <span
+                    className="font-bold px-3 py-1 rounded-md text-lg"
+                    style={{
+                      backgroundColor: 'var(--color-surface-primary)',
+                      color: 'var(--color-text-primary)',
+                      boxShadow: 'var(--shadow-base)'
+                    }}
+                  >
                     7 days
                   </span>
                 </div>
-                <div className="flex items-center justify-between p-4 theme-entry rounded-lg theme-border border">
+                <div
+                  className="flex items-center justify-between p-4 rounded-lg border"
+                  style={{
+                    backgroundColor: 'var(--color-surface-secondary)',
+                    borderColor: 'var(--color-border-primary)'
+                  }}
+                >
                   <div className="flex items-center gap-3">
-                    <Target className="h-5 w-5 theme-text-secondary" />
-                    <span className="theme-text font-medium">
+                    <Target
+                      className="h-5 w-5"
+                      style={{ color: 'var(--color-text-secondary)' }}
+                    />
+                    <span
+                      className="font-medium"
+                      style={{ color: 'var(--color-text-primary)' }}
+                    >
                       Longest Streak
                     </span>
                   </div>
-                  <span className="theme-text font-bold theme-card px-3 py-1 rounded-md theme-shadow text-lg">
+                  <span
+                    className="font-bold px-3 py-1 rounded-md text-lg"
+                    style={{
+                      backgroundColor: 'var(--color-surface-primary)',
+                      color: 'var(--color-text-primary)',
+                      boxShadow: 'var(--shadow-base)'
+                    }}
+                  >
                     21 days
                   </span>
                 </div>
-                <div className="flex items-center justify-between p-4 theme-entry rounded-lg theme-border border">
+                <div
+                  className="flex items-center justify-between p-4 rounded-lg border"
+                  style={{
+                    backgroundColor: 'var(--color-surface-secondary)',
+                    borderColor: 'var(--color-border-primary)'
+                  }}
+                >
                   <div className="flex items-center gap-3">
-                    <Calendar className="h-5 w-5 theme-text-secondary" />
-                    <span className="theme-text font-medium">This Month</span>
+                    <Calendar
+                      className="h-5 w-5"
+                      style={{ color: 'var(--color-text-secondary)' }}
+                    />
+                    <span
+                      className="font-medium"
+                      style={{ color: 'var(--color-text-primary)' }}
+                    >
+                      This Month
+                    </span>
                   </div>
-                  <span className="theme-text font-bold theme-card px-3 py-1 rounded-md theme-shadow text-lg">
+                  <span
+                    className="font-bold px-3 py-1 rounded-md text-lg"
+                    style={{
+                      backgroundColor: 'var(--color-surface-primary)',
+                      color: 'var(--color-text-primary)',
+                      boxShadow: 'var(--shadow-base)'
+                    }}
+                  >
                     12 entries
                   </span>
                 </div>
@@ -188,45 +363,105 @@ function Profile() {
             </div>
 
             {/* Recent Achievements */}
-            <div className="theme-card p-6 rounded-2xl theme-shadow theme-border border mt-6">
-              <h3 className="text-xl font-serif font-semibold theme-text mb-4 flex items-center gap-2">
-                <Award className="h-5 w-5 theme-text-secondary" />
+            <div
+              className="p-6 rounded-2xl border mt-6"
+              style={{
+                backgroundColor: 'var(--color-surface-primary)',
+                borderColor: 'var(--color-border-primary)',
+                boxShadow: 'var(--shadow-base)'
+              }}
+            >
+              <h3
+                className="text-xl font-serif font-semibold mb-4 flex items-center gap-2"
+                style={{ color: 'var(--color-text-primary)' }}
+              >
+                <Award
+                  className="h-5 w-5"
+                  style={{ color: 'var(--color-text-secondary)' }}
+                />
                 Recent Achievements
               </h3>
               <div className="space-y-3">
-                <div className="flex items-center gap-3 p-3 theme-entry rounded-lg theme-border border">
-                  <div className="w-8 h-8 theme-button-primary rounded-full flex items-center justify-center">
+                <div
+                  className="flex items-center gap-3 p-3 rounded-lg border"
+                  style={{
+                    backgroundColor: 'var(--color-surface-secondary)',
+                    borderColor: 'var(--color-border-primary)'
+                  }}
+                >
+                  <div
+                    className="w-8 h-8 rounded-full flex items-center justify-center"
+                    style={{ backgroundColor: 'var(--color-primary)' }}
+                  >
                     <span className="text-sm font-bold text-white">🔥</span>
                   </div>
                   <div>
-                    <p className="theme-text font-medium text-sm">
+                    <p
+                      className="font-medium text-sm"
+                      style={{ color: 'var(--color-text-primary)' }}
+                    >
                       Week Warrior
                     </p>
-                    <p className="theme-text-muted text-xs">
+                    <p
+                      className="text-xs"
+                      style={{ color: 'var(--color-text-tertiary)' }}
+                    >
                       7-day writing streak
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-3 theme-entry rounded-lg theme-border border">
-                  <div className="w-8 h-8 theme-button-secondary rounded-full flex items-center justify-center">
+                <div
+                  className="flex items-center gap-3 p-3 rounded-lg border"
+                  style={{
+                    backgroundColor: 'var(--color-surface-secondary)',
+                    borderColor: 'var(--color-border-primary)'
+                  }}
+                >
+                  <div
+                    className="w-8 h-8 rounded-full flex items-center justify-center"
+                    style={{ backgroundColor: 'var(--color-surface-tertiary)' }}
+                  >
                     <span className="text-sm font-bold">📝</span>
                   </div>
                   <div>
-                    <p className="theme-text font-medium text-sm">
+                    <p
+                      className="font-medium text-sm"
+                      style={{ color: 'var(--color-text-primary)' }}
+                    >
                       Prolific Writer
                     </p>
-                    <p className="theme-text-muted text-xs">
+                    <p
+                      className="text-xs"
+                      style={{ color: 'var(--color-text-tertiary)' }}
+                    >
                       50+ entries written
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-3 theme-entry rounded-lg theme-border border">
-                  <div className="w-8 h-8 theme-button-secondary rounded-full flex items-center justify-center">
+                <div
+                  className="flex items-center gap-3 p-3 rounded-lg border"
+                  style={{
+                    backgroundColor: 'var(--color-surface-secondary)',
+                    borderColor: 'var(--color-border-primary)'
+                  }}
+                >
+                  <div
+                    className="w-8 h-8 rounded-full flex items-center justify-center"
+                    style={{ backgroundColor: 'var(--color-surface-tertiary)' }}
+                  >
                     <span className="text-sm font-bold">⭐</span>
                   </div>
                   <div>
-                    <p className="theme-text font-medium text-sm">Early Bird</p>
-                    <p className="theme-text-muted text-xs">
+                    <p
+                      className="font-medium text-sm"
+                      style={{ color: 'var(--color-text-primary)' }}
+                    >
+                      Early Bird
+                    </p>
+                    <p
+                      className="text-xs"
+                      style={{ color: 'var(--color-text-tertiary)' }}
+                    >
                       Morning writing habit
                     </p>
                   </div>

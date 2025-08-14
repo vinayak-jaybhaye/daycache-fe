@@ -96,15 +96,29 @@ const Entry: React.FC<EntryProps> = ({ entry, onDelete }) => {
   };
 
   return (
-    <div className="theme-entry theme-shadow rounded-xl p-6 mb-4 transition-all hover:theme-shadow-hover theme-border border">
+    <div
+      className="rounded-xl p-6 mb-4 transition-all duration-200"
+      style={{
+        backgroundColor: 'var(--color-bg-primary)',
+        boxShadow: 'var(--shadow-base)',
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.boxShadow = 'var(--shadow-md)';
+        e.currentTarget.style.transform = 'translateY(-1px)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.boxShadow = 'var(--shadow-base)';
+        e.currentTarget.style.transform = 'translateY(0)';
+      }}
+    >
       {/* Custom Confirm Dialog */}
       {visibleDialog && (
         <DeleteDialog handleDelete={handleDelete} itemType="Entry" toggleDialog={toggleDialog} />
       )}
 
-      {
-        visibleUploadWindow && (<UploadMediaWindow entry={entry} setVisibleUploadWindow={setVisibleUploadWinodow} />)
-      }
+      {visibleUploadWindow && (
+        <UploadMediaWindow entry={entry} setVisibleUploadWindow={setVisibleUploadWinodow} />
+      )}
 
       {/* Entry Content */}
       {isEditing ? (
@@ -112,14 +126,30 @@ const Entry: React.FC<EntryProps> = ({ entry, onDelete }) => {
           value={editedContent}
           onChange={(e) => setEditedContent(e.target.value)}
           rows={3}
-          className="w-full theme-input theme-border border rounded-md p-3 outline-none resize-none transition-all duration-200 font-serif text-lg"
+          className="w-full border rounded-md p-3 outline-none resize-none transition-all duration-200 font-serif text-lg"
           placeholder="Write something..."
-          style={{ lineHeight: "1.6" }}
+          style={{
+            lineHeight: "1.6",
+            backgroundColor: 'var(--color-surface-primary)',
+            borderColor: 'var(--color-border-secondary)',
+            color: 'var(--color-text-primary)'
+          }}
+          onFocus={(e) => {
+            e.currentTarget.style.borderColor = 'var(--color-border-focus)';
+            e.currentTarget.style.boxShadow = `0 0 0 2px var(--color-primary-200)`;
+          }}
+          onBlur={(e) => {
+            e.currentTarget.style.borderColor = 'var(--color-border-secondary)';
+            e.currentTarget.style.boxShadow = 'none';
+          }}
         />
       ) : (
         <p
-          className="theme-text mb-3 font-serif text-sm md:text-md leading-relaxed"
-          style={{ whiteSpace: "pre-wrap" }}
+          className="mb-3 font-serif text-sm md:text-md leading-relaxed"
+          style={{
+            whiteSpace: "pre-wrap",
+            color: 'var(--color-text-primary)'
+          }}
         >
           {content || "Write something..."}
         </p>
@@ -130,8 +160,14 @@ const Entry: React.FC<EntryProps> = ({ entry, onDelete }) => {
         entry.media!.map((item: any) => <Media key={item.id} media={item} />)}
 
       {/* Actions */}
-      <div className="flex items-center justify-between mt-3 pt-2 theme-border border-t">
-        <p className="text-xs theme-text-muted font-medium">
+      <div
+        className="flex items-center justify-between mt-3 pt-2 border-t"
+        style={{ borderColor: 'var(--color-border-primary)' }}
+      >
+        <p
+          className="text-xs font-medium"
+          style={{ color: 'var(--color-text-tertiary)' }}
+        >
           {new Date(entry.created_at).toLocaleString("en-US", {
             weekday: "short",
             year: "numeric",
@@ -152,7 +188,18 @@ const Entry: React.FC<EntryProps> = ({ entry, onDelete }) => {
                   setIsEditing(false);
                   setEditedContent("")
                 }}
-                className="px-3 py-1.5 bg-red-800 rounded-lg hover:opacity-90 disabled:opacity-50 transition-colors flex items-center gap-1 font-medium cursor-pointer"
+                className="px-3 py-1.5 rounded-lg disabled:opacity-50 transition-all duration-200 flex items-center gap-1 font-medium cursor-pointer"
+                style={{
+                  color: 'var(--color-text-secondary)',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'scale(1.05)';
+                  e.currentTarget.style.color = 'var(--color-primary)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'scale(1)';
+                  e.currentTarget.style.color = 'var(--color-secondary)'
+                }}
                 title="Cancel"
               >
                 <X size={16} />
@@ -160,24 +207,57 @@ const Entry: React.FC<EntryProps> = ({ entry, onDelete }) => {
               <button
                 disabled={saving}
                 onClick={handleSave}
-                className="px-3 py-1.5 bg-green-800 rounded-lg hover:opacity-90 disabled:opacity-50 transition-colors flex items-center gap-1 font-medium cursor-pointer"
+                className="px-3 py-1.5 rounded-lg disabled:opacity-50 transition-all duration-200 flex items-center gap-1 font-medium cursor-pointer"
+                style={{
+                  color: 'var(--color-text-secondary)',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'scale(1.05)';
+                  e.currentTarget.style.color = 'var(--color-primary)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'scale(1)';
+                  e.currentTarget.style.color = 'var(--color-secondary)'
+                }}
                 title="Save"
               >
-                {" "}
                 <Check size={16} />
-              </button></div>
+              </button>
+            </div>
           ) : (
             <div className="flex gap-2">
               <button
                 onClick={toggleUploadWindow}
-                className="px-3 py-1.5 theme-button-secondary rounded-lg hover:opacity-90 transition-colors flex items-center gap-1 font-medium cursor-pointer"
+                className="px-3 py-1.5 rounded-lg transition-all duration-200 flex items-center gap-1 font-medium cursor-pointer"
+                style={{
+                  color: 'var(--color-text-secondary)',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'scale(1.05)';
+                  e.currentTarget.style.color = 'var(--color-primary)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'scale(1)';
+                  e.currentTarget.style.color = 'var(--color-secondary)'
+                }}
                 title="Attach Media"
               >
                 <Paperclip size={16} />
               </button>
               <button
                 onClick={handleEdit}
-                className="px-3 py-1.5 theme-button-secondary rounded-lg hover:opacity-90 transition-colors flex items-center gap-1 font-medium cursor-pointer"
+                className="px-3 py-1.5 rounded-lg transition-all duration-200 flex items-center gap-1 font-medium cursor-pointer"
+                style={{
+                  color: 'var(--color-text-secondary)',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'scale(1.05)';
+                  e.currentTarget.style.color = 'var(--color-primary)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'scale(1)';
+                  e.currentTarget.style.color = 'var(--color-secondary)'
+                }}
                 title="Edit"
               >
                 <Edit size={16} />
@@ -187,7 +267,18 @@ const Entry: React.FC<EntryProps> = ({ entry, onDelete }) => {
 
           <button
             onClick={toggleDialog}
-            className="px-3 py-1.5 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors flex items-center gap-1 font-medium cursor-pointer"
+            className="px-3 py-1.5 rounded-lg transition-all duration-200 flex items-center gap-1 font-medium cursor-pointer"
+            style={{
+              color: 'var(--color-text-secondary)',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'scale(1.05)';
+              e.currentTarget.style.color = 'var(--color-primary)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'scale(1)';
+              e.currentTarget.style.color = 'var(--color-secondary)'
+            }}
             title="Delete"
           >
             <Trash2 size={16} />

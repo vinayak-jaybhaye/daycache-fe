@@ -58,19 +58,44 @@ const Login = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-[90vh] theme-bg">
-      <div className="theme-card p-8 theme-shadow-hover w-full max-w-md theme-border border">
+    <div
+      className="flex justify-center items-center h-[90vh]"
+      style={{ backgroundColor: 'var(--color-bg-primary)' }}
+    >
+      <div
+        className="p-8 w-full max-w-md border rounded-xl"
+        style={{
+          backgroundColor: 'var(--color-surface-primary)',
+          borderColor: 'var(--color-border-primary)',
+          boxShadow: 'var(--shadow-lg)'
+        }}
+      >
         {/* Logo and Header */}
         <div className="flex flex-col items-center mb-8">
-          <div className="theme-button-primary p-4 rounded-2xl mb-4 theme-shadow">
-            <h1 className="text-3xl font-bold flex items-center gap-2 font-serif">
+          <div
+            className="p-4 rounded-2xl mb-4"
+            style={{
+              backgroundColor: 'var(--color-primary)',
+              boxShadow: 'var(--shadow-base)'
+            }}
+          >
+            <h1
+              className="text-3xl font-bold flex items-center gap-2 font-serif"
+              style={{ color: 'var(--color-text-inverse)' }}
+            >
               DayCache
             </h1>
           </div>
-          <h2 className="text-2xl font-serif font-semibold theme-text">
+          <h2
+            className="text-2xl font-serif font-semibold"
+            style={{ color: 'var(--color-text-primary)' }}
+          >
             Welcome Back
           </h2>
-          <p className="theme-text-muted text-sm mt-2">
+          <p
+            className="text-sm mt-2"
+            style={{ color: 'var(--color-text-secondary)' }}
+          >
             Continue your digital journal
           </p>
         </div>
@@ -78,10 +103,12 @@ const Login = () => {
         {/* Message */}
         {message && (
           <div
-            className={`mb-6 text-sm text-center p-3 rounded-lg font-medium ${messageType === "error"
-              ? "bg-red-100 text-red-700 border border-red-200"
-              : "theme-button-primary"
-              }`}
+            className="mb-6 text-sm text-center p-3 rounded-lg font-medium border"
+            style={{
+              backgroundColor: messageType === "error" ? 'var(--color-error-50)' : 'var(--color-success)',
+              color: messageType === "error" ? 'var(--color-error-700)' : 'var(--color-text-inverse)',
+              borderColor: messageType === "error" ? 'var(--color-error-200)' : 'var(--color-success)'
+            }}
           >
             {message}
           </div>
@@ -96,9 +123,23 @@ const Login = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
-              className="w-full pl-12 pr-4 py-3 rounded-xl theme-input theme-border border outline-none transition-all"
+              className="w-full pl-12 pr-4 py-3 rounded-xl border outline-none transition-all"
+              style={{
+                backgroundColor: 'var(--color-surface-secondary)',
+                borderColor: 'var(--color-border-primary)',
+                color: 'var(--color-text-primary)'
+              }}
+              onFocus={(e) => {
+                e.currentTarget.style.borderColor = 'var(--color-border-focus)';
+              }}
+              onBlur={(e) => {
+                e.currentTarget.style.borderColor = 'var(--color-border-primary)';
+              }}
             />
-            <span className="absolute left-4 top-1/2 -translate-y-1/2 theme-text-secondary">
+            <span
+              className="absolute left-4 top-1/2 -translate-y-1/2"
+              style={{ color: 'var(--color-text-secondary)' }}
+            >
               <Mail className="h-5 w-5" />
             </span>
           </div>
@@ -110,16 +151,41 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
-              className="w-full pl-12 pr-4 py-3 rounded-xl theme-input theme-border border outline-none transition-all"
+              className="w-full pl-12 pr-4 py-3 rounded-xl border outline-none transition-all"
+              style={{
+                backgroundColor: 'var(--color-surface-secondary)',
+                borderColor: 'var(--color-border-primary)',
+                color: 'var(--color-text-primary)'
+              }}
+              onFocus={(e) => {
+                e.currentTarget.style.borderColor = 'var(--color-border-focus)';
+              }}
+              onBlur={(e) => {
+                e.currentTarget.style.borderColor = 'var(--color-border-primary)';
+              }}
             />
-            <span className="absolute left-4 top-1/2 -translate-y-1/2 theme-text-secondary">
+            <span
+              className="absolute left-4 top-1/2 -translate-y-1/2"
+              style={{ color: 'var(--color-text-secondary)' }}
+            >
               <Lock className="h-5 w-5" />
             </span>
           </div>
 
           <button
             type="submit"
-            className="w-full py-4 rounded-xl font-semibold theme-button-primary transform transition-all hover:scale-105 theme-shadow flex items-center justify-center gap-2"
+            className="w-full py-4 rounded-xl font-semibold transform transition-all hover:scale-105 flex items-center justify-center gap-2"
+            style={{
+              backgroundColor: 'var(--color-primary)',
+              color: 'var(--color-text-inverse)',
+              boxShadow: 'var(--shadow-base)'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'var(--color-primary-700)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'var(--color-primary)';
+            }}
           >
             <LogIn className="h-5 w-5" />
             Log In
@@ -127,11 +193,15 @@ const Login = () => {
         </form>
 
         <div className="text-center mt-8">
-          <p className="theme-text-muted text-sm">
+          <p
+            className="text-sm"
+            style={{ color: 'var(--color-text-secondary)' }}
+          >
             New here?{" "}
             <span
               onClick={() => navigate("/signup")}
-              className="theme-text-secondary cursor-pointer font-medium hover:opacity-80 transition-colors"
+              className="cursor-pointer font-medium hover:opacity-80 transition-colors"
+              style={{ color: 'var(--color-text-primary)' }}
             >
               Create account
             </span>

@@ -10,11 +10,25 @@ const DiaryView = ({ entries }: DiaryViewProps) => {
       {entries.map((entry) => (
         <div
           key={entry.id}
-          className="mb-8 p-6 bg-white/95 rounded-sm border-amber-700 hover:shadow-lg transition-shadow duration-200"
+          className="mb-8 p-6 rounded-sm border transition-shadow duration-200"
+          style={{
+            backgroundColor: 'var(--color-surface-primary)',
+            borderColor: 'var(--color-border-primary)',
+            boxShadow: 'var(--shadow-base)'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.boxShadow = 'var(--shadow-lg)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.boxShadow = 'var(--shadow-base)';
+          }}
         >
           {/* Date stamp */}
           <div className="mb-4 flex items-center">
-            <span className="text-sm text-amber-700 font-semibold mr-2">
+            <span
+              className="text-sm font-semibold mr-2"
+              style={{ color: 'var(--color-primary)' }}
+            >
               {new Date(entry.created_at).toLocaleDateString("en-US", {
                 weekday: "long",
                 year: "numeric",
@@ -22,11 +36,17 @@ const DiaryView = ({ entries }: DiaryViewProps) => {
                 day: "numeric",
               })}
             </span>
-            <div className="h-px bg-amber-200 flex-1"></div>
+            <div
+              className="h-px flex-1"
+              style={{ backgroundColor: 'var(--color-border-secondary)' }}
+            ></div>
           </div>
 
           {/* Diary content */}
-          <p className="text-lg text-gray-800 mb-4 whitespace-pre-line leading-relaxed tracking-wide">
+          <p
+            className="text-lg mb-4 whitespace-pre-line leading-relaxed tracking-wide"
+            style={{ color: 'var(--color-text-primary)' }}
+          >
             {entry.content}
           </p>
 
@@ -35,7 +55,13 @@ const DiaryView = ({ entries }: DiaryViewProps) => {
             entry.media.map((media) => (
               <div key={media.id} className="flex items-center justify-center">
                 {media.type === "image" && (
-                  <div className="shadow-inner p-1 bg-amber-50">
+                  <div
+                    className="shadow-inner p-1 rounded-sm"
+                    style={{
+                      backgroundColor: 'var(--color-surface-secondary)',
+                      boxShadow: 'var(--shadow-inner)'
+                    }}
+                  >
                     <img
                       src={media.url}
                       alt="Diary entry"

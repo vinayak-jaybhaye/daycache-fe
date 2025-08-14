@@ -6,12 +6,25 @@ import RightSidebar from "./RightSidebar";
 
 const Layout: React.FC = () => {
   const [showRightSidebar, setShowRightSidebar] = useState(false);
+
   return (
-    <div className="flex h-screen w-screen justify-between theme-bg">
+    <div
+      className="flex h-screen w-screen justify-between"
+      style={{ backgroundColor: 'var(--color-bg-primary)' }}
+    >
       {/* Main content area */}
-      <div className="h-full w-full theme-bg overflow-y-auto scrollbar-hide theme-shadow">
+      <div
+        className="h-full w-full overflow-y-auto scrollbar-hide"
+        style={{
+          backgroundColor: 'var(--color-bg-primary)',
+          boxShadow: 'var(--shadow-base)'
+        }}
+      >
         <Navbar setShowRightSidebar={setShowRightSidebar} />
-        <div className="p-1 w-full theme-bg min-h-[calc(100vh-4rem)]">
+        <div
+          className="p-1 w-full min-h-[calc(100vh-4rem)]"
+          style={{ backgroundColor: 'var(--color-bg-primary)' }}
+        >
           <Outlet />
         </div>
       </div>

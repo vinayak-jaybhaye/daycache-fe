@@ -3,7 +3,7 @@ import DiaryView from "./DiaryView";
 import { useEffect, useState } from "react";
 import Entry from "./Entry";
 import AddEntry from "./AddEntry";
-import { CalendarDays, Loader2, NotebookIcon, RefreshCw, CircleChevronLeft } from "lucide-react";
+import { Loader2, NotebookIcon, RefreshCw, CircleChevronLeft } from "lucide-react";
 
 interface DayProps {
   date: string;
@@ -14,7 +14,7 @@ interface DayProps {
 const Day = ({ date, userId, setCurrentView = null }: DayProps) => {
   const [day, setDay] = useState<any | null>(null);
   const [entries, setEntries] = useState<any>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [summarizing, setSummarizing] = useState<boolean>(false);
   const [showDiaryView, setShowDiaryView] = useState<boolean>(false);
 
@@ -81,37 +81,104 @@ const Day = ({ date, userId, setCurrentView = null }: DayProps) => {
 
   if (loading) {
     return (
-      <div className="mb-6 mx-auto w-[100vw]">
+      <div
+        className="overflow-auto scrollbar-hide mx-auto transition-all duration-300 ease-in-out"
+        style={{ backgroundColor: 'var(--color-bg-primary)' }}
+      >
         {/* Header Skeleton */}
-        <div className="animate-pulse theme-border border-b pb-4">
-          <div className="h-8 w-52 theme-card mb-2 rounded"></div>
-          <div className="h-6 w-36 theme-card rounded"></div>
+        <div
+          className="mb-6 border-b px-2 md:px-4 py-2 flex items-center justify-between animate-pulse"
+          style={{ borderColor: 'var(--color-border-primary)' }}
+        >
+          <div className="flex gap-4">
+            <div className="h-7 w-7 rounded-full"
+              style={{ backgroundColor: 'var(--color-surface-secondary)' }}
+            />
+            <div>
+              <div className="h-7 w-56 mb-2 rounded"
+                style={{ backgroundColor: 'var(--color-surface-secondary)' }}
+              />
+              <div className="h-5 w-32 rounded"
+                style={{ backgroundColor: 'var(--color-surface-secondary)' }}
+              />
+            </div>
+          </div>
+          <div className="h-10 w-10 rounded-lg"
+            style={{ backgroundColor: 'var(--color-surface-secondary)' }}
+          />
         </div>
 
-        {/* Body Skeleton */}
-        <div className="p-6 theme-card mt-6 rounded-xl theme-shadow">
-          <div className="h-10 w-32 theme-card mb-4 rounded-full"></div>
+        {/* Main Content Skeleton */}
+        <div
+          className="rounded-xl overflow-auto flex flex-col gap-6 p-4 md:p-6 animate-pulse"
+          style={{
+            backgroundColor: 'var(--color-surface-primary)',
+            boxShadow: 'var(--shadow-base)'
+          }}
+        >
+          {/* AddEntry skeleton */}
+          <div className="rounded-lg border p-4"
+            style={{ borderColor: 'var(--color-border-primary)' }}
+          >
+            <div className="h-6 w-36 mb-4 rounded"
+              style={{ backgroundColor: 'var(--color-surface-secondary)' }}
+            />
+            <div className="h-12 w-full mb-3 rounded"
+              style={{ backgroundColor: 'var(--color-surface-secondary)' }}
+            />
+            <div className="h-9 w-40 rounded"
+              style={{ backgroundColor: 'var(--color-surface-secondary)' }}
+            />
+          </div>
 
-          {[1, 2, 3].map((i) => (
-            <div
-              key={i}
-              className="mb-4 p-4 theme-entry rounded-lg theme-shadow animate-pulse"
+          {/* Highlights skeleton list */}
+          <div className="rounded-lg border p-4"
+            style={{ borderColor: 'var(--color-border-primary)' }}
+          >
+            <div className="h-6 w-44 mb-6 rounded"
+              style={{ backgroundColor: 'var(--color-surface-secondary)' }}
+            />
+            {[1, 2, 3].map((i) => (
+              <div
+                key={i}
+                className="mb-4 p-4 rounded-lg"
+                style={{
+                  backgroundColor: 'var(--color-surface-secondary)',
+                  boxShadow: 'var(--shadow-sm)'
+                }}
+              >
+                <div className="h-5 w-3/4 mb-2 rounded"
+                  style={{ backgroundColor: 'var(--color-surface-tertiary)' }}
+                />
+                <div className="h-4 w-11/12 mb-1 rounded"
+                  style={{ backgroundColor: 'var(--color-surface-tertiary)' }}
+                />
+                <div className="h-3 w-1/3 rounded"
+                  style={{ backgroundColor: 'var(--color-surface-tertiary)' }}
+                />
+              </div>
+            ))}
+
+            {/* Summary skeleton */}
+            <div className="mt-8 border-t pt-4"
+              style={{ borderColor: 'var(--color-border-primary)' }}
             >
-              <div className="h-5 w-3/4 theme-card mb-2 rounded"></div>
-              <div className="h-4 w-11/12 theme-card mb-1 rounded"></div>
-              <div className="h-3 w-1/3 theme-card rounded"></div>
+              <div className="h-5 w-32 mb-3 rounded"
+                style={{ backgroundColor: 'var(--color-surface-secondary)' }}
+              />
+              <div className="h-20 w-full mb-4 rounded"
+                style={{ backgroundColor: 'var(--color-surface-secondary)' }}
+              />
+              <div className="h-9 w-44 rounded"
+                style={{ backgroundColor: 'var(--color-surface-secondary)' }}
+              />
             </div>
-          ))}
-
-          <div className="mt-6 p-4 theme-entry rounded-lg theme-shadow">
-            <div className="h-6 w-32 theme-card mb-4 rounded"></div>
-            <div className="h-14 w-full theme-card mb-3 rounded"></div>
-            <div className="h-9 w-40 theme-card rounded-md"></div>
           </div>
         </div>
       </div>
     );
   }
+
 
   const formattedDate = new Date(date).toLocaleDateString("en-US", {
     weekday: "long",
@@ -121,40 +188,78 @@ const Day = ({ date, userId, setCurrentView = null }: DayProps) => {
   });
 
   return (
-    <div className="theme-bg overflow-auto scrollbar-hide mx-auto transition-all duration-300 ease-in-out">
+    <div
+      className="overflow-auto scrollbar-hide mx-auto transition-all duration-300 ease-in-out"
+      style={{ backgroundColor: 'var(--color-bg-primary)' }}
+    >
       {/* Header */}
-      <div className="mb-6 theme-border border-b px-2 py-2 flex items-center justify-between">
+      <div
+        className="mb-6 border-b px-2 md:px-4 py-2 flex items-center justify-between"
+        style={{ borderColor: 'var(--color-border-primary)' }}
+      >
         <div className="flex gap-4">
           {setCurrentView != null && (
-            <button onClick={setCurrentView}>
+            <button
+              onClick={setCurrentView}
+              className="transition-all duration-200 hover:scale-105"
+              style={{ color: 'var(--color-text-secondary)' }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = 'var(--color-primary)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = 'var(--color-text-secondary)';
+              }}
+            >
               <CircleChevronLeft size={26} />
             </button>
           )}
           <div>
-            <h1 className="md:text-3xl mb-2 flex items-center gap-2 theme-text font-serif">
-              <CalendarDays className="h-6 w-6 theme-text-secondary" />
+            <h1
+              className="md:text-3xl mb-2 flex items-center gap-2 font-serif"
+              style={{ color: 'var(--color-text-primary)' }}
+            >
               {formattedDate}
             </h1>
-            <span className="font-medium theme-text-muted">
+            <span
+              className="font-medium"
+              style={{ color: 'var(--color-text-tertiary)' }}
+            >
               {entries.length} {entries.length === 1 ? "Entry" : "Entries"}
             </span>
           </div>
         </div>
         <button
           onClick={() => setShowDiaryView((prev) => !prev)}
-          className="flex items-center gap-2 px-4 py-2 rounded-lg theme-button-secondary hover:opacity-90 transition-all duration-200 theme-shadow font-medium"
+          className="flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 font-medium"
+          style={{
+            backgroundColor: 'var(--color-surface-secondary)',
+            color: 'var(--color-text-primary)',
+            boxShadow: 'var(--shadow-base)',
+            border: '1px solid var(--color-border-primary)'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = 'var(--color-surface-tertiary)';
+            e.currentTarget.style.boxShadow = 'var(--shadow-md)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = 'var(--color-surface-secondary)';
+            e.currentTarget.style.boxShadow = 'var(--shadow-base)';
+          }}
         >
-          {showDiaryView ? (
-            <NotebookIcon className="h-5 w-5 theme-text-secondary" />
-          ) : (
-            <NotebookIcon className="h-5 w-5 theme-text-secondary" />
-          )}
+          <NotebookIcon
+            className="h-5 w-5"
+            style={{ color: 'var(--color-text-secondary)' }}
+          />
         </button>
       </div>
 
+      {/* Main Content View */}
       <div
-        className={`theme-card rounded-xl theme-shadow overflow-auto flex flex-col gap-6 transition-all duration-300 ${showDiaryView && "hidden"
-          }`}
+        className={`rounded-xl overflow-auto flex flex-col gap-6 transition-all duration-300 ${showDiaryView && "hidden"}`}
+        style={{
+          backgroundColor: 'var(--color-surface-primary)',
+          boxShadow: 'var(--shadow-base)'
+        }}
       >
         <AddEntry
           date={date}
@@ -163,8 +268,21 @@ const Day = ({ date, userId, setCurrentView = null }: DayProps) => {
           }
         />
 
-        <div className="theme-card rounded-lg theme-shadow p-2 theme-border border">
-          <h2 className="text-xl font-semibold mb-4 theme-text theme-border border-b p-2 font-serif">
+        <div
+          className="rounded-lg p-2 border"
+          style={{
+            backgroundColor: 'var(--color-surface-primary)',
+            boxShadow: 'var(--shadow-sm)',
+            borderColor: 'var(--color-border-primary)'
+          }}
+        >
+          <h2
+            className="text-xl font-semibold mb-4 border-b p-2 font-serif"
+            style={{
+              color: 'var(--color-text-primary)',
+              borderColor: 'var(--color-border-primary)'
+            }}
+          >
             Today's Highlights
           </h2>
 
@@ -174,24 +292,49 @@ const Day = ({ date, userId, setCurrentView = null }: DayProps) => {
                 <Entry key={entry.id} entry={entry} onDelete={onDelete} />
               ))
             ) : (
-              <div className="text-center py-8 theme-text-muted italic theme-card rounded-lg theme-border border border-dashed">
+              <div
+                className="text-center py-8 italic rounded-lg border border-dashed"
+                style={{
+                  color: 'var(--color-text-tertiary)',
+                  backgroundColor: 'var(--color-surface-secondary)',
+                  borderColor: 'var(--color-border-secondary)'
+                }}
+              >
                 No highlights found for this day
               </div>
             )}
           </div>
 
           {day && (
-            <div className="mt-8 theme-border border-t pt-4">
-              <h3 className="text-lg font-medium mb-3 theme-text font-serif">
+            <div
+              className="mt-8 border-t pt-4"
+              style={{ borderColor: 'var(--color-border-primary)' }}
+            >
+              <h3
+                className="text-lg font-medium mb-3 font-serif"
+                style={{ color: 'var(--color-text-primary)' }}
+              >
                 Day Summary
               </h3>
-              <div className="theme-entry p-4 rounded-lg theme-border border mb-4">
+              <div
+                className="p-4 rounded-lg border mb-4"
+                style={{
+                  backgroundColor: 'var(--color-surface-secondary)',
+                  borderColor: 'var(--color-border-primary)'
+                }}
+              >
                 {day.latest_summary ? (
-                  <p className="theme-text leading-relaxed">
+                  <p
+                    className="leading-relaxed"
+                    style={{ color: 'var(--color-text-primary)' }}
+                  >
                     {day.latest_summary}
                   </p>
                 ) : (
-                  <p className="theme-text-muted italic">
+                  <p
+                    className="italic"
+                    style={{ color: 'var(--color-text-tertiary)' }}
+                  >
                     No summary available yet. Generate one to reflect on your
                     day.
                   </p>
@@ -200,7 +343,24 @@ const Day = ({ date, userId, setCurrentView = null }: DayProps) => {
               <button
                 onClick={generateSummary}
                 disabled={summarizing}
-                className="theme-button-primary px-4 py-2 rounded-lg theme-shadow hover:opacity-90 transition-all duration-200 flex items-center gap-2 disabled:opacity-50 font-medium"
+                className="px-4 py-2 rounded-lg transition-all duration-200 flex items-center gap-2 disabled:opacity-50 font-medium"
+                style={{
+                  backgroundColor: 'var(--color-primary)',
+                  color: 'var(--color-primary-foreground)',
+                  boxShadow: 'var(--shadow-base)'
+                }}
+                onMouseEnter={(e) => {
+                  if (!summarizing) {
+                    e.currentTarget.style.boxShadow = 'var(--shadow-md)';
+                    e.currentTarget.style.transform = 'translateY(-1px)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!summarizing) {
+                    e.currentTarget.style.boxShadow = 'var(--shadow-base)';
+                    e.currentTarget.style.transform = 'translateY(0)';
+                  }
+                }}
               >
                 {summarizing ? (
                   <>
@@ -220,10 +380,14 @@ const Day = ({ date, userId, setCurrentView = null }: DayProps) => {
           )}
         </div>
       </div>
-      {/* diary view */}
+
+      {/* Diary View */}
       <div
-        className={`theme-card rounded-xl theme-shadow overflow-auto flex flex-col gap-6 transition-all duration-300 ${!showDiaryView && "hidden"
-          }`}
+        className={`rounded-xl overflow-auto flex flex-col gap-6 transition-all duration-300 ${!showDiaryView && "hidden"}`}
+        style={{
+          backgroundColor: 'var(--color-surface-primary)',
+          boxShadow: 'var(--shadow-base)'
+        }}
       >
         <DiaryView entries={entries} />
       </div>

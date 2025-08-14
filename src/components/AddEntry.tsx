@@ -132,8 +132,18 @@ function AddEntry({ onEntryAdded, date }: AddEntryProps) {
   };
 
   return (
-    <div className="relative px-5 py-6 theme-card rounded-lg theme-border border theme-shadow">
-      <h3 className="text-lg font-serif font-semibold mb-3 theme-text">
+    <div
+      className="relative px-5 py-6 rounded-lg border"
+      style={{
+        backgroundColor: 'var(--color-surface-primary)',
+        borderColor: 'var(--color-border-primary)',
+        boxShadow: 'var(--shadow-base)'
+      }}
+    >
+      <h3
+        className="text-lg font-serif font-semibold mb-3"
+        style={{ color: 'var(--color-text-primary)' }}
+      >
         Add New Entry
       </h3>
       <div className="flex gap-3 items-start">
@@ -142,15 +152,28 @@ function AddEntry({ onEntryAdded, date }: AddEntryProps) {
             value={entryText}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
-            onBlur={() => setSuggestion("")}
             placeholder="How was your day?"
             ref={inputRef}
             rows={1}
-            className="text-base py-3 px-4 rounded-lg theme-input theme-border border hover:opacity-90 focus:opacity-100 resize-none w-full overflow-y-auto leading-snug font-serif"
+            className="text-base py-3 px-4 rounded-lg border transition-all duration-200 resize-none w-full overflow-y-auto leading-snug font-serif"
             style={{
               minHeight: "48px",
               maxHeight: "200px",
               boxSizing: "border-box",
+              backgroundColor: 'var(--color-surface-secondary)',
+              borderColor: 'var(--color-border-secondary)',
+              color: 'var(--color-text-primary)'
+            }}
+            onFocus={(e) => {
+              e.currentTarget.style.borderColor = 'var(--color-border-focus)';
+              e.currentTarget.style.boxShadow = `0 0 0 2px var(--color-primary-200)`;
+              e.currentTarget.style.backgroundColor = 'var(--color-surface-primary)';
+            }}
+            onBlur={(e) => {
+              e.currentTarget.style.borderColor = 'var(--color-border-secondary)';
+              e.currentTarget.style.boxShadow = 'none';
+              e.currentTarget.style.backgroundColor = 'var(--color-surface-secondary)';
+              setSuggestion("");
             }}
             onInput={(e) => {
               const target = e.target as HTMLTextAreaElement;
@@ -171,7 +194,10 @@ function AddEntry({ onEntryAdded, date }: AddEntryProps) {
             >
               <span className="text-transparent">
                 {entryText}
-                <span className="theme-text-muted opacity-75">
+                <span
+                  className="opacity-75"
+                  style={{ color: 'var(--color-text-tertiary)' }}
+                >
                   {suggestion}
                 </span>
               </span>
@@ -182,15 +208,42 @@ function AddEntry({ onEntryAdded, date }: AddEntryProps) {
         <button
           onClick={handleAddEntry}
           disabled={loading || !entryText.trim()}
-          className={`min-w-[44px] h-[44px] px-3 rounded-lg transition-all font-medium flex items-center justify-center theme-shadow ${loading || !entryText.trim()
-            ? "opacity-50 cursor-not-allowed theme-button-secondary"
-            : "theme-button-primary hover:opacity-90"
-            }`}
+          className="min-w-[44px] h-[44px] px-3 rounded-lg transition-all duration-200 font-medium flex items-center justify-center"
+          style={{
+            backgroundColor: loading || !entryText.trim()
+              ? 'var(--color-surface-tertiary)'
+              : 'var(--color-primary)',
+            color: loading || !entryText.trim()
+              ? 'var(--color-text-secondary)'
+              : 'var(--color-primary-foreground)',
+            boxShadow: 'var(--shadow-base)',
+            opacity: loading || !entryText.trim() ? 0.5 : 1,
+            cursor: loading || !entryText.trim() ? 'not-allowed' : 'pointer',
+            border: '1px solid var(--color-border-primary)'
+          }}
+          onMouseEnter={(e) => {
+            if (!loading && entryText.trim()) {
+              e.currentTarget.style.transform = 'scale(1.05)';
+              e.currentTarget.style.boxShadow = 'var(--shadow-md)';
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (!loading && entryText.trim()) {
+              e.currentTarget.style.transform = 'scale(1)';
+              e.currentTarget.style.boxShadow = 'var(--shadow-base)';
+            }
+          }}
         >
           {loading ? (
-            <Loader2 className="h-5 w-5 animate-spin" />
+            <Loader2
+              className="h-5 w-5 animate-spin"
+              style={{ color: 'inherit' }}
+            />
           ) : (
-            <PlusCircle className="h-5 w-5" />
+            <PlusCircle
+              className="h-5 w-5"
+              style={{ color: 'inherit' }}
+            />
           )}
         </button>
       </div>

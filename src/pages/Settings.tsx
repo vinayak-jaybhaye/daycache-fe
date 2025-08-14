@@ -4,17 +4,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setUser, clearUser } from "../store/userSlice";
 import type { RootState } from "../store/store";
+
+import EntriesSettings from "../components/EntriesSettings";
+import AccountSettings from "../components/AccountSettings";
+import AppearanceSettings from "../components/AppearanceSettings";
 import {
-  LogOut,
-  Edit,
-  Calendar,
-  Clock,
   ArrowLeft,
   Palette,
   FileText,
   User,
 } from "lucide-react";
-import { ThemeToggle } from "../components/theme-toggle";
 
 import type { User as UserType } from '../types'
 
@@ -79,306 +78,153 @@ const Settings: React.FC = () => {
   };
 
   const tabs = [
-    { id: "account", label: "Account", icon: <User className="h-4 w-4" /> },
-    { id: "entries", label: "Entries", icon: <FileText className="h-4 w-4" /> },
-    {
-      id: "appearance",
-      label: "Appearance",
-      icon: <Palette className="h-4 w-4" />,
-    },
+    { id: "account", label: "Account", icon: <User className="h-4 w-4" />, color: "var(--color-primary)" },
+    { id: "entries", label: "Entries", icon: <FileText className="h-4 w-4" />, color: "var(--color-success)" },
+    { id: "appearance", label: "Appearance", icon: <Palette className="h-4 w-4" />, color: "var(--color-accent)" },
   ];
 
   return (
-    <div className="flex min-h-screen theme-bg">
-      {/* Sidebar */}
+    <div
+      className="flex min-h-screen"
+      style={{ backgroundColor: "var(--color-bg-primary)" }}
+    >
+      {/* Enhanced Sidebar */}
       <div
-        className={`w-full md:w-64 theme-sidebar theme-border md:border-r theme-shadow ${activeTab == "" ? "block" : "hidden"
-          } md:block`}
+        className={`w-full md:w-80 border-r backdrop-blur-sm transition-all duration-300 ${activeTab == "" ? "block" : "hidden"
+          } md:block relative overflow-hidden`}
+        style={{
+          backgroundColor: "var(--color-surface-primary)",
+          borderColor: "var(--color-border-primary)",
+          boxShadow: "var(--shadow-lg)",
+        }}
       >
-        <div className="p-6">
-          <div className="flex items-center mb-8 gap-3">
+        {/* Background gradient */}
+        <div
+          className="absolute top-0 left-0 w-full h-32 opacity-10"
+          style={{
+            background: `linear-gradient(135deg, var(--color-primary), var(--color-accent))`,
+          }}
+        />
+
+        <div className="p-6 relative z-10">
+          <div className="flex items-center mb-8 gap-4">
             <button
               onClick={() => navigate("/")}
-              className="p-2 rounded-lg theme-card hover:theme-sidebar-hover transition-colors theme-border border"
+              className="p-3 rounded-xl transition-all duration-200 group border"
+              style={{
+                backgroundColor: "var(--color-surface-secondary)",
+                borderColor: "var(--color-border-primary)",
+                color: "var(--color-text-secondary)",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = "var(--color-primary-100)";
+                e.currentTarget.style.borderColor = "var(--color-primary)";
+                e.currentTarget.style.color = "var(--color-primary)";
+                e.currentTarget.style.transform = "scale(1.05)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = "var(--color-surface-secondary)";
+                e.currentTarget.style.borderColor = "var(--color-border-primary)";
+                e.currentTarget.style.color = "var(--color-text-secondary)";
+                e.currentTarget.style.transform = "scale(1)";
+              }}
             >
-              <ArrowLeft className="h-5 w-5 theme-text" />
+              <ArrowLeft className="h-5 w-5 transition-transform group-hover:-translate-x-1" />
             </button>
-            <h2 className="text-xl font-serif font-semibold theme-text">
-              Settings
-            </h2>
+            <div>
+              <h2 className="text-2xl font-serif font-bold" style={{ color: "var(--color-text-primary)" }}>
+                Settings
+              </h2>
+              <p className="text-sm" style={{ color: "var(--color-text-secondary)" }}>
+                Customize your experience
+              </p>
+            </div>
           </div>
 
           <nav>
-            <ul className="space-y-2">
-              {tabs.map((tab) => (
-                <li key={tab.id}>
-                  <button
-                    onClick={() => setActiveTab(tab.id as any)}
-                    className={`w-full flex items-center gap-3 p-3 rounded-lg transition-all font-medium ${activeTab === tab.id
-                        ? "theme-button-primary theme-shadow"
-                        : "theme-text hover:theme-sidebar-hover"
-                      }`}
-                  >
-                    <span
-                      className={
-                        activeTab === tab.id
-                          ? "text-white"
-                          : "theme-text-secondary"
-                      }
+            <ul className="space-y-3">
+              {tabs.map((tab, _) => {
+                const isActive = activeTab === tab.id;
+                return (
+                  <li key={tab.id}>
+                    <button
+                      onClick={() => setActiveTab(tab.id as any)}
+                      className={`w-full flex items-center gap-4 p-4 rounded-xl transition-all duration-200 font-medium relative overflow-hidden group ${isActive ? "transform scale-105" : ""
+                        }`}
+                      style={{
+                        backgroundColor: isActive
+                          ? "var(--color-primary)"
+                          : "var(--color-surface-secondary)",
+                        color: isActive
+                          ? "var(--color-text-inverse)"
+                          : "var(--color-text-primary)",
+                        boxShadow: isActive
+                          ? "var(--shadow-lg)"
+                          : "var(--shadow-sm)",
+                        border: `2px solid ${isActive ? "var(--color-primary)" : "var(--color-border-primary)"}`,
+                      }}
+                      onMouseEnter={(e) => {
+                        if (!isActive) {
+                          e.currentTarget.style.backgroundColor = "var(--color-surface-tertiary)";
+                          e.currentTarget.style.transform = "translateX(8px)";
+                          e.currentTarget.style.borderColor = tab.color;
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (!isActive) {
+                          e.currentTarget.style.backgroundColor = "var(--color-surface-secondary)";
+                          e.currentTarget.style.transform = "translateX(0)";
+                          e.currentTarget.style.borderColor = "var(--color-border-primary)";
+                        }
+                      }}
                     >
-                      {tab.icon}
-                    </span>
-                    <span
-                      className={
-                        activeTab === tab.id ? "text-white" : "theme-text"
-                      }
-                    >
-                      {tab.label}
-                    </span>
-                  </button>
-                </li>
-              ))}
+                      {/* Active indicator */}
+                      {isActive && (
+                        <div
+                          className="absolute left-0 top-0 bottom-0 w-1 rounded-r-full"
+                          style={{ backgroundColor: "var(--color-text-inverse)" }}
+                        />
+                      )}
+
+                      <div
+                        className={`p-2 rounded-lg ${isActive ? "bg-white bg-opacity-20" : ""}`}
+                        style={{
+                          color: isActive ? "var(--color-text-inverse)" : tab.color,
+                        }}
+                      >
+                        {tab.icon}
+                      </div>
+                      <span className="flex-1 text-left">{tab.label}</span>
+
+                      {/* Hover effect */}
+                      <div
+                        className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                        style={{
+                          background: `linear-gradient(135deg, ${tab.color}20, transparent)`,
+                        }}
+                      />
+                    </button>
+                  </li>
+                );
+              })}
             </ul>
           </nav>
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className={`${activeTab == "" && "hidden"} flex-1 theme-bg`}>
-        <div className="p-4">
+      {/* Enhanced Main Content */}
+      <div className={`${activeTab == "" && "hidden"} flex-1 overflow-auto`}>
+        <div className="p-6 md:p-8 max-w-4xl">
           {activeTab === "account" && (
-            <div className="space-y-6">
-              <div className="flex items-center mb-8 gap-3">
-                <button
-                  onClick={() => setActiveTab("")}
-                  className="p-2 rounded-lg theme-card hover:theme-sidebar-hover transition-colors theme-border border"
-                >
-                  <ArrowLeft className="h-5 w-5 theme-text" />
-                </button>
-                <h2 className="text-xl font-serif font-semibold theme-text">
-                  Settings
-                </h2>
-              </div>
-              <div>
-                <h1 className="text-3xl font-serif font-bold theme-text mb-2">
-                  Account Settings
-                </h1>
-                <p className="theme-text-muted">
-                  Manage your account information and preferences
-                </p>
-              </div>
-
-              <div className="theme-card rounded-2xl theme-shadow overflow-hidden theme-border border">
-                <div className="p-8">
-                  <div className="flex flex-col md:flex-row gap-4 justify-between items-start mb-8">
-                    <div className="flex items-center gap-6">
-                      <div className="theme-border border-4 theme-shadow rounded-full">
-                        {userData?.profile_image ? (
-                          <img
-                            src={userData?.profile_image || "/placeholder.svg"}
-                            alt="User Avatar"
-                            className="w-20 h-20 rounded-full object-cover"
-                          />
-                        ) : (
-                          <div className="w-20 h-20 theme-button-secondary rounded-full flex items-center justify-center">
-                            <span className="text-2xl font-bold theme-text">
-                              {userData?.username?.charAt(0).toUpperCase()}
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                      <div>
-                        <h2 className="text-2xl font-serif font-bold theme-text">
-                          {userData?.username || userData?.email.split("@")[0]}
-                        </h2>
-                        <p className="theme-text-secondary mt-1">
-                          {userData?.email}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="flex gap-3">
-                      <button className="px-4 py-2 theme-button-secondary rounded-lg theme-shadow hover:opacity-90 transition-all flex items-center gap-2 font-medium">
-                        <Edit className="h-4 w-4" />
-                        Edit Profile
-                      </button>
-                      <button
-                        onClick={handleLogout}
-                        className="px-4 py-2 bg-red-600 text-white rounded-lg theme-shadow hover:bg-red-700 transition-all flex items-center gap-2 font-medium"
-                      >
-                        <LogOut className="h-4 w-4" />
-                        Logout
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div className="theme-entry p-4 rounded-xl theme-border border flex items-center gap-3">
-                      <Calendar className="h-6 w-6 theme-text-secondary" />
-                      <div>
-                        <p className="theme-text-muted text-sm">Member Since</p>
-                        <p className="text-lg font-bold theme-text">
-                          {userData?.created_at
-                            ? new Date(userData.created_at).toLocaleDateString(
-                              "en-US",
-                              {
-                                year: "numeric",
-                                month: "long",
-                              }
-                            )
-                            : "N/A"}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="theme-entry p-4 rounded-xl theme-border border flex items-center gap-3">
-                      <Clock className="h-6 w-6 theme-text-secondary" />
-                      <div>
-                        <p className="theme-text-muted text-sm">Last Active</p>
-                        <p className="text-lg font-bold theme-text">Today</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <AccountSettings setActiveTab={setActiveTab} userData={userData} handleLogout={handleLogout} />
           )}
 
           {activeTab === "entries" && (
-            <div className="space-y-6">
-              <div className="flex items-center mb-8 gap-3">
-                <button
-                  onClick={() => setActiveTab("")}
-                  className="p-2 rounded-lg theme-card hover:theme-sidebar-hover transition-colors theme-border border"
-                >
-                  <ArrowLeft className="h-5 w-5 theme-text" />
-                </button>
-                <h2 className="text-xl font-serif font-semibold theme-text">
-                  Settings
-                </h2>
-              </div>
-              <div>
-                <h1 className="text-3xl font-serif font-bold theme-text mb-2">
-                  Entry Settings
-                </h1>
-                <p className="theme-text-muted">
-                  Customize how your entries are saved, sorted, and displayed
-                </p>
-              </div>
-
-              <div className="theme-card rounded-2xl theme-shadow theme-border border p-6">
-                <h3 className="text-lg font-semibold theme-text mb-4">
-                  Entry Preferences
-                </h3>
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between p-4 theme-entry rounded-lg theme-border border">
-                    <div>
-                      <h4 className="font-medium theme-text">
-                        Auto-save entries
-                      </h4>
-                      <p className="text-sm theme-text-muted">
-                        Automatically save entries as you type
-                      </p>
-                    </div>
-                    <input type="checkbox" className="w-4 h-4" defaultChecked />
-                  </div>
-                  <div className="flex items-center justify-between p-4 theme-entry rounded-lg theme-border border">
-                    <div>
-                      <h4 className="font-medium theme-text">
-                        Show timestamps
-                      </h4>
-                      <p className="text-sm theme-text-muted">
-                        Display creation time for each entry
-                      </p>
-                    </div>
-                    <input type="checkbox" className="w-4 h-4" defaultChecked />
-                  </div>
-                  <div className="flex items-center justify-between p-4 theme-entry rounded-lg theme-border border">
-                    <div>
-                      <h4 className="font-medium theme-text">
-                        Enable suggestions
-                      </h4>
-                      <p className="text-sm theme-text-muted">
-                        Show AI-powered writing suggestions
-                      </p>
-                    </div>
-                    <input type="checkbox" className="w-4 h-4" defaultChecked />
-                  </div>
-                </div>
-              </div>
-            </div>
+            <EntriesSettings setActiveTab={setActiveTab} />
           )}
 
           {activeTab === "appearance" && (
-            <div className="space-y-6">
-              <div className="flex items-center mb-8 gap-3">
-                <button
-                  onClick={() => setActiveTab("")}
-                  className="p-2 rounded-lg theme-card hover:theme-sidebar-hover transition-colors theme-border border"
-                >
-                  <ArrowLeft className="h-5 w-5 theme-text" />
-                </button>
-                <h2 className="text-xl font-serif font-semibold theme-text">
-                  Settings
-                </h2>
-              </div>
-              <div>
-                <h1 className="text-3xl font-serif font-bold theme-text mb-2">
-                  Appearance Settings
-                </h1>
-                <p className="theme-text-muted">
-                  Customize the look and feel of your journal
-                </p>
-              </div>
-
-              <div className="theme-card rounded-2xl theme-shadow theme-border border p-6">
-                <h3 className="text-lg font-semibold theme-text mb-4">
-                  Theme Preferences
-                </h3>
-                <div className="space-y-6">
-                  <div className="flex items-center justify-between p-4 theme-entry rounded-lg theme-border border">
-                    <div>
-                      <h4 className="font-medium theme-text">Theme Mode</h4>
-                      <p className="text-sm theme-text-muted">
-                        Switch between light and dark themes
-                      </p>
-                    </div>
-                    <ThemeToggle />
-                  </div>
-
-                  <div className="p-4 theme-entry rounded-lg theme-border border">
-                    <h4 className="font-medium theme-text mb-3">Font Size</h4>
-                    <div className="flex gap-2">
-                      <button className="px-3 py-1 text-sm theme-button-secondary rounded">
-                        Small
-                      </button>
-                      <button className="px-3 py-1 text-sm theme-button-primary rounded">
-                        Medium
-                      </button>
-                      <button className="px-3 py-1 text-sm theme-button-secondary rounded">
-                        Large
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="p-4 theme-entry rounded-lg theme-border border">
-                    <h4 className="font-medium theme-text mb-3">
-                      Journal Style
-                    </h4>
-                    <div className="flex gap-2">
-                      <button className="px-3 py-1 text-sm theme-button-primary rounded">
-                        Classic
-                      </button>
-                      <button className="px-3 py-1 text-sm theme-button-secondary rounded">
-                        Modern
-                      </button>
-                      <button className="px-3 py-1 text-sm theme-button-secondary rounded">
-                        Vintage
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <AppearanceSettings setActiveTab={setActiveTab} />
           )}
         </div>
       </div>

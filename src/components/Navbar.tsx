@@ -4,8 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../store/store";
 import { setUser } from "../store/userSlice";
-import DraggableDialog from "./DraggableDialog";
-import DayCacheChat from "./DayCacheChat";
 import {
   MessageSquare,
   LogIn,
@@ -22,13 +20,11 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ setShowRightSidebar }) => {
   const [userData, setUserData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [visible, setVisible] = useState(false);
 
   const user = useSelector((state: RootState) => state.user.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const toggleDialog = () => setVisible((prev) => !prev);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -68,61 +64,140 @@ const Navbar: React.FC<NavbarProps> = ({ setShowRightSidebar }) => {
 
   if (loading)
     return (
-      <div className="h-16 theme-navbar theme-text animate-pulse flex items-center justify-center theme-shadow">
-        <div className="w-32 h-8 theme-card rounded"></div>
+      <div
+        className="h-16 animate-pulse flex items-center justify-center"
+        style={{
+          backgroundColor: 'var(--color-surface-primary)',
+          color: 'var(--color-text-primary)',
+          boxShadow: 'var(--shadow-sm)',
+        }}
+      >
+        <div
+          className="w-32 h-8 rounded"
+          style={{
+            backgroundColor: 'var(--color-surface-secondary)',
+          }}
+        />
       </div>
     );
 
   return (
-    <div className="sticky top-0 z-50 theme-navbar theme-text theme-border border-b theme-shadow">
+    <div
+      className="sticky top-0 z-50 border-b"
+      style={{
+        backgroundColor: 'var(--color-surface-primary)',
+        borderColor: 'var(--color-border-primary)',
+        boxShadow: 'var(--shadow-sm)',
+      }}
+    >
       <div className="flex items-center justify-between px-4 py-2">
         <h1
-          className="md:text-2xl font-extrabold cursor-pointer theme-text hover:opacity-80 transition duration-300 flex items-center gap-2 font-serif"
+          className="md:text-2xl font-extrabold cursor-pointer hover:opacity-80 transition duration-300 flex items-center gap-2 font-serif"
+          style={{
+            color: 'var(--color-text-primary)',
+            transition: 'opacity 0.3s ease',
+          }}
           onClick={() => {
             if (userData) navigate("/");
           }}
         >
           DayCache
+          {/* <div className="h-8 w-8">
+            <img src="/notebook.png" alt="" />
+          </div> */}
         </h1>
 
         <div className="flex items-center space-x-4">
-          <ThemeToggle />
+          {/* <ThemeToggle /> */}
 
           {userData ? (
             <div className="flex items-center space-x-4">
               <div>
                 <PlusCircle
-                  className="h-6 w-6 theme-text cursor-pointer hover:opacity-80 transition duration-300"
-                  onClick={() => navigate("/")}
+                  className="h-6 w-6 cursor-pointer hover:opacity-80 transition duration-300"
+                  style={{
+                    color: 'var(--color-text-primary)',
+                    transition: 'opacity 0.3s ease',
+                  }}
+                  onClick={() => navigate(`/day/${new Date().toISOString().split("T")[0]}`)}
                 />
               </div>
+
               <button
-                onClick={toggleDialog}
-                className="theme-button-primary px-4 py-2 rounded-lg hover:opacity-90 transition flex items-center gap-2 theme-shadow text-sm font-medium p-2 md:px-4 md:py-2"
+                onClick={() => navigate('/cache-chat')}
+                className="rounded-lg hover:opacity-90 transition flex items-center gap-2 text-sm font-medium p-2 md:px-4 md:py-2"
+                style={{
+                  backgroundColor: 'var(--color-primary)',
+                  color: 'var(--color-text-inverse)',
+                  boxShadow: 'var(--shadow-sm)',
+                  transition: 'opacity 0.3s ease',
+                  border: 'none',
+                  cursor: 'pointer',
+                }}
               >
                 <MessageSquare className="h-4 w-4" />
-                {<p className="hidden md:block">Cache Chat</p>}
+                <span className="hidden md:block">Cache Chat</span>
               </button>
 
               <button
-                className="flex items-center justify-center h-10 w-10 cursor-pointer theme-card theme-border border rounded-md hover:theme-sidebar-hover transition-colors theme-shadow"
+                className="flex items-center justify-center h-10 w-10 cursor-pointer border rounded-md transition-colors"
+                style={{
+                  backgroundColor: 'var(--color-surface-secondary)',
+                  borderColor: 'var(--color-border-primary)',
+                  boxShadow: 'var(--shadow-sm)',
+                  transition: 'background-color 0.3s ease',
+                }}
                 onClick={() => setShowRightSidebar((prev) => !prev)}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = 'var(--color-surface-tertiary)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'var(--color-surface-secondary)';
+                }}
               >
-                <MenuIcon className="h-5 w-5 theme-text" />
+                <MenuIcon
+                  className="h-5 w-5"
+                  style={{
+                    color: 'var(--color-text-primary)',
+                  }}
+                />
               </button>
             </div>
           ) : (
             <div className="flex space-x-4">
               <button
                 onClick={handleLogin}
-                className="theme-button-primary rounded-lg hover:opacity-90 transition flex items-center gap-2 theme-shadow text-sm font-medium p-2 md:px-4 md:py-2"
+                className="rounded-lg hover:opacity-90 transition flex items-center gap-2 text-sm font-medium p-2 md:px-4 md:py-2"
+                style={{
+                  backgroundColor: 'var(--color-primary)',
+                  color: 'var(--color-text-inverse)',
+                  boxShadow: 'var(--shadow-sm)',
+                  transition: 'opacity 0.3s ease',
+                  border: 'none',
+                  cursor: 'pointer',
+                }}
               >
                 <LogIn className="h-4 w-4" />
                 Login
               </button>
+
               <button
                 onClick={handleSignup}
-                className="theme-button-secondary rounded-lg hover:opacity-90 transition flex items-center gap-2 theme-shadow text-sm font-medium p-2 md:px-4 md:py-2"
+                className="rounded-lg hover:opacity-90 transition flex items-center gap-2 text-sm font-medium p-2 md:px-4 md:py-2 border"
+                style={{
+                  backgroundColor: 'var(--color-surface-secondary)',
+                  color: 'var(--color-text-primary)',
+                  borderColor: 'var(--color-border-primary)',
+                  boxShadow: 'var(--shadow-sm)',
+                  transition: 'background-color 0.3s ease',
+                  cursor: 'pointer',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = 'var(--color-surface-tertiary)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'var(--color-surface-secondary)';
+                }}
               >
                 <UserPlus className="h-4 w-4" />
                 Sign Up
@@ -131,14 +206,6 @@ const Navbar: React.FC<NavbarProps> = ({ setShowRightSidebar }) => {
           )}
         </div>
       </div>
-
-      <DraggableDialog
-        title="Cache Chat"
-        toggleDialog={toggleDialog}
-        visible={visible}
-        props={{}}
-        Component={DayCacheChat}
-      />
     </div>
   );
 };

@@ -50,18 +50,37 @@ function UploadMediaWindow({ entry, setVisibleUploadWindow }: UploadMediaWindowP
     };
 
     return (
-        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
-            <div className="w-[90%] max-w-md bg-white rounded-2xl shadow-2xl p-6 relative">
+        <div
+            className="fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50"
+            style={{ backgroundColor: 'var(--color-bg-overlay)' }}
+        >
+            <div
+                className="w-[90%] max-w-md rounded-2xl p-6 relative"
+                style={{
+                    backgroundColor: 'var(--color-surface-primary)',
+                    boxShadow: 'var(--shadow-2xl)'
+                }}
+            >
                 {/* Close Icon */}
                 <button
                     onClick={handleCancel}
-                    className="absolute top-3 right-3 text-gray-500 hover:text-red-500"
+                    className="absolute top-3 right-3 transition-colors"
+                    style={{ color: 'var(--color-text-tertiary)' }}
+                    onMouseEnter={(e) => {
+                        e.currentTarget.style.color = 'var(--color-error)';
+                    }}
+                    onMouseLeave={(e) => {
+                        e.currentTarget.style.color = 'var(--color-text-tertiary)';
+                    }}
                 >
                     <X className="w-5 h-5" />
                 </button>
 
                 {/* Title */}
-                <h2 className="text-xl font-semibold mb-4 text-gray-800">
+                <h2
+                    className="text-xl font-semibold mb-4"
+                    style={{ color: 'var(--color-text-primary)' }}
+                >
                     Upload Media
                 </h2>
 
@@ -81,7 +100,12 @@ function UploadMediaWindow({ entry, setVisibleUploadWindow }: UploadMediaWindowP
                             setMedia(file);
                         }
                     }}
-                    className="w-full mb-4 border rounded px-3 py-2 text-sm text-gray-700"
+                    className="w-full mb-4 border rounded px-3 py-2 text-sm"
+                    style={{
+                        backgroundColor: 'var(--color-surface-secondary)',
+                        borderColor: 'var(--color-border-primary)',
+                        color: 'var(--color-text-primary)'
+                    }}
                 />
 
 
@@ -89,13 +113,38 @@ function UploadMediaWindow({ entry, setVisibleUploadWindow }: UploadMediaWindowP
                 <div className="flex justify-end space-x-3">
                     <button
                         onClick={handleCancel}
-                        className="px-4 py-2 rounded text-sm bg-gray-100 text-gray-700 hover:bg-gray-200"
+                        className="px-4 py-2 rounded text-sm transition-colors"
+                        style={{
+                            backgroundColor: 'var(--color-surface-secondary)',
+                            color: 'var(--color-text-primary)',
+                            border: `1px solid var(--color-border-secondary)`
+                        }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.backgroundColor = 'var(--color-surface-tertiary)';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.backgroundColor = 'var(--color-surface-secondary)';
+                        }}
                     >
                         Cancel
                     </button>
                     <button
                         onClick={handleUpload}
-                        className="px-4 py-2 rounded text-sm bg-blue-600 text-white hover:bg-blue-700 disabled:bg-blue-300"
+                        className="px-4 py-2 rounded text-sm transition-colors disabled:opacity-50"
+                        style={{
+                            backgroundColor: !media ? 'var(--color-primary-300)' : 'var(--color-primary)',
+                            color: 'var(--color-text-inverse)'
+                        }}
+                        onMouseEnter={(e) => {
+                            if (media) {
+                                e.currentTarget.style.backgroundColor = 'var(--color-primary-700)';
+                            }
+                        }}
+                        onMouseLeave={(e) => {
+                            if (media) {
+                                e.currentTarget.style.backgroundColor = 'var(--color-primary)';
+                            }
+                        }}
                         disabled={!media}
                     >
                         Upload
