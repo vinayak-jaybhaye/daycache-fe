@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { setUser } from "../store/userSlice";
 import type { RootState } from "../store/store";
 import { Mail, Lock, LogIn } from "lucide-react";
+import { GoogleLogin } from "@react-oauth/google";
+import { useAuth } from "../hooks/useAuth";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -16,6 +18,7 @@ const Login = () => {
   const [messageType, setMessageType] = useState<"success" | "error" | "">("");
 
   const user = useSelector((state: RootState) => state.user);
+  const { login } = useAuth();
 
   useEffect(() => {
     if (user?.user) {
@@ -190,6 +193,12 @@ const Login = () => {
             <LogIn className="h-5 w-5" />
             Log In
           </button>
+          <GoogleLogin
+            onSuccess={(res) => {
+              if (res.credential) login(res.credential);
+            }}
+            onError={() => console.log("Login Failed")}
+          />
         </form>
 
         <div className="text-center mt-8">

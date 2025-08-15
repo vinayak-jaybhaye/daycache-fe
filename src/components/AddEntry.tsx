@@ -59,6 +59,7 @@ function AddEntry({ onEntryAdded, date }: AddEntryProps) {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ content: text }),
           signal: abortController.signal,
+          credentials: 'include'
         }
       );
 
@@ -111,8 +112,8 @@ function AddEntry({ onEntryAdded, date }: AddEntryProps) {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          credentials: "include",
           body: JSON.stringify({ content: entryText }),
+          credentials: "include",
         }
       );
 

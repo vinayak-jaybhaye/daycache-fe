@@ -29,7 +29,8 @@ const Day = ({ date, userId, setCurrentView = null }: DayProps) => {
         `${import.meta.env.VITE_API_URL}/users/${userId}/days/${date}`,
         {
           cache: "no-store",
-        }
+          credentials: 'include'
+        },
       );
 
       if (response.status === 404) {

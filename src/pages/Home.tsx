@@ -93,8 +93,7 @@ const Home: React.FC = () => {
     if (!userData?.id || isLoading || !hasMore) return;
     setIsLoading(true);
     try {
-      let url = `${import.meta.env.VITE_API_URL}/users/${userData.id
-        }/days?limit=5`;
+      let url = `${import.meta.env.VITE_API_URL}/users/${userData.id}/days?limit=5`;
       const lastDate = days[days.length - 1]?.date;
       if (lastDate) {
         url += `&last_date=${encodeURIComponent(lastDate)}`;

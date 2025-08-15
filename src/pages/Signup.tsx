@@ -67,6 +67,7 @@ const SignUp = () => {
             password: formData.get("password") as string,
             otp: otp,
           }),
+          credentials: 'include'
         }
       );
 
@@ -94,6 +95,7 @@ const SignUp = () => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email }),
+          credentials: 'include'
         }
       );
 

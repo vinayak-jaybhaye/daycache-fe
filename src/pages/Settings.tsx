@@ -90,7 +90,7 @@ const Settings: React.FC = () => {
     >
       {/* Enhanced Sidebar */}
       <div
-        className={`w-full md:w-80 border-r backdrop-blur-sm transition-all duration-300 ${activeTab == "" ? "block" : "hidden"
+        className={`w-full lg:w-102 md:w-auto border-r backdrop-blur-sm transition-all duration-300 ${activeTab == "" ? "block" : "hidden"
           } md:block relative overflow-hidden`}
         style={{
           backgroundColor: "var(--color-surface-primary)",
@@ -131,7 +131,7 @@ const Settings: React.FC = () => {
             >
               <ArrowLeft className="h-5 w-5 transition-transform group-hover:-translate-x-1" />
             </button>
-            <div>
+            <div className="md:hidden lg:block">
               <h2 className="text-2xl font-serif font-bold" style={{ color: "var(--color-text-primary)" }}>
                 Settings
               </h2>
@@ -194,7 +194,7 @@ const Settings: React.FC = () => {
                       >
                         {tab.icon}
                       </div>
-                      <span className="flex-1 text-left">{tab.label}</span>
+                      <span className="md:hidden lg:block flex-1 text-left">{tab.label}</span>
 
                       {/* Hover effect */}
                       <div
