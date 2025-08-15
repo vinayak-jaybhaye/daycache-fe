@@ -11,7 +11,7 @@ import {
   MenuIcon,
   PlusCircle,
 } from "lucide-react";
-import { ThemeToggle } from "./theme-toggle";
+// import { ThemeToggle } from "./theme-toggle";
 
 interface NavbarProps {
   setShowRightSidebar: React.Dispatch<React.SetStateAction<boolean>>;
