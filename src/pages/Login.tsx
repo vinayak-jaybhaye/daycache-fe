@@ -11,11 +11,7 @@ const Login = () => {
 
   const [email, setEmail] = useState<string>("dev1@example.com");
   const [password, setPassword] = useState<string>("devpassword");
-  const [message, setMessage] = useState<string>("");
 
-  const showMessage = (message: string) => {
-    setMessage(message);
-  };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -28,7 +24,7 @@ const Login = () => {
       checkLogin();
 
     } catch (err: any) {
-      showMessage(err.message || "Invalid email or password.");
+      console.error(err.message || "Invalid email or password.");
     }
   };
 
