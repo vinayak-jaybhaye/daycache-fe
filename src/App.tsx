@@ -1,29 +1,45 @@
 import {
   createBrowserRouter,
   createRoutesFromElements,
+  Navigate,
   Route,
   RouterProvider,
 } from "react-router-dom";
 
-import { Home, Login, Signup, Profile, Settings } from "./pages";
-import { Layout, CalendarView } from "./components";
-import DayCacheChat from "./components/DayCacheChat";
+import { Home, Login, Signup, Settings, ForgotPassword } from "@/pages";
+import { ProtectedRoute, PublicOnlyRoute, Day, SearchEntries, MainLayout, ActivityLayout } from "@/components";
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       {/* Wrap protected and public routes in Layout */}
-      <Route element={<Layout />}>
+      <Route>
         {/* Protected routes */}
-        <Route path="/" element={<Home />} />
-        <Route path="/day/:queryDate" element={<Home />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/calendar-view" element={<CalendarView />} />
-        <Route path="/cache-chat" element={<DayCacheChat/>} />
+        <Route element={<MainLayout />}>
+          <Route element={<ProtectedRoute />}>
+            <Route path="/" element={<Home />}>
+              <Route path="/day" />
+              <Route path="day/:date" element={<Day />} />
+            </Route>
+
+            <Route path="/open/:date" element={<Day />} />
+
+            <Route path="search" element={<SearchEntries />} />
+            <Route path="activity" element={<ActivityLayout />} >
+
+              <Route path="day/:date" element={<Day />} />
+            </Route>
+            <Route path="settings" element={<Settings />} />
+          </Route>
+        </Route>
 
         {/* Public routes */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route element={<PublicOnlyRoute />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+        </Route>
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </>
   )

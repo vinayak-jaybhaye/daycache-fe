@@ -1,9 +1,10 @@
+import ProtectedRoute from "./ProtectedRoute";
+import PublicOnlyRoute from "./PublicOnlyRoute";
 import Day from "./Day";
-import Entry from "./Entry";
-import AddEntry from "./AddEntry";
-import Layout from "./Layout";
+import SearchEntries from "./SearchEntries";
+import MainLayout from "./MainLayout";
+import ActivityHistory from "./ActivityHistory";
 import ActivityCalendar from "./ActivityCalendar";
-import CalendarView from "./CalendarView";
-import UploadMediaWindow from "./UploadMediaWindow";
+import ActivityLayout from "./ActivityLayout";
 
-export { Day, Entry, AddEntry, Layout, ActivityCalendar, CalendarView, UploadMediaWindow };
+export { ProtectedRoute, PublicOnlyRoute, Day, SearchEntries, MainLayout, ActivityHistory, ActivityCalendar, ActivityLayout };

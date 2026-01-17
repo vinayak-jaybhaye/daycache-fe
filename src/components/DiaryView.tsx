@@ -1,13 +1,24 @@
-import type { Entry } from '../types'
+import type { Entry } from '@/types/diary.types'
+import DiaryViewEntry from './DiaryViewEntry';
+import { ArrowLeft, Repeat2 } from "lucide-react"
+import { NewEntryBtn } from './atoms';
+import { useMatch, useNavigate } from 'react-router-dom';
+import { getDateString } from '@/utils/calendar.utils';
 
 type DiaryViewProps = {
   entries: Entry[];
+  date: string;
+  setView: (view: 'regular' | 'diary') => void;
 };
 
-const DiaryView = ({ entries }: DiaryViewProps) => {
+const DiaryView = ({ entries, date, setView }: DiaryViewProps) => {
+  const navigate = useNavigate();
+  const isDetails = useMatch("/open/:date")
+
+
   return (
     <div
-      className="w-full mx-auto min-h-[90vh] relative px-4 lg:px-18 lg:py-12 py-6 "
+      className="w-full mx-auto min-h-[100vh] relative px-4 lg:px-18 lg:py-12 py-6 rounded-[3px] shadow-sm group/page"
       style={{
         background: `
           radial-gradient(ellipse 40px 35px at 15% 25%, rgba(139, 102, 66, 0.15) 0%, transparent 70%),
@@ -36,12 +47,11 @@ const DiaryView = ({ entries }: DiaryViewProps) => {
           inset 0 0 100px rgba(101, 67, 33, 0.05),
           0 4px 8px rgba(0, 0, 0, 0.1)
         `,
-        borderRadius: '3px',
       }}
     >
       {/* Worn edges overlay */}
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0 pointer-events-none rounded-[3px]"
         style={{
           background: `
             linear-gradient(0deg, rgba(139, 115, 85, 0.1) 0%, transparent 10%),
@@ -49,96 +59,43 @@ const DiaryView = ({ entries }: DiaryViewProps) => {
             linear-gradient(180deg, rgba(139, 115, 85, 0.1) 0%, transparent 10%),
             linear-gradient(270deg, rgba(139, 115, 85, 0.08) 0%, transparent 5%)
           `,
-          borderRadius: '3px'
         }}
       />
 
-      {/* Content with relative positioning to stay above the overlay */}
-      <div className="relative z-10">
-        {entries.map((entry) => (
-          <div
-            key={entry.id}
-            className="rounded-sm duration-200"
-            style={{
-              color: '#2c1810',
-              fontFamily: "'Caveat', cursive",
-              fontSize: '18px',
-              fontWeight: '400'
-            }}
+      {/* Header */}
+      <div className="flex items-center text-[#6E5034] justify-between">
+        <div className='px-4 py-2 flex cursor-pointer'>
+          <button
+            onClick={() => setView('regular')}
+            className='cursor-pointer p-1 rounded-lg'
           >
-            {/* Time stamp */}
-            <div className='flex justify-between'>
-              <span
-                className="text-xs font-semibold mr-2"
-                style={{ color: 'var(--color-primary)' }}
-              >
-                {new Date(entry.created_at).toLocaleTimeString("en-US", {
-                  hour: "numeric",
-                  minute: "2-digit",
-                  hour12: true
-                })}
-              </span>
-              {entry.location && (
-                <span>
-                  {entry.location}
-                </span>
-              )}
-            </div>
+            <Repeat2 className="w-7 h-8" />
+          </button>
+          <h1 className="font-heading text-2xl py-2 px-4 font-bold"
+            onClick={() => {
+              if (isDetails) {
+                navigate(-1)
+              } else {
+                navigate('/open/' + date)
+              }
+            }}
+          >{getDateString(date)}</h1>
+        </div>
+        <button onClick={() => navigate(-1)}
+          className="cursor-pointer p-1 rounded-lg">
+          <ArrowLeft className="w-6 h-6" />
+        </button>
+      </div>
 
-            {/* Diary content */}
-            <p
-              className="mb-4 leading-relaxed tracking-wide text-[#2c1810]"
-            >
-              {entry.content}
-            </p>
+      {/* Invisible clickable area for new entry at the bottom */}
+      <NewEntryBtn date={date} />
 
-            {/* Media attachments */}
-            {entry.media &&
-              entry.media.map((media) => (
-                <div key={media.id} className="flex items-center justify-center">
-                  {media.type === "image" && (
-                    <div
-                      className="shadow-inner p-1 rounded-sm"
-                      style={{
-                        backgroundColor: 'rgba(244, 241, 232, 0.3)',
-                        boxShadow: 'inset 0 2px 4px rgba(139, 115, 85, 0.2), 0 2px 4px rgba(0, 0, 0, 0.1)'
-                      }}
-                    >
-                      <img
-                        src={media.url}
-                        alt="Diary entry"
-                        className="rounded-sm filter sepia-[0.3] contrast-75 brightness-105"
-                        style={{
-                          filter: 'sepia(0.3) contrast(0.75) brightness(1.05) saturate(0.8)'
-                        }}
-                      />
-                    </div>
-                  )}
-                  {media.type === "video" && (
-                    <video
-                      controls
-                      src={media.url}
-                      className="rounded-sm"
-                      style={{
-                        filter: 'sepia(0.1) contrast(0.9) brightness(1.02)'
-                      }}
-                    />
-                  )}
-                  {media.type === "audio" && (
-                    <div
-                      className="w-full p-2 rounded-sm"
-                      style={{
-                        backgroundColor: 'rgba(244, 241, 232, 0.3)',
-                        boxShadow: 'inset 0 1px 2px rgba(139, 115, 85, 0.1)'
-                      }}
-                    >
-                      <audio controls src={media.url} className="w-full" />
-                    </div>
-                  )}
-                </div>
-              ))}
-          </div>
+      {/* Content with relative positioning to stay above the overlay */}
+      <div className="relative z-10 space-y-6">
+        {entries.map((entry) => (
+          <DiaryViewEntry key={entry.id} entry={entry} />
         ))}
+
       </div>
     </div>
   );

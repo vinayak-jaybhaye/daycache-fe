@@ -1,222 +1,155 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { FormEvent } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setUser } from "../store/userSlice";
-import type { RootState } from "../store/store";
-import { Mail, Lock, LogIn } from "lucide-react";
-import { GoogleLogin } from "@react-oauth/google";
-import { useAuth } from "../hooks/useAuth";
+import { Mail, Lock } from "lucide-react";
+import { api } from "../services/apiClient";
+import GoogleBtn from "@/components/atoms/GoogleBtn";
+import checkLogin from "@/services/checkLogin";
 
 const Login = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState<string>("user@example.com");
-  const [password, setPassword] = useState<string>("string");
+  const [email, setEmail] = useState<string>("dev1@example.com");
+  const [password, setPassword] = useState<string>("devpassword");
   const [message, setMessage] = useState<string>("");
-  const [messageType, setMessageType] = useState<"success" | "error" | "">("");
 
-  const user = useSelector((state: RootState) => state.user);
-  const { login } = useAuth();
-
-  useEffect(() => {
-    if (user?.user) {
-      navigate("/");
-    }
-  }, [user, navigate]);
+  const showMessage = (message: string) => {
+    setMessage(message);
+  };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/auth/login`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password }),
-          credentials: "include",
-          mode: "cors",
-        }
-      );
+      // Login ( sets cookiei )
+      await api.auth.login({ email, password });
 
-      if (!response.ok) {
-        throw new Error("Invalid credentials");
-      }
+      // update auth store
+      checkLogin();
 
-      const data = await response.json();
-
-      dispatch(setUser(data.user));
-      setMessage("Login successful!");
-      setMessageType("success");
-      navigate("/");
-
-      setTimeout(() => setMessage(""), 2000);
-    } catch (err) {
-      setMessage("Invalid email or password.");
-      setMessageType("error");
-      setTimeout(() => setMessage(""), 3000);
+    } catch (err: any) {
+      showMessage(err.message || "Invalid email or password.");
     }
   };
 
   return (
-    <div
-      className="flex justify-center items-center h-[90vh]"
-      style={{ backgroundColor: 'var(--color-bg-primary)' }}
-    >
-      <div
-        className="p-8 w-full max-w-md border rounded-xl"
-        style={{
-          backgroundColor: 'var(--color-surface-primary)',
-          borderColor: 'var(--color-border-primary)',
-          boxShadow: 'var(--shadow-lg)'
-        }}
-      >
-        {/* Logo and Header */}
-        <div className="flex flex-col items-center mb-8">
-          <div
-            className="p-4 rounded-2xl mb-4"
-            style={{
-              backgroundColor: 'var(--color-primary)',
-              boxShadow: 'var(--shadow-base)'
-            }}
-          >
-            <h1
-              className="text-3xl font-bold flex items-center gap-2 font-serif"
-              style={{ color: 'var(--color-text-inverse)' }}
-            >
-              DayCache
+    <div className="min-h-screen w-full flex items-center justify-center p-4 bg-bg-app transition-colors duration-300">
+      {/* Main Card Container */}
+      <div className="w-full max-w-5xl grid md:grid-cols-2 bg-surface-raised rounded-3xl shadow-2xl overflow-hidden border border-border-subtle">
+
+        {/* Left Side - Visual/Hero */}
+        <div
+          className="relative hidden md:flex flex-col justify-end p-12 text-white overflow-hidden bg-cover bg-center bg-[url('/login_bg.png')]"
+        >
+          {/* Dark Overlay for readability */}
+          <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px]" />
+
+          {/* Content */}
+          <div className="relative z-10">
+            <h1 className="text-4xl font-bold font-serif mb-4 leading-tight">
+              Welcome Back!
             </h1>
+            <p className="text-lg opacity-90 max-w-xs font-light">
+              Your digital sanctuary awaits. Continue writing your story in DayCache.
+            </p>
           </div>
-          <h2
-            className="text-2xl font-serif font-semibold"
-            style={{ color: 'var(--color-text-primary)' }}
-          >
-            Welcome Back
-          </h2>
-          <p
-            className="text-sm mt-2"
-            style={{ color: 'var(--color-text-secondary)' }}
-          >
-            Continue your digital journal
-          </p>
         </div>
 
-        {/* Message */}
-        {message && (
-          <div
-            className="mb-6 text-sm text-center p-3 rounded-lg font-medium border"
-            style={{
-              backgroundColor: messageType === "error" ? 'var(--color-error-50)' : 'var(--color-success)',
-              color: messageType === "error" ? 'var(--color-error-700)' : 'var(--color-text-inverse)',
-              borderColor: messageType === "error" ? 'var(--color-error-200)' : 'var(--color-success)'
-            }}
-          >
-            {message}
-          </div>
-        )}
-
-        {/* Login Form */}
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="relative">
-            <input
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              className="w-full pl-12 pr-4 py-3 rounded-xl border outline-none transition-all"
-              style={{
-                backgroundColor: 'var(--color-surface-secondary)',
-                borderColor: 'var(--color-border-primary)',
-                color: 'var(--color-text-primary)'
-              }}
-              onFocus={(e) => {
-                e.currentTarget.style.borderColor = 'var(--color-border-focus)';
-              }}
-              onBlur={(e) => {
-                e.currentTarget.style.borderColor = 'var(--color-border-primary)';
-              }}
-            />
-            <span
-              className="absolute left-4 top-1/2 -translate-y-1/2"
-              style={{ color: 'var(--color-text-secondary)' }}
-            >
-              <Mail className="h-5 w-5" />
-            </span>
+        {/* Right Side - Form */}
+        <div className="p-8 md:p-12 flex flex-col justify-center bg-surface-default relative">
+          {/* Mobile Header (visible only on small screens) */}
+          <div className="md:hidden mb-8 text-center">
+            <h1 className="text-3xl font-bold font-serif text-text-primary">DayCache</h1>
+            <p className="text-text-muted">Welcome back</p>
           </div>
 
-          <div className="relative">
-            <input
-              type="password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password"
-              className="w-full pl-12 pr-4 py-3 rounded-xl border outline-none transition-all"
-              style={{
-                backgroundColor: 'var(--color-surface-secondary)',
-                borderColor: 'var(--color-border-primary)',
-                color: 'var(--color-text-primary)'
-              }}
-              onFocus={(e) => {
-                e.currentTarget.style.borderColor = 'var(--color-border-focus)';
-              }}
-              onBlur={(e) => {
-                e.currentTarget.style.borderColor = 'var(--color-border-primary)';
-              }}
-            />
-            <span
-              className="absolute left-4 top-1/2 -translate-y-1/2"
-              style={{ color: 'var(--color-text-secondary)' }}
-            >
-              <Lock className="h-5 w-5" />
-            </span>
+          <div className="space-y-6 max-w-sm mx-auto w-full">
+            <div>
+              <h2 className="text-2xl font-bold text-text-primary mb-2 hidden md:block">Login</h2>
+              <p className="text-text-muted text-sm">
+                Enter your credentials to access your account
+              </p>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-4">
+                <div className="relative group">
+                  <input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder=" "
+                    className="peer w-full pl-10 pr-4 py-3 rounded-xl bg-bg-muted border border-border-subtle outline-none focus:border-accent-primary focus:ring-1 focus:ring-accent-primary transition-all text-text-primary placeholder-transparent"
+                  />
+                  <label className="absolute left-10 -top-2.5 z-10 text-xs text-text-muted bg-surface-default px-1 transition-all pointer-events-none peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-accent-primary">
+                    Email Address
+                  </label>
+                  <Mail className="absolute left-3 top-3.5 h-5 w-5 text-text-muted transition-colors peer-focus:text-accent-primary" />
+                </div>
+
+                <div className="relative group">
+                  <input
+                    type="password"
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder=" "
+                    className="peer w-full pl-10 pr-4 py-3 rounded-xl bg-bg-muted border border-border-subtle outline-none focus:border-accent-primary focus:ring-1 focus:ring-accent-primary transition-all text-text-primary placeholder-transparent"
+                  />
+                  <label className="absolute left-10 -top-2.5 z-10 text-xs text-text-muted bg-surface-default px-1 transition-all pointer-events-none peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-accent-primary">
+                    Password
+                  </label>
+                  <Lock className="absolute left-3 top-3.5 h-5 w-5 text-text-muted transition-colors peer-focus:text-accent-primary" />
+                </div>
+              </div>
+
+              <div className="flex items-center justify-end text-sm">
+                <button type="button" className="text-accent-primary hover:text-accent-strong font-medium transition-colors cursor-pointer"
+                  onClick={() => navigate("/forgot-password")}
+                >
+                  Forgot Password?
+                </button>
+              </div>
+
+              <button
+                type="submit"
+                className="w-full py-3.5 rounded-xl font-bold text-white bg-accent-primary hover:bg-accent-strong active:scale-[0.98] transition-all shadow-lg shadow-accent-primary/20 flex items-center justify-center gap-2 group"
+              >
+                LOGIN
+              </button>
+            </form>
+
+
+            <div className="flex items-center gap-3">
+              <div className="flex-1 border-t border-border-subtle" />
+              <span className="text-xs uppercase text-text-muted">
+                Or login with
+              </span>
+              <div className="flex-1 border-t border-border-subtle" />
+            </div>
+
+            <GoogleBtn />
+
+            <div className="pt-4 flex items-center justify-center">
+              <p className="flex items-center justify-center gap-2 text-text-secondary text-sm">
+                Do not have an account yet?
+                <button
+                  onClick={() => navigate("/signup")}
+                  className="text-sm text-accent-primary cursor-pointer font-semibold transition-all inline-flex items-center"
+                >
+                  JOIN NOW
+                </button>
+              </p>
+            </div>
           </div>
-
-          <button
-            type="submit"
-            className="w-full py-4 rounded-xl font-semibold transform transition-all hover:scale-105 flex items-center justify-center gap-2"
-            style={{
-              backgroundColor: 'var(--color-primary)',
-              color: 'var(--color-text-inverse)',
-              boxShadow: 'var(--shadow-base)'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'var(--color-primary-700)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'var(--color-primary)';
-            }}
-          >
-            <LogIn className="h-5 w-5" />
-            Log In
-          </button>
-          <GoogleLogin
-            onSuccess={(res) => {
-              if (res.credential) login(res.credential);
-            }}
-            onError={() => console.log("Login Failed")}
-          />
-        </form>
-
-        <div className="text-center mt-8">
-          <p
-            className="text-sm"
-            style={{ color: 'var(--color-text-secondary)' }}
-          >
-            New here?{" "}
-            <span
-              onClick={() => navigate("/signup")}
-              className="cursor-pointer font-medium hover:opacity-80 transition-colors"
-              style={{ color: 'var(--color-text-primary)' }}
-            >
-              Create account
-            </span>
-          </p>
         </div>
       </div>
+
+      {/* Background decoration elements */}
+      <div className="fixed top-0 left-0 w-full h-full -z-10 bg-bg-subtle pointer-events-none" />
+      <div className="fixed -bottom-32 -left-32 w-96 h-96 bg-accent-primary/5 rounded-full blur-3xl -z-10" />
+      <div className="fixed -top-32 -right-32 w-96 h-96 bg-accent-secondary/5 rounded-full blur-3xl -z-10" />
     </div>
   );
 };
