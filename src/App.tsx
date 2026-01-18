@@ -7,7 +7,14 @@ import {
 } from "react-router-dom";
 
 import { Home, Login, Signup, Settings, ForgotPassword } from "@/pages";
-import { ProtectedRoute, PublicOnlyRoute, Day, SearchEntries, MainLayout, ActivityLayout } from "@/components";
+import {
+  ProtectedRoute,
+  PublicOnlyRoute,
+  Day,
+  SearchEntries,
+  MainLayout,
+  ActivityLayout,
+} from "@/components";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -25,8 +32,7 @@ const router = createBrowserRouter(
             <Route path="/open/:date" element={<Day />} />
 
             <Route path="search" element={<SearchEntries />} />
-            <Route path="activity" element={<ActivityLayout />} >
-
+            <Route path="activity" element={<ActivityLayout />}>
               <Route path="day/:date" element={<Day />} />
             </Route>
             <Route path="settings" element={<Settings />} />
@@ -41,8 +47,8 @@ const router = createBrowserRouter(
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
-    </>
-  )
+    </>,
+  ),
 );
 
 function App() {

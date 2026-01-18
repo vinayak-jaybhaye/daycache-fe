@@ -1,11 +1,18 @@
 import { useDiaryStore } from "@/store/diary.store";
-import { Menu, Home, Search, Settings, Calendar, RefreshCw } from "lucide-react";
+import {
+    Menu,
+    Home,
+    Search,
+    Settings,
+    Calendar,
+    RefreshCw,
+} from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function MenuBar() {
-    const [isOpen, setIsOpen] = useState(true)
-    const navigate = useNavigate()
+    const [isOpen, setIsOpen] = useState(false);
+    const navigate = useNavigate();
 
     const menuItems = [
         {
@@ -31,32 +38,50 @@ export default function MenuBar() {
         {
             label: "Sync",
             icon: <RefreshCw className="w-6 h-6" />,
-            action: () => useDiaryStore.getState().clearAll()
-        }
-    ]
-    return (
-        <div className="fixed right-4 z-50 flex flex-col gap-8 justify-center items-center h-[100vh] ">
-            <button className="cursor-pointer fixed bottom-6 right-4 p-4 rounded-full shadow-lg bg-surface-raised"
-                onClick={() => setIsOpen(!isOpen)}
-                title="Toggle menu icons visibility"
-                >
-                <Menu className="w-6 h-6" />        
-            </button>
+            action: () => useDiaryStore.getState().clearAll(),
+        },
+    ];
 
-            <div className={`${!isOpen && "hidden"} flex flex-col gap-6 p-4 rounded-md bg-surface-default border border-border-subtle shadow-sm`}>
-                {menuItems.map((item, index) => (
-                    <button
-                        key={index}
-                        onClick={() => {
-                            if (item.href) navigate(item.href)
-                            if (item.action) item.action()
-                        }}
-                        title={item.label}
-                        className="text-sm text-text-muted hover:text-text-primary transition-colors cursor-pointer">
-                        {item.icon}
-                    </button>
-                ))}
-            </div>
-        </div>
-    )
-};
+    return (
+        <>
+            {/* Menu Button */}
+            {!isOpen && (
+                <button
+                    className={`${isOpen && "hidden"} z-100 cursor-pointer fixed bottom-6 right-4 p-4 rounded-full shadow-lg bg-surface-selected`}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        setIsOpen(!isOpen);
+                    }}
+                    title="Toggle menu icons visibility"
+                >
+                    <Menu className="w-6 h-6" />
+                </button>
+            )}
+            {/* Menu bar and overlay */}
+            {isOpen && (
+                <div
+                    className="fixed right-4 z-50 flex flex-col gap-8 items-center h-full w-full"
+                    onClick={() => setIsOpen(false)}
+                >
+                    <div
+                        className={`${!isOpen && "hidden"} fixed right-4 bottom-6  flex flex-col gap-6 p-4 rounded-md bg-surface-default border border-border-subtle shadow-sm`}
+                    >
+                        {menuItems.map((item, index) => (
+                            <button
+                                key={index}
+                                onClick={() => {
+                                    if (item.href) navigate(item.href);
+                                    if (item.action) item.action();
+                                }}
+                                title={item.label}
+                                className="text-sm text-text-muted hover:text-text-primary transition-colors cursor-pointer"
+                            >
+                                {item.icon}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            )}
+        </>
+    );
+}

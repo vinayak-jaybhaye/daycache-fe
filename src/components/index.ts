@@ -6,5 +6,16 @@ import MainLayout from "./MainLayout";
 import ActivityHistory from "./ActivityHistory";
 import ActivityCalendar from "./ActivityCalendar";
 import ActivityLayout from "./ActivityLayout";
+import Onboarding from "./Onboarding";
 
-export { ProtectedRoute, PublicOnlyRoute, Day, SearchEntries, MainLayout, ActivityHistory, ActivityCalendar, ActivityLayout };
+export {
+  ProtectedRoute,
+  PublicOnlyRoute,
+  Day,
+  SearchEntries,
+  MainLayout,
+  ActivityHistory,
+  ActivityCalendar,
+  ActivityLayout,
+  Onboarding,
+};
