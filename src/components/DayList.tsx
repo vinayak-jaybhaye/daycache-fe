@@ -7,7 +7,7 @@ import { Loader } from "lucide-react";
 import { useParams } from "react-router-dom";
 import Onboarding from "@/components/Onboarding";
 
-export default function DayList({ title = "Activity" }: { title: string }) {
+export default function DayList({ title = "Activity" }: { title?: string }) {
   const order = useDiaryStore((s: DiaryStore) => s.dayList.order);
   const items = useDiaryStore((s: DiaryStore) => s.dayList.items);
   const hasMore = useDiaryStore(
