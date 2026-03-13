@@ -27,7 +27,7 @@ const useAuthStore = create<AuthState>()(
         }),
 
       logout: () => {
-        useDiaryStore.persist.clearStorage()
+        useDiaryStore.getState().clearAll()
         set({
           user: null,
           isAuthenticated: false,
@@ -42,9 +42,15 @@ const useAuthStore = create<AuthState>()(
         isAuthenticated: state.isAuthenticated,
       }),
       onRehydrateStorage: () => (state) => {
-        if (!state?.isAuthenticated) {
-          useDiaryStore.persist.clearStorage()
+        const isAuthenticated = Boolean(state?.isAuthenticated)
+
+        if (!isAuthenticated) {
+          useDiaryStore.getState().clearAll()
         }
+
+        useAuthStore.setState({
+          status: isAuthenticated ? "authenticated" : "unauthenticated",
+        })
       },
     }
   )
