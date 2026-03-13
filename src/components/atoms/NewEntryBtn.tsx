@@ -6,7 +6,7 @@ export default function NewEntryBtn({ date }: { date: string }) {
 
     // Invisible clickable area for new entry at the bottom
     return (
-        <div className="h-12 cursor-text flex items-center justify-center hover:shadow-md">
+        <div className="h-12 flex items-center justify-center hover:shadow-md cursor-pointer">
             <div
                 className="flex items-center gap-2 text-[#8b6642] p-2 rounded-lg italic font-handwriting"
                 onClick={() => addEntry({ content: "", date })}

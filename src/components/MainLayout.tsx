@@ -1,11 +1,11 @@
 import type React from "react";
 import { Outlet } from "react-router-dom";
-import MenuBar from "@/components/MenuBar";
+import AppNav from "@/components/AppNav";
 
 const MainLayout: React.FC = () => {
   return (
-    <div className="relative">
-      <MenuBar />
+    <div className="relative min-h-screen lg:pl-24">
+      <AppNav />
       <Outlet />
     </div>
   );

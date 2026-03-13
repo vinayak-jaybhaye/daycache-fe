@@ -28,11 +28,35 @@ export default function SearchEntries() {
     const loadingRef = useRef(false);
     const searchResultsRef = useRef<Entry[]>([]);
     const [activeEntryId, setActiveEntryId] = useState<number | null>(null);
+    const activeEntryRef = useRef<HTMLDivElement | null>(null);
+    const lastTouchRef = useRef<{ entryId: number | null; timestamp: number }>({
+        entryId: null,
+        timestamp: 0,
+    });
 
     // Keep ref in sync with state for access in stable callbacks
     useEffect(() => {
         searchResultsRef.current = searchResults;
     }, [searchResults]);
+
+    useEffect(() => {
+        if (!activeEntryId) return;
+
+        const handlePointerDown = (event: PointerEvent) => {
+            if (
+                activeEntryRef.current &&
+                !activeEntryRef.current.contains(event.target as Node)
+            ) {
+                setActiveEntryId(null);
+            }
+        };
+
+        document.addEventListener("pointerdown", handlePointerDown);
+
+        return () => {
+            document.removeEventListener("pointerdown", handlePointerDown);
+        };
+    }, [activeEntryId]);
 
     const performSearch = useCallback(
         async (reset: boolean = false) => {
@@ -100,6 +124,30 @@ export default function SearchEntries() {
         performSearch(false);
     }, [performSearch]);
     const loadMoreRef = useInfiniteScroll(handleLoadMore, containerRef.current);
+
+    const toggleActiveEntry = useCallback((entryId: number) => {
+        setActiveEntryId((prev) => (prev === entryId ? null : entryId));
+    }, []);
+
+    const handleTouchToggle = useCallback(
+        (entryId: number, pointerType: string) => {
+            if (pointerType !== "touch") return;
+
+            const now = Date.now();
+            const isDoubleTap =
+                lastTouchRef.current.entryId === entryId &&
+                now - lastTouchRef.current.timestamp < 350;
+
+            if (isDoubleTap) {
+                toggleActiveEntry(entryId);
+                lastTouchRef.current = { entryId: null, timestamp: 0 };
+                return;
+            }
+
+            lastTouchRef.current = { entryId, timestamp: now };
+        },
+        [toggleActiveEntry],
+    );
 
     return (
         <div className="bg-bg-subtle w-full max-w-3xl mx-auto space-y-8 p-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -218,15 +266,13 @@ export default function SearchEntries() {
                     ref={containerRef}
                 >
                     {searchResults.map((entry) => (
-                        // <EntryComponent entry={entry} />
                         <div
                             key={entry.id}
-                            onDoubleClick={() => {
-                                setActiveEntryId((prev) => {
-                                    if (!prev) return entry.id;
-                                    return null;
-                                });
-                            }}
+                            ref={entry.id === activeEntryId ? activeEntryRef : null}
+                            onDoubleClick={() => toggleActiveEntry(entry.id)}
+                            onPointerUp={(e) =>
+                                handleTouchToggle(entry.id, e.pointerType)
+                            }
                         >
                             {entry.id === activeEntryId ? (
                                 <EntryComponent entry={entry} />
