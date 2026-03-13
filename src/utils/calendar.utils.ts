@@ -53,13 +53,17 @@ export function isDateValid(date: string): boolean {
     return false;
   }
 
-  // today (UTC, date-only)
+  // Compare against the user's local calendar day.
   const today = new Date();
-  const todayUTC = new Date(
-    Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()),
+  const todayLocal = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate(),
   );
 
-  return parsed <= todayUTC;
+  const parsedLocal = new Date(y, m - 1, d);
+
+  return parsedLocal <= todayLocal;
 }
 export function getDateString(date: string): string {
   const [y, m, d] = date.split("-").map(Number);

@@ -5,7 +5,7 @@ import DayListItem from "@/components/atoms/DayListItem";
 import { useInfiniteScroll } from "@/utils/actions.utils";
 import { Loader } from "lucide-react";
 import { useParams } from "react-router-dom";
-import Onboarding from "@/components/Onboarding";
+import { getTodayYYYYMMDD } from "@/utils/calendar.utils";
 
 export default function DayList({ title = "Activity" }: { title?: string }) {
   const order = useDiaryStore((s: DiaryStore) => s.dayList.order);
@@ -27,10 +27,13 @@ export default function DayList({ title = "Activity" }: { title?: string }) {
   };
 
   const loadMoreRef = useInfiniteScroll(fetchMore, containerRef.current);
+  const today = getTodayYYYYMMDD();
+  const shouldShowToday = !order.includes(today);
+  const displayOrder = shouldShowToday ? [today, ...order] : order;
 
   return (
     <div className="max-w-4xl mx-auto py-6 sm:px-4  space-y-4">
-      {order.length && (
+      {displayOrder.length > 0 && (
         <h1 className="font-heading text-2xl py-2 px-4 font-bold text-text-primary">
           {title}
         </h1>
@@ -40,9 +43,16 @@ export default function DayList({ title = "Activity" }: { title?: string }) {
         className="flex flex-col gap-2 max-h-[calc(100vh-100px)] overflow-y-auto"
         ref={containerRef}
       >
-        {order.map((date) => {
-          const day = items[date];
-          if (!day) return null;
+        {displayOrder.map((date) => {
+          const day = items[date] ?? {
+            date,
+            summary:
+              date === today
+                ? "Start writing about today"
+                : undefined,
+            tags: [],
+          };
+
           return (
             <DayListItem key={date} day={day} active={date === selectedDate} />
           );
@@ -56,7 +66,6 @@ export default function DayList({ title = "Activity" }: { title?: string }) {
           </div>
         )}
       </div>
-      {order.length === 0 && !hasMore && <Onboarding />}
     </div>
   );
 }

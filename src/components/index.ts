@@ -6,7 +6,6 @@ import MainLayout from "./MainLayout";
 import ActivityHistory from "./ActivityHistory";
 import ActivityCalendar from "./ActivityCalendar";
 import ActivityLayout from "./ActivityLayout";
-import Onboarding from "./Onboarding";
 
 export {
   ProtectedRoute,
@@ -17,5 +16,4 @@ export {
   ActivityHistory,
   ActivityCalendar,
   ActivityLayout,
-  Onboarding,
 };
