@@ -1,140 +1,154 @@
-# 📘 DayCache — Frontend
+# DayCache Frontend
 
-**DayCache** is an AI-powered diary app that lets you record, reflect, and rediscover your thoughts with ease. This repository contains the **React-based frontend** of the application, designed to interface with a FastAPI backend.
+React SPA for [DayCache](https://daycache-fe.vercel.app) — a personal diary application. Write daily entries, browse your journal by date, search past writing, and track activity on a calendar.
 
----
+**Live:** [daycache-fe.vercel.app](https://daycache-fe.vercel.app)
 
-## 🌐 Live Demo
-
-🔗 [DayCache](https://daycache-fe.vercel.app)
+**Related repository:** [daycache-backend](https://github.com/vinayak-jaybhaye/daycache-backend) (FastAPI backend)
 
 ---
 
-## ✨ Features
+## Features
 
-- 📝 **Rich Diary Entries** — Text editor with support for image and file uploads  
-- 💡 **AI-Powered Day Summaries** — Generate smart summaries of each day  
-- 💬 **Chat with Your Diary** — Converse with your past entries using AI  
-- 🧠 **Smart Autocomplete** — Predictive typing to speed up journaling  
-- 📅 **Calendar View** — Browse and access entries by date  
-- 🔍 **Search & Filter** — Quickly find entries by keyword or time period  
-- 🌙 **Dark Mode** — Theme toggle for day or night journaling  
-- 🔐 **Authentication** — Secure login via backend API
-
----
-
-## 🖥️ Tech Stack
-
-- **Frontend**: React (Hooks, Context API)  
-- **UI**: Tailwind CSS 
-- **HTTP Client**: Axios  
-- **Routing**: React Router  
-- **State Management**: Context API  
-- **AI Integration**: OpenAI API (via FastAPI)  
-- **Authentication**: JWT via FastAPI  
-- **Deployment**: Vercel
+| Feature | Status |
+|---------|--------|
+| Email/password login | Working |
+| Google OAuth login | Working |
+| Sign up | Form exists; OTP flow disabled |
+| Forgot password | Form exists; OTP flow disabled |
+| Write, edit, delete journal entries | Working (auto-save) |
+| Browse days (infinite scroll) | Working |
+| Two view modes (Regular / Diary) | Working |
+| Search entries by keyword and date | Working |
+| Activity calendar (month grids) | Working |
+| Theme selection (light / dark / sepia) | Working |
+| Change password, delete account | Working |
+| AI day summaries | API client ready; no UI |
+| Chat with diary | Not implemented |
+| Image/file uploads | Not implemented |
 
 ---
 
-## 🛠️ Getting Started
+## Tech Stack
 
-### 1. Clone the repository
+| Layer | Technology |
+|-------|------------|
+| Framework | React 19 |
+| Build | Vite 6 |
+| Language | TypeScript 5.8 (strict) |
+| Routing | React Router DOM 7 |
+| State | Zustand 5 |
+| Styling | Tailwind CSS 4 |
+| Icons | lucide-react |
+| Google Auth | @react-oauth/google |
+| HTTP | Native `fetch` (cookie-based) |
+| Deploy | Vercel |
 
-```bash
-git clone https://github.com/vinayak-jaybhaye/daycache-fe
-cd daycache-fe
-```
+---
 
-### 2. Install dependencies
+## Quick Start
+
+### Prerequisites
+
+- Node.js 18+
+- Running DayCache backend (see backend README)
+
+### 1. Install dependencies
 
 ```bash
 npm install
 ```
 
-### 3. Configure environment variables
-
-Copy `.env.sample` to `.env` and edit as needed:
+### 2. Configure environment
 
 ```bash
 cp .env.sample .env
 ```
 
-`.env` example:
 ```env
 VITE_API_URL=http://localhost:8000
+VITE_GOOGLE_CLIENT_ID=your-google-client-id
 ```
 
-### 4. Start the development server
+### 3. Start development server
 
 ```bash
-npm start
+npm run dev
 ```
 
-> ⚠️ Ensure the FastAPI backend is running and accessible at the specified API base URL.
+Opens at [http://localhost:5173](http://localhost:5173).
+
+> Ensure the backend is running and `CORS_ORIGINS` includes `http://localhost:5173`.
+
+### 4. Build for production
+
+```bash
+npm run build    # Output: dist/
+npm run preview  # Preview production build locally
+npm run lint     # ESLint
+```
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 daycache-fe/
-├── public/
+├── public/                     # Static assets
 ├── src/
-│   ├── components/        # Reusable UI components
-│   ├── pages/             # Views and routes
-│   ├── store/             # redux store
-│   └── App.ts
-├── .envsample
-├── .env
-├── package.json
-└── README.md
+│   ├── main.tsx                # Bootstrap (theme, auth, render)
+│   ├── App.tsx                 # Router definition
+│   ├── index.css               # Tailwind + CSS theme variables
+│   ├── components/             # UI components
+│   │   └── atoms/              # Small reusable pieces
+│   ├── pages/                  # Route-level page shells
+│   ├── store/                  # Zustand stores and slices
+│   ├── services/               # API client, auth/theme bootstrap
+│   ├── types/                  # TypeScript interfaces
+│   └── utils/                  # Calendar helpers, debounce, scroll
+├── index.html
+├── vite.config.ts
+├── vercel.json                 # SPA rewrites for Vercel
+└── docs/                       # Detailed documentation
 ```
 
-<!--
 ---
 
-## 🧪 Running Tests
+## Documentation
 
-```bash
-npm test
-```
--->
----
-
-<!--
-## 📷 Screenshots
--->
-<!-- You can include visual previews of the interface here -->
-<!--
-![Screenshot](./screenshots/main-ui.png)
-![AI Summary](./screenshots/ai-summary.png)
+| Document | Description |
+|----------|-------------|
+| [Architecture](docs/architecture.md) | App bootstrap, layers, data flow |
+| [Routing & Pages](docs/routing.md) | All routes, layouts, navigation |
+| [State Management](docs/state-management.md) | Zustand stores and slices |
+| [Components](docs/components.md) | Component hierarchy and responsibilities |
+| [API Integration](docs/api-integration.md) | How the frontend talks to the backend |
+| [Development Guide](docs/development.md) | Theming, conventions, known gaps |
 
 ---
 
-## 📄 License
+## Routes Overview
 
-This project is licensed under the [MIT License](LICENSE).
-
----
--->
-
-## 🙌 Contributing
-
-We welcome contributions!
-
-- Fork the repo  
-- Create a feature branch  
-- Submit a pull request
-
-<!-- Please open an issue first to discuss major changes. -->
+| Route | Page | Auth |
+|-------|------|------|
+| `/` | Home (day list + detail split pane) | Protected |
+| `/day/:date` | Day detail (nested in Home) | Protected |
+| `/open/:date` | Full-screen day view | Protected |
+| `/search` | Entry search | Protected |
+| `/activity` | Calendar activity view | Protected |
+| `/activity/day/:date` | Day detail in activity view | Protected |
+| `/settings` | Appearance and account | Protected |
+| `/login` | Login | Public |
+| `/signup` | Sign up | Public |
+| `/forgot-password` | Password reset | Public |
 
 ---
 
-## 📫 Contact
+## Deployment
 
-- Email: [vinayakjaybhaye795@gmail.com](mailto:vinayakjaybhaye795@gmail.com)  
-- Backend API: [DayCache FastAPI Backend](https://github.com/vinayak-jaybhaye/daycache-backend)
+Hosted on Vercel. Set environment variables in the Vercel dashboard:
 
----
+- `VITE_API_URL` — production backend URL
+- `VITE_GOOGLE_CLIENT_ID` — Google OAuth client ID
 
-> _“DayCache helps you not just write your days, but understand them.”_
+`vercel.json` rewrites all paths to `/` for client-side routing.
